@@ -1,0 +1,21 @@
+
+
+Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-08-17 14:49:37) [GET]
+  [4;36;1mSQL (90.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+Completed in 499ms (View: 50, DB: 90) | 200 OK [http://localhost/rails/info/properties]
+DEPRECATION WARNING: require "activesupport" is deprecated and will be removed in Rails 3. Use require "active_support" instead. (called from /Users/markaufdencamp/.gem/ruby/1.8/gems/activesupport-2.3.8/lib/activesupport.rb:2)
+DEPRECATION WARNING: require "actionpack" is deprecated and will be removed in Rails 3. Use require "action_pack" instead. (called from /usr/local/lib/ruby/gems/1.8/gems/actionpack-2.3.8/lib/actionpack.rb:2)
+DEPRECATION WARNING: require "actionmailer" is deprecated and will be removed in Rails 3. Use require "action_mailer" instead. (called from /usr/local/lib/ruby/gems/1.8/gems/actionmailer-2.3.8/lib/actionmailer.rb:2)
+DEPRECATION WARNING: require "activerecord" is deprecated and will be removed in Rails 3. Use require "active_record" instead. (called from /usr/local/lib/ruby/gems/1.8/gems/activerecord-2.3.8/lib/activerecord.rb:2)
+DEPRECATION WARNING: require "activeresource" is deprecated and will be removed in Rails 3. Use require "active_resource" instead. (called from /usr/local/lib/ruby/gems/1.8/gems/activeresource-2.3.8/lib/activeresource.rb:2)
+
+
+Processing Rails::InfoController#properties (for 127.0.0.1 at 2010-08-20 12:47:01) [GET]
+  [4;36;1mSQL (10.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+Completed in 365ms (View: 28, DB: 11) | 200 OK [http://localhost/rails/info/properties]
