@@ -43,7 +43,8 @@ namespace :deploy do
 
    desc "Create Shared Symbolic Link"
    task :symlink_shared do
-  run "ln -nfs #{apps_dir}/config/database.yml #{release_path}/config/database.yml"
+  run "ln -nfs #{apps_dir}/config/OAuth-Sample-database.yml #{release_path}/config/database.yml"
+  run "ln -nfs #{apps_dir}/config/OAuth-Sample-Key.yml #{release_path}/config/oauth-key.yml"
    end
 
 end
