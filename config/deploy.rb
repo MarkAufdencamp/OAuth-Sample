@@ -21,7 +21,7 @@ role :db,  "inet-srvr-00.iluviya.net", :primary => true # This is where Rails mi
 # these http://github.com/rails/irs_process_scripts
 
 namespace :deploy do
-   desc "Start the Applicationm"
+   desc "Start the Application"
    task :start, roles => :app do
     run "touch #{current_release}/tmp/restart.txt"
    end
@@ -47,6 +47,21 @@ namespace :deploy do
   run "ln -nfs #{apps_dir}/config/OAuth-Sample-Key.yml #{release_path}/config/oauth-key.yml"
    end
 
+end
+
+namespace :bundler do
+  desc ""
+  task :symlink_bundle do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(current_release,'.bundle')
+    run "mkdir -p #{shared_dir} && ln -s #{shared_dir} #{release_dir}"
+  end
+  
+  desc "Bundle Dependencies"
+  task :bundle_new_release do
+    bundler.symlink_bundle
+    run "cd #{release_path} && bundle install --without development test"
+  end
 end
 
 desc "List Libraries"
