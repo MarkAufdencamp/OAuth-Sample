@@ -38,7 +38,7 @@ namespace :deploy do
 
    desc "Create Passenger Symbolic Link - #{web_dir}/#{application}"
    task :symlink_passenger do
-  run "ln -s #{apps_dir}/#{application}/current/public #{web_dir}/#{application}"
+  run "ln -nfs #{apps_dir}/#{application}/current/public #{web_dir}/#{application}"
    end
 
    desc "Create Shared Symbolic Link"
@@ -63,6 +63,8 @@ namespace :bundler do
     run "cd #{release_path} && bundle install --without development test"
   end
 end
+
+after 'deploy:update_code', 'deploy:symlink_shared', 'bundler:bundle_new_release', 'deploy:symlink_passenger'
 
 desc "List Libraries"
 task :search_libs, :hosts => "" do
