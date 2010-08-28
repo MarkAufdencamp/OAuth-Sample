@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>OAuth-Sample Welcome Page</title>
+  		<%= stylesheet_link_tag 'default' %>
+  		<%= stylesheet_link_tag 'controlPanel' %>
+  		<%= stylesheet_link_tag 'mainMenu' %>
+	</head>
+	<body>
+		<div id="Page_Header" style="margin-left: 150px;">
+		  Image Tag
+		</div>
+		<div id="Page_Body">
+		  <div id="Page_Body_Left" style="clear: left; float: left; width: 150px">
+		    <div class="MenuButton">
+		    	MenuButton One
+		    </div>
+		    <div class="MenuButton">
+		    	MenuButton Two
+		    </div>
+		    <div class="MenuButton">
+		    	MenuButton Three
+		    </div>
+		    </div>
+		  </div>
+		  <div id="Page_Body_Right" >
+		  <p style="color: green"><%= flash[:notice] %></p>
+		
+		  <%= yield %>
+		
+		  </div>
+		</div>
+		<div id="Page_Footer">
+		<p>
+		Copyright 2009 Mark Aufdencamp
+		</p>
+		</div>
+	</body>
+</html>

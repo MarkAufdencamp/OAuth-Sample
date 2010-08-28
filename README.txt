@@ -260,13 +260,26 @@ XI. Deploy to Staging/Production
   
   B. cap deploy:cold
   
-  c: cap db:migrate
+  c. cap db:migrate
 
 
-XII. Postfix Mail Services
+XII. Welcome Page
+  A. Rename public/index.html to index-default.html
+
+  B. Add Welcome Controller
+  
+  C. Add Welcome View
+  
+  D. Add Welcome Layout
+  
+  E. Add Stylesheets
+  
+  F. Set Root Route to Welcome Controller
+
+XIII. Postfix Mail Services
 
 
-XIII. Administration Detail
+XIV. Administration Detail
   A. Database Backup
   	1. MySQL %projname%_production
   

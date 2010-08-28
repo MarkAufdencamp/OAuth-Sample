@@ -1,0 +1,17 @@
+div.MainMenu.Menu {
+}
+div.MainMenu.MenuTitle {
+}
+div.MainMenu.MenuButton  {
+	display: block;
+	float: none;
+	clear: left;
+	width: 10em;
+	background-color: lightblue;
+	min-height: 4ex;
+}
+div.MainMenu.MenuItem {
+}
+div.MainMenu.MenuItemTitle {
+}
+
