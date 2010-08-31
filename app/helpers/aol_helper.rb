@@ -1,0 +1,2 @@
+module AolHelper
+end
