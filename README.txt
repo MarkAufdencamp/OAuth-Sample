@@ -1,11 +1,40 @@
-I. Create GitHub Account - github.com
+I. Create Repository Account
+	A. Subversion - Private iluviya.net
+	
+	B. GitHub - Public github.com
 
 
 II. Configure GitHub Access via SSH Key - github.com/Development Workstation (Ubuntu/OS X/Windows 7)
+	A. Linux
+		http://help.github.com/linux-git-installation/
+		http://help.github.com/linux-key-setup/
+		http://help.github.com/troubleshooting-ssh/
+	
+	B. OS X
+		http://help.github.com/mac-git-installation/
+		http://help.github.com/mac-key-setup/
+	
+	C. Windows 
+		http://help.github.com/win-git-installation/
+		http://help.github.com/msysgit-key-setup/
+	
+	D. Passphrases and Troubleshooting
+		http://help.github.com/working-with-key-passphrases/
+
+	E. Line Endings
+		http://help.github.com/dealing-with-lineendings/
 
 
-III. Create GitHub Repository - github.com
-
+III. Create Repository
+	A. Subversion - iluviya.net
+	
+	B. GitHub - github.com
+		1. Create New Repository
+			http://help.github.com/creating-a-repo/
+	
+		2. Fork existing Repository
+			http://help.github.com/forking/
+		
 
 IV. Create Initial Rails Project - Development Workstation (Ubuntu/OS X/Windows 7)
   A. Install Ruby, Gems, SQLite3
@@ -41,27 +70,41 @@ IV. Create Initial Rails Project - Development Workstation (Ubuntu/OS X/Windows 
   	cd ~/%workspace%
   	rails %projname%
   
+  I. MyEclipse/RadRails/Subclipse/JGit/EGit
+  	1. MyEclipse IDE
+  		http://myeclipseide.com
+  	2. RadRails 		
+  	3. Subclipse
+  	4. JGit/EGit
+  	5. http://www.vogella.de/articles/EGit/article.html
+  
   
 V. Place Rails Project into GitHub - Development Workstation (Ubuntu/OS X/Windows 7)
-  A. Install Git
-  	sudo apt-get install git-core
-  	git config --global user.name "%First% %Last%"
-  	git config --global user.email "%email_name%@%domain%.%tld%"
+  A. Subversion
   
-  B. Initialize Git Control of Project
-  	cd ~/%workspace%/%projname%
-  	git init
-  
-  C. Add Project Components to Git
-  	git add 
-  
-  D. Add Remote Repository
-  	git remote add origin git+ssh://git@github.com/%git_account%/%projname%.git
-  
-  E. Push to Remote Repository
-  	git push
-  	
-  	
+  B. GitHub
+  	1. Install Git
+  		sudo apt-get install git-core
+  		git config --global user.name "%First% %Last%"
+  		git config --global user.email "%email_name%@%domain%.%tld%"
+	  
+	2. Initialize Git Control of Project
+	  	cd ~/%workspace%/%projname%
+	  	git init
+	  
+	3. Add Project Components to Git
+	  	git add 
+	  
+	4. Add Remote Repository
+	  	git remote add origin git+ssh://git@github.com/%git_account%/%projname%.git
+	  
+	5. Push to Remote Repository
+	  	git push
+	  	
+	6. Git Reference
+	  	http://gitref.org/
+
+
 VIII. Add Bundler Support
   A. Install bundler gem
     gem install bundler
