@@ -1,1 +1,77 @@
 @CHARSET "UTF-8";
+body{
+	background-color: lightblue;
+}
+div.Page_Header{
+	display: block;
+	float: none;
+	clear: both;
+	height: 10ex;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	background-color: lightblue;
+}
+div.Page_Header.Page_Header_App_Name{
+	display: block;
+	float: left;
+	clear: left;
+	width: 10em;
+	border: none;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.Page_Header h1{
+	height: 10ex;
+	font-size: medium;	
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.Page_Header.Page_Header_Logo{
+	display: block;
+	float: left;
+	clear: none;
+	margin-left: 10em;
+	height: 10ex;
+	border: none;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.Page_Body{
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.Page_Body.Page_Body_Left{
+	display: block;
+	clear: both;
+	float: left;
+	width: 10em;
+	height: 55ex;;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	border-right: thin;
+}
+div.Page_Body.Page_Body_Right{
+	display: block;
+	clear: right;
+	float: right;
+	width: 10em;
+	height: 55ex;;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	border-left: medium;
+	border-color: black;
+}
+div.Page_Body.Page_Body_Center{
+	margin-left: 12em;
+	margin-right: 12em;
+	margin: 1ex 1em 1ex 1em;
+	padding: 0 0 0 0;
+}
+div.Page_Footer{
+	display: block;
+	float: none;
+	clear: both;
+	background-color: lightblue;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
