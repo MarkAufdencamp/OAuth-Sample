@@ -2,10 +2,16 @@ require 'oauth'
 require 'oauth/consumer'
 require 'yaml'
 require 'json'
+require 'cgi'
 
 class YahooController < ApplicationController
 
   layout "service"
+
+# How to OAuth
+# http://mojodna.net/2009/05/20/updating-ruby-consumers-and-providers-to-oauth-10a.html
+# How to Hack Yahoo OAuth
+# http://groups.google.com/group/oauth-ruby/browse_thread/thread/4059b81775752caf
 
   def retrieveContacts
     # Retrieve Request Token from Yahoo
@@ -33,8 +39,8 @@ class YahooController < ApplicationController
 
   def authorized
     
-    oauth_token = params[:oauth_token]
-    oauth_verifier = params[:oauth_verifier]
+    oauth_token = CGI::unescape params[:oauth_token]
+    oauth_verifier = CGI::unescape params[:oauth_verifier]
     credentials = loadOAuthConfig 'Yahoo'
     consumer = OAuth::Consumer.new(credentials['Consumer Key'],
             credentials['Consumer Secret'],
