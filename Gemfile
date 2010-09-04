@@ -14,6 +14,8 @@ gem "rails", "2.3.8"
 gem "capistrano"
 gem "capistrano-ext"
 
+gem "json"
+
 group :development do
 	gem "sqlite3-ruby", :require => "sqlite3"
     gem "oauth"
