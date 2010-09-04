@@ -42,7 +42,7 @@ class YahooController < ApplicationController
     oauth_token = CGI::unescape params[:oauth_token]
     oauth_verifier = CGI::unescape params[:oauth_verifier]
     credentials = loadOAuthConfig 'Yahoo'
-    consumer = OAuth::Consumer.new(credentials['Consumer Key'],
+    auth_consumer = OAuth::Consumer.new(credentials['Consumer Key'],
             credentials['Consumer Secret'],
                   { :site => credentials['Service URL'],
                     :yahoo_hack => true,
@@ -67,59 +67,68 @@ class YahooController < ApplicationController
                   })    
 
     # Exchange Request Token for Access Token
-    request_token = OAuth::RequestToken.new(consumer, session[:request_token], session[:request_token_secret])
+    request_token = OAuth::RequestToken.new(auth_consumer, session[:request_token], session[:request_token_secret])
     
-    access_token = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-    access_token.consumer = api_consumer
-    
-    response = access_token.get('/v1/me/guid?format=json') 
-    data = response.body
-    result = JSON.parse(data)
-    @guid = result['guid']['value']
+    got_access_token = false
+    begin
+      access_token = request_token.get_access_token(:oauth_verifier => oauth_verifier)
+      got_access_token = true
+    rescue
+      flash[:error] = 'Error retrieving Access Token from Yahoo'
+    end  
 
-    contacts_url = "/v1/user/" + @guid + "/contacts?format=json"
-    response = access_token.get(contacts_url)
-    data = response.body
-    
-    result = JSON.parse(data)
-    contacts = result['contacts']['contact']
-    contact_cnt = result['contacts']['total']
-    #logger.info "Yahoo GUID - " + @guid
+    @guid = ''
     @contacts = []
-    for cnt in 0..contact_cnt-1 do
-      contact = contacts[cnt]
-      contact_id = contact['id']
-      fields = contact['fields']
-      #logger.info fields
-      #logger.info fields.length
-      contactHasEMail = false
-      givenName = ''
-      familyName = ''
-      email = ''
-      fields.length.times do |field|
-        #logger.info fields[field]['uri']
-        #['giveName'] + " " + fields[field]['value']['familyName']
-        if fields[field]['type'] == 'name' then
-          givenName = fields[field]['value']['givenName']
-          familyName = fields[field]['value']['familyName']
+    if got_access_token
+      access_token.consumer = api_consumer
+    
+      response = access_token.get('/v1/me/guid?format=json') 
+      data = response.body
+      result = JSON.parse(data)
+      @guid = result['guid']['value']
+
+      contacts_url = "/v1/user/" + @guid + "/contacts?format=json"
+      response = access_token.get(contacts_url)
+      data = response.body
+    
+      result = JSON.parse(data)
+      contacts = result['contacts']['contact']
+      contact_cnt = result['contacts']['total']
+      #logger.info "Yahoo GUID - " + @guid
+      for cnt in 0..contact_cnt-1 do
+        contact = contacts[cnt]
+        contact_id = contact['id']
+        fields = contact['fields']
+        #logger.info fields
+        #logger.info fields.length
+        contactHasEMail = false
+        givenName = ''
+        familyName = ''
+        email = ''
+        fields.length.times do |field|
+          #logger.info fields[field]['uri']
+          #['giveName'] + " " + fields[field]['value']['familyName']
+          if fields[field]['type'] == 'name' then
+            givenName = fields[field]['value']['givenName']
+            familyName = fields[field]['value']['familyName']
+          end
+          if fields[field]['type'] == 'email' then
+            contactHasEMail = true
+            email = fields[field]['value']
+          end
         end
-        if fields[field]['type'] == 'email' then
-          contactHasEMail = true
-          email = fields[field]['value']
+        if contactHasEMail then
+          contact = []
+          contact << familyName
+          contact << givenName
+          contact << email
+          @contacts << contact
+          #logger.info contact_id
+          #logger.info givenName + " " + familyName
+          #logger.info email
         end
-      end
-      if contactHasEMail then
-        contact = []
-        contact << familyName
-        contact << givenName
-        contact << email
-        @contacts << contact
-        #logger.info contact_id
-        #logger.info givenName + " " + familyName
-        #logger.info email
       end
     end
-
   end
 
   def loadOAuthConfig serviceName
