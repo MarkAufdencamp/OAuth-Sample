@@ -1,6 +1,6 @@
 # Settings specified here will take precedence over those in config/environment.rb
 config.action_controller.relative_url_root = "/OAuth-Sample"
-ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS.update( :session_domain => '.iluviya.net')
+ActionController::CgiRequest::DEFAULT_SESSION_OPTIONS[ :session_domain ] = '.iluviya.net'
 
 # The production environment is meant for finished, "live" apps.
 # Code is not reloaded between requests

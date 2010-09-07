@@ -67,6 +67,26 @@ div.Page_Body.Page_Body_Center{
 	margin: 1ex 1em 1ex 1em;
 	padding: 0 0 0 0;
 }
+div.Page_Body h1{
+	font-size: x-large;	
+	margin: 1ex 0 1ex 0;
+	padding: 0 0 0 0;	
+}
+div.Page_Body h2{
+	font-size: medium;	
+	margin: 1ex 0 1ex 0;
+	padding: 0 0 0 0;	
+}
+div.Page_Body li{
+	font-size: small;	
+	margin: .5ex 0 .5ex 1em;
+	padding: 0 0 0 0;		
+}
+div.Page_Body p{
+	font-size: small;	
+	margin: 0 0 0 0;
+	padding: 0 0 0 2em;		
+}
 div.Page_Footer{
 	display: block;
 	float: none;

@@ -13,123 +13,62 @@ class YahooController < ApplicationController
 # How to Hack Yahoo OAuth
 # http://groups.google.com/group/oauth-ruby/browse_thread/thread/4059b81775752caf
 
-  def retrieveContacts
-    # Retrieve Request Token from Yahoo
+  def authorizeYahooAccess
+    # Retrieve Request Token from Yahoo and Re-Direct to Yahoo for Authentication
     credentials = loadOAuthConfig 'Yahoo'
-    consumer = OAuth::Consumer.new(credentials['Consumer Key'],
-                  credentials['Consumer Secret'],
-                  { :site => credentials['Service URL'],
-                    :yahoo_hack => true,
-                    :scheme => :query_string,
-                    :http_method => :get,
-                    :request_token_path => '/oauth/v2/get_request_token',
-                    :access_token_path => '/oauth/v2/get_token',
-                    :authorize_path => '/oauth/v2/request_auth'
-                  })    
-    request_token = consumer.get_request_token(:oauth_callback => 'http://iluviya.net/OAuth-Sample/yahoo/authorized/')
+    auth_consumer = getAuthConsumer credentials
+                  
+    request_token = auth_consumer.get_request_token(:oauth_callback => 'http://iluviya.net/OAuth-Sample/yahoo/retrieveYahooContacts/')
     if request_token.callback_confirmed?
+      #Store Token and Secret to Session
       session[:request_token] = request_token.token
       session[:request_token_secret] = request_token.secret
       # Redirect to Yahoo Authorization
-      redirect_to request_token.authorize_url
+      redirect_to request_token.authorize_url  
     else
-      
+      flash[:error] = 'Error Retrieving OAuth Request Token from Yahoo'            
     end
   end
 
-  def authorized
-    
-    oauth_token = CGI::unescape params[:oauth_token]
-    oauth_verifier = CGI::unescape params[:oauth_verifier]
+  def retrieveYahooContacts    
+    # Retrieve Token and Verifier from URL
+    oauth_token = params[:oauth_token]
+    oauth_verifier = params[:oauth_verifier]    
+    # Load Yahoo Credentials from comfig/oauth-config.yml
     credentials = loadOAuthConfig 'Yahoo'
-    auth_consumer = OAuth::Consumer.new(credentials['Consumer Key'],
-            credentials['Consumer Secret'],
-                  { :site => credentials['Service URL'],
-                    :yahoo_hack => true,
-                    :scheme => :query_string,
-                    :http_method => :get,
-                    :request_token_path => '/oauth/v2/get_request_token',
-                    :access_token_path => '/oauth/v2/get_token',
-                    :authorize_path => '/oauth/v2/request_auth'
-                  })    
-
-    api_consumer = OAuth::Consumer.new(credentials['Consumer Key'],
-                  credentials['Consumer Secret'],
-                  { :site => 'http://social.yahooapis.com/',
-                    :yahoo_hack => true,
-                    :scheme => :header,
-                    :realm => 'yahooapis.com',
-                    :http_method => :get,
-                    :request_token_path => '/oauth/v2/get_request_token',
-                    :access_token_path => '/oauth/v2/get_token',
-                    :authorize_path => '/oauth/v2/request_auth',
-                    :format => 'json'
-                  })    
-
-    # Exchange Request Token for Access Token
-    request_token = OAuth::RequestToken.new(auth_consumer, session[:request_token], session[:request_token_secret])
-    
-    got_access_token = false
+    # Factory a OAuth Consumer - Yahoo Authorization Consumer requires using query_string scheme
+    auth_consumer = getAuthConsumer credentials
+    # Factory Request Token
+    got_request_token = false
     begin
-      access_token = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-      got_access_token = true
+      request_token = OAuth::RequestToken.new(auth_consumer, session[:request_token], session[:request_token_secret])
+      got_request_token = true
     rescue
-      flash[:error] = 'Error retrieving Access Token from Yahoo'
+      flash[:error] = 'Error Retrieving OAuth Request Token from Yahoo'
     end  
-
+    # Exchange Request Token for Access Token
+    got_access_token = false
+    if got_request_token
+      begin
+        access_token = request_token.get_access_token(:oauth_verifier => oauth_verifier)
+        got_access_token = true
+      rescue
+        flash[:error] = 'Error Retrieving OAuth Access Token from Yahoo'
+      end  
+    end
+    
+    # Retrieve Yahoo GUID  and Contacts
     @guid = ''
     @contacts = []
-    if got_access_token
-      access_token.consumer = api_consumer
-    
-      response = access_token.get('/v1/me/guid?format=json') 
-      data = response.body
-      result = JSON.parse(data)
-      @guid = result['guid']['value']
-
-      contacts_url = "/v1/user/" + @guid + "/contacts?format=json"
-      response = access_token.get(contacts_url)
-      data = response.body
-    
-      result = JSON.parse(data)
-      contacts = result['contacts']['contact']
-      contact_cnt = result['contacts']['total']
-      #logger.info "Yahoo GUID - " + @guid
-      for cnt in 0..contact_cnt-1 do
-        contact = contacts[cnt]
-        contact_id = contact['id']
-        fields = contact['fields']
-        #logger.info fields
-        #logger.info fields.length
-        contactHasEMail = false
-        givenName = ''
-        familyName = ''
-        email = ''
-        fields.length.times do |field|
-          #logger.info fields[field]['uri']
-          #['giveName'] + " " + fields[field]['value']['familyName']
-          if fields[field]['type'] == 'name' then
-            givenName = fields[field]['value']['givenName']
-            familyName = fields[field]['value']['familyName']
-          end
-          if fields[field]['type'] == 'email' then
-            contactHasEMail = true
-            email = fields[field]['value']
-          end
-        end
-        if contactHasEMail then
-          contact = []
-          contact << familyName
-          contact << givenName
-          contact << email
-          @contacts << contact
-          #logger.info contact_id
-          #logger.info givenName + " " + familyName
-          #logger.info email
-        end
-      end
+    if got_request_token and got_access_token
+      # Factory a OAuth Consumer - Yahoo API Consumer requires using header scheme and a realm
+      access_token.consumer = getAPIConsumer credentials
+      @guid = getYahooGUID access_token
+      @contacts = getYahooContacts access_token
     end
   end
+
+  private
 
   def loadOAuthConfig serviceName
     credentials = Hash.new
@@ -143,4 +82,84 @@ class YahooController < ApplicationController
     end
     credentials
   end
+  
+  def getAuthConsumer credentials
+    OAuth::Consumer.new(credentials['Consumer Key'],
+      credentials['Consumer Secret'],
+        { :site => credentials['Service URL'],
+        :yahoo_hack => true,
+        :scheme => :query_string,
+        :http_method => :get,
+        :request_token_path => '/oauth/v2/get_request_token',
+        :access_token_path => '/oauth/v2/get_token',
+        :authorize_path => '/oauth/v2/request_auth'
+        })        
+  end
+  
+  def getAPIConsumer credentials
+    OAuth::Consumer.new(credentials['Consumer Key'],
+      credentials['Consumer Secret'],
+        { :site => 'http://social.yahooapis.com/',
+        :yahoo_hack => true,
+        :scheme => :header,
+        :realm => 'yahooapis.com',
+        :http_method => :get,
+        :request_token_path => '/oauth/v2/get_request_token',
+        :access_token_path => '/oauth/v2/get_token',
+        :authorize_path => '/oauth/v2/request_auth'
+        })    
+  end
+  
+  def getYahooGUID access_token
+    response = access_token.get('/v1/me/guid?format=json') 
+    data = response.body
+    result = JSON.parse(data)
+    result['guid']['value']    
+  end
+  
+  def getYahooContacts access_token
+    contacts_url = "/v1/user/" + @guid + "/contacts?format=json"
+    response = access_token.get(contacts_url)
+    data = response.body
+    parseContactsResponse data
+  end
+  
+  def parseContactsResponse data
+    result = JSON.parse(data)    
+    contacts = result['contacts']['contact']
+    contact_cnt = result['contacts']['total']
+    yahooContacts = []
+    for cnt in 0..contact_cnt-1 do
+      contact = contacts[cnt]
+      contact_id = contact['id']
+      fields = contact['fields']
+      #logger.info fields
+      #logger.info fields.length
+      contactHasEMail = false
+      givenName = ''
+      familyName = ''
+      email = ''
+      fields.length.times do |field|
+        #logger.info fields[field]['uri']
+        #['giveName'] + " " + fields[field]['value']['familyName']
+        if fields[field]['type'] == 'name' then
+          givenName = fields[field]['value']['givenName']
+          familyName = fields[field]['value']['familyName']
+        end
+        if fields[field]['type'] == 'email' then
+          contactHasEMail = true
+          email = fields[field]['value']
+        end
+      end
+      if contactHasEMail then
+        contact = []
+        contact << familyName
+        contact << givenName
+        contact << email        
+        yahooContacts << contact
+      end
+    end
+    yahooContacts
+  end
+  
 end
