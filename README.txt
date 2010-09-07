@@ -239,7 +239,27 @@ IX. Capify the Project
  
 X. Configure Staging/Production Server - Ubuntu
   A. Install Ruby and Gems
-   	sudo apt-get install ruby irb ri rdoc ruby1.8-dev rake build-essential libopenssl-ruby rubygems
+  	1. sudo apt-get install ruby irb ri rdoc ruby1.8-dev rake build-essential libopenssl-ruby rubygems
+  	
+  	2. sudo nano /etc/bash/bash.bashrc
+  		RUBY_GEMS_HOME=/var/lib/gems/1.8
+  		PATH=$PATH:$RUBY_GEMS_HOME/bin
+  
+	3. Perform System Upgrade of Gems
+  		sudo gem install rubygems-update
+  		sudo update-rubygems
+  		sudo gem env
+  		gem env
+  
+  C. Install Bundler and Rake
+  	1. Install Rake
+		sudo gem install rake
+  	
+	2. Install Bundler - bundler >= 1.0 (--path didn't exist in prior versions)
+		sudo gem install bundler
+	
+	Note: All other Gems will be installed via the applications .bundler directory.
+		!! No Gem version issues among users or applications !!
   
   B. Install Apache/Nginx
   	sudo apt-get install apache2 apache2-prefork-dev
