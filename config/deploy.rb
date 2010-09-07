@@ -60,7 +60,7 @@ namespace :bundler do
   desc "Bundle Dependencies"
   task :bundle_new_release do
     bundler.symlink_bundle
-    run "cd #{release_path} && bundle install --without development test"
+    run "cd #{release_path} && bundle install --path #{release_path}/.bundle --without development test"
   end
 end
 
