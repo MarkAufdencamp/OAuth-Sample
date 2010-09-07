@@ -1,21 +1,28 @@
 div.ControlPanel.Menu {
 }
-div.ControlPanel.MenuTitle {
-
+div.ControlPanel.MenuTitle{
+	text-align: center;
 }
 div.ControlPanel.MenuItem {
 	display: inline;
 	float: left;
 	clear: none;
 	width: 10em;
-	background-color: lightblue;
-	height: 16ex;
+	height: 20ex;
 	overflow: hidden;
+	margin: 1ex 1em 1ex 1em;
 }
 div.ControlPanel.MenuItemTitle {
+	width: 10em;
+	vertical-align:  middle;
+	margin: 1ex 1em 1ex 1em;
+}
+div.ControlPanel.MenuItemIcon {
 }
 div.ControlPanel.MenuItemIcon a img {
+	border: double;
 	height: 80%;
 	width: 80%;
+	margin: 1ex 1em 1ex 1em;
 }
 
