@@ -2,7 +2,6 @@ require 'oauth'
 require 'oauth/consumer'
 require 'yaml'
 require 'json'
-require 'cgi'
 
 class YahooController < ApplicationController
 
