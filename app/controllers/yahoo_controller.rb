@@ -2,6 +2,7 @@ require 'oauth'
 require 'oauth/consumer'
 require 'yaml'
 require 'json'
+require 'pp'
 
 class YahooController < ApplicationController
 
@@ -135,7 +136,8 @@ class YahooController < ApplicationController
   end
   
   def parseContactsResponse data
-    result = JSON.parse(data)    
+    result = JSON.parse(data)
+    #PP::pp result, $stderr, 50
     contacts = result['contacts']['contact']
     contact_cnt = result['contacts']['total']
     yahooContacts = []
