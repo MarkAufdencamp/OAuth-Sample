@@ -15,6 +15,9 @@ class YahooController < ApplicationController
   def authorizeYahooAccess
     # Retrieve Request Token from Yahoo and Re-Direct to Yahoo for Authentication
     credentials = loadOAuthConfig 'Yahoo'
+    #logger.info 'Service URL - ' + credentials['Service URL']
+    #logger.info 'Consumer Key - ' + credentials['Consumer Key']
+    #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
     auth_consumer = getAuthConsumer credentials
                   
     request_token = auth_consumer.get_request_token(:oauth_callback => 'http://iluviya.net/OAuth-Sample/yahoo/retrieveYahooContacts/')
@@ -25,16 +28,24 @@ class YahooController < ApplicationController
       # Redirect to Yahoo Authorization
       redirect_to request_token.authorize_url  
     else
-      flash[:error] = 'Error Retrieving OAuth Request Token from Yahoo'            
+      flash.now[:error] = 'Error Retrieving OAuth Request Token from Yahoo'            
     end
   end
 
   def retrieveYahooContacts    
     # Retrieve Token and Verifier from URL
     oauth_token = params[:oauth_token]
-    oauth_verifier = params[:oauth_verifier]    
+    oauth_verifier = params[:oauth_verifier]
+
+    # Useful Debugging Information?
+    flash.now[:request_token] = "Request Token - " + session[:request_token]
+    flash.now[:request_token_secret] = "Request Token Secret - " + session[:request_token_secret]
+    flash.now[:oauth_token] = "OAuth Token - " + oauth_token
+    flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
+    
     # Load Yahoo Credentials from comfig/oauth-config.yml
     credentials = loadOAuthConfig 'Yahoo'
+
     # Factory a OAuth Consumer - Yahoo Authorization Consumer requires using query_string scheme
     auth_consumer = getAuthConsumer credentials
     # Factory Request Token
@@ -43,7 +54,7 @@ class YahooController < ApplicationController
       request_token = OAuth::RequestToken.new(auth_consumer, session[:request_token], session[:request_token_secret])
       got_request_token = true
     rescue
-      flash[:error] = 'Error Retrieving OAuth Request Token from Yahoo'
+      flash.now[:error] = 'Error Retrieving OAuth Request Token from Yahoo'
     end  
     # Exchange Request Token for Access Token
     got_access_token = false
@@ -52,7 +63,7 @@ class YahooController < ApplicationController
         access_token = request_token.get_access_token(:oauth_verifier => oauth_verifier)
         got_access_token = true
       rescue
-        flash[:error] = 'Error Retrieving OAuth Access Token from Yahoo'
+        flash.now[:error] = 'Error Retrieving OAuth Access Token from Yahoo'
       end  
     end
     

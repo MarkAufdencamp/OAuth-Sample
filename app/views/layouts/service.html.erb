@@ -50,8 +50,9 @@
 		  
 		  <div class="Page_Body Page_Body_Center">
 		  	<div class="Page_Body Flash" >
-		  		<p style="color: green"><%= flash[:notice] %></p>
-		  		<p style="color: red"><%= flash[:error] %></p>
+	<% flash.each do |key, msg| %>
+	  <%= content_tag :div, msg, :class => key %>
+	<% end %>
 			</div>
 			
 		  	<%= yield %>
