@@ -39,10 +39,10 @@ class YahooController < ApplicationController
     oauth_verifier = params[:oauth_verifier]
 
     # Useful Debugging Information?
-    flash.now[:request_token] = "Request Token - " + session[:request_token]
-    flash.now[:request_token_secret] = "Request Token Secret - " + session[:request_token_secret]
-    flash.now[:oauth_token] = "OAuth Token - " + oauth_token
-    flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
+    #flash.now[:request_token] = "Request Token - " + session[:request_token]
+    #flash.now[:request_token_secret] = "Request Token Secret - " + session[:request_token_secret]
+    #flash.now[:oauth_token] = "OAuth Token - " + oauth_token
+    #flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
     
     # Load Yahoo Credentials from comfig/oauth-config.yml
     credentials = loadOAuthConfig 'Yahoo'
@@ -144,6 +144,7 @@ class YahooController < ApplicationController
     for cnt in 0..contact_cnt-1 do
       contact = contacts[cnt]
       contact_id = contact['id']
+      contactURI = contact['uri']
       fields = contact['fields']
       #logger.info fields
       #logger.info fields.length
@@ -165,6 +166,7 @@ class YahooController < ApplicationController
       end
       if contactHasEMail then
         contact = []
+        contact << contactURI
         contact << familyName
         contact << givenName
         contact << email        

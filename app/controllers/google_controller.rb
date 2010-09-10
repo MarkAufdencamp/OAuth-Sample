@@ -37,10 +37,10 @@ class GoogleController < ApplicationController
     oauth_verifier = params[:oauth_verifier]
 
     # Useful Debugging Information?
-    flash.now[:request_token] = "Request Token - " + session[:request_token]
-    flash.now[:request_token_secret] = "Request Token Secret - " + session[:request_token_secret]
-    flash.now[:oauth_token] = "OAuth Token - " + oauth_token
-    flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
+    #flash.now[:request_token] = "Request Token - " + session[:request_token]
+    #flash.now[:request_token_secret] = "Request Token Secret - " + session[:request_token_secret]
+    #flash.now[:oauth_token] = "OAuth Token - " + oauth_token
+    #flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
 
     # Load Yahoo Credentials from comfig/oauth-config.yml
     credentials = loadOAuthConfig 'Google'
