@@ -15,6 +15,8 @@ gem "capistrano"
 gem "capistrano-ext"
 
 gem "json"
+gem "xml-simple"
+
 
 group :development do
 	gem "sqlite3-ruby", :require => "sqlite3"
