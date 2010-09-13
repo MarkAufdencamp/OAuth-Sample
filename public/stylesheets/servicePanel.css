@@ -1,0 +1,41 @@
+div.ServiceHeader {
+	display: block;
+	clear: none;
+	height: 10ex;
+	width: 20em;
+	margin-left: 12em;
+	margin-right: 12em;	
+	background-color: lightblue;
+}
+div.ServiceHeader h1{
+	display: inline;
+	clear: none;
+	height: 10ex;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.Service.Icon {
+	display: inline;
+	float: left;
+	clear: none;
+	width: 10em;
+	height: 10ex;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	overflow: hidden;
+}
+div.Service.Icon a img {
+	display: inline;
+	height: 80%;
+	width: 80%;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.ServiceBody {
+	display: block;
+	clear: none;
+	margin-left: 12em;
+	margin-right: 12em;	
+}
+div.ServiceFeature{
+}

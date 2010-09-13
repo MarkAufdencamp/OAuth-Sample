@@ -36,6 +36,12 @@ div.Page_Header.Page_Header_Logo{
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
 }
+div.Page_Header.Page_Header_Logo img {
+	border: double;
+	height: 80%;
+	width: 80%;
+	margin: 1ex 1em 1ex 1em;
+}
 div.Page_Body{
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;

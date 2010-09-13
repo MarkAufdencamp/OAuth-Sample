@@ -1,0 +1,15 @@
+<div>
+	<h2>Facebook User Information</h2>
+	<ul>
+		<li>Facebook UserId - <%= @guid %>
+		</li>
+	</ul>
+	<br />
+	<h2>Contact EMail List</h2>
+	<ul>
+	<% for contact in @contacts %>
+		<li class="FacebookContact"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></li>
+		<br />
+	<% end %>
+	</ul>
+</div>

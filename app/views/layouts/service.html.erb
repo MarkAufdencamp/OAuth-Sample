@@ -7,6 +7,7 @@
   		<%= stylesheet_link_tag 'default' %>
   		<%= stylesheet_link_tag 'controlPanel' %>
   		<%= stylesheet_link_tag 'mainMenu' %>
+  		<%= stylesheet_link_tag 'servicePanel' %>
 	</head>
 	<body>
 		<div class="Page_Header">
@@ -14,7 +15,7 @@
 		  	<h1>OAuth-Sample Application</h1>
 		  </div>
 		  <div class="Page_Header Page_Header_Logo">
-		    Logo Image
+		    <%= link_to image_tag "Social-Networking-Banner.gif", :controller => 'welcome' %>
 		  </div>
 		</div>
 <br />
@@ -38,6 +39,12 @@
 			</div>
 			<div class="MainMenu MenuButton">
 			   	<%= link_to "Windows Live API", :controller => 'windowslive' %>
+			</div>
+			<div class="MainMenu MenuButton">
+			   	<%= link_to "Linked In API", :controller => 'linkedin' %>
+			</div>
+			<div class="MainMenu MenuButton">
+			   	<%= link_to "Twitter API", :controller => 'twitter' %>
 			</div>
 		  </div>
 		  <!-- Page_Body_Left -->

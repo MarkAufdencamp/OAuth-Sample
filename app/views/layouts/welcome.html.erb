@@ -20,7 +20,7 @@
 		  	<h1>OAuth-Sample Application</h1>
 		  </div>
 		  <div class="Page_Header Page_Header_Logo">
-		    Logo Image
+		    <%= link_to image_tag "Social-Networking-Banner.gif", :controller => 'welcome' %>
 		  </div>
 		</div>
 		<div class="Page_Body">
@@ -45,7 +45,10 @@
 			   	<%= link_to "AOL API", :controller => "aol" %>
 			</div>
 			<div class="MainMenu MenuButton">
-			   	<%= link_to "Windows Live API", :controller => 'windowslive' %>
+			   	<%= link_to "Linked In API", :controller => 'linkedin' %>
+			</div>
+			<div class="MainMenu MenuButton">
+			   	<%= link_to "Twitter API", :controller => 'twitter' %>
 			</div>
 		  </div>
 		  <!-- Page_Body_Left -->
