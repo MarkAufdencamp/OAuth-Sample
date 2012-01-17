@@ -48,19 +48,18 @@ class FacebookController < ApplicationController
     end
         
     # Data for Views
-    @guid = ''
-    @contacts = []
+    @facebookMe = ''
+    @facebookFriends = []
         
     if access_token
       # Acces Code and Accees Token Retrieved
-      response = getFacebookMe access_token
-      logger.info response
-      parseMeResponse response
+      @facebookMe = getFacebookMe access_token
+      logger.info @facebookMe
+            
+      @facebookFriends = getFacebookFriends access_token
+      logger.info @facebookFriends
       
-      response = getFacebookFriends access_token
-      logger.info response
-      parseFriendResponse response
-    end
+   end
 
 
 
@@ -114,6 +113,7 @@ private
     request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
     response = http.request(request)
     data = response.body    
+    parseMeResponse data
   end
   
   def getFacebookFriends access_token
@@ -124,16 +124,35 @@ private
     request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
     response = http.request(request)
     data = response.body
+    parseFriendResponse data
   end
   
   def parseMeResponse data
     result = JSON.parse( data )
-    
+    #PP::pp result, $stderr, 50
+    result['id']
   end
 
   def parseFriendResponse data
     result = JSON.parse( data )
+    #PP::pp result, $stderr, 50
+    friends = result['data']
+    friends_cnt = friends.length
 
+    facebookFriends = []
+    for cnt in 0..friends_cnt-1 do
+      friend = friends[cnt]
+      friend_name = friend['name']
+      friend_id = friend['id']
+      #logger.info friend_name
+      #logger.info friend_name
+      friend = []
+      friend << friend_name
+      friend << friend_id
+      facebookFriends << friend
+    end
+    
+    facebookFriends
   end
   
 end
