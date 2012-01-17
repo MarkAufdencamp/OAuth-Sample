@@ -1,9 +1,3 @@
-require 'oauth'
-require 'oauth/consumer'
-require 'yaml'
-require 'json'
-require 'pp'
-
 class YahooController < ApplicationController
 
   layout "service"
@@ -21,7 +15,7 @@ class YahooController < ApplicationController
     #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
     auth_consumer = getAuthConsumer credentials
                   
-    request_token = auth_consumer.get_request_token(:oauth_callback => 'http://iluviya.net/OAuth-Sample/yahoo/retrieveYahooContacts/')
+    request_token = auth_consumer.get_request_token(:oauth_callback => credentials['Callback URL'] )
     if request_token.callback_confirmed?
       #Store Token and Secret to Session
       session[:request_token] = request_token.token
@@ -81,18 +75,6 @@ class YahooController < ApplicationController
 
   private
 
-  def loadOAuthConfig serviceName
-    credentials = Hash.new
-    authKeys = YAML::load_file("#{RAILS_ROOT}/config/oauth-key.yml") [RAILS_ENV]
-    authKeys.each_key do | key |
-      if key[serviceName]
-        credentials['Consumer Key'] = authKeys[key]['Consumer Key']
-        credentials['Consumer Secret'] = authKeys[key]['Consumer Secret']
-        credentials['Service URL'] = authKeys[key]['Service URL']
-      end
-    end
-    credentials
-  end
   
   def getAuthConsumer credentials
     OAuth::Consumer.new(credentials['Consumer Key'],

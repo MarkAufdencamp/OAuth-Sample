@@ -1,9 +1,3 @@
-require 'oauth'
-require 'oauth/consumer'
-require 'yaml'
-require 'xmlsimple'
-require 'pp'
-
 class GoogleController < ApplicationController
   
   layout "service"
@@ -19,7 +13,7 @@ class GoogleController < ApplicationController
     #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
     auth_consumer = getAuthConsumer credentials
                   
-    request_token = auth_consumer.get_request_token({:oauth_callback => 'http://iluviya.net/OAuth-Sample/google/retrieveGoogleContacts/'}, {:scope => 'https://www.google.com/m8/feeds/'})
+    request_token = auth_consumer.get_request_token({:oauth_callback => credentials['Callback URL'] }, {:scope => 'https://www.google.com/m8/feeds/'})
     if request_token.callback_confirmed?
       #Store Token and Secret to Session
       session[:request_token] = request_token.token
@@ -94,18 +88,6 @@ private
     data = response.body
   end
 
-  def loadOAuthConfig serviceName
-    credentials = Hash.new
-    authKeys = YAML::load_file("#{RAILS_ROOT}/config/oauth-key.yml") [RAILS_ENV]
-    authKeys.each_key do | key |
-      if key[serviceName]
-        credentials['Consumer Key'] = authKeys[key]['Consumer Key']
-        credentials['Consumer Secret'] = authKeys[key]['Consumer Secret']
-        credentials['Service URL'] = authKeys[key]['Service URL']
-      end
-    end
-    credentials
-  end
 
   def getAuthConsumer credentials
     OAuth::Consumer.new(credentials['Consumer Key'],
