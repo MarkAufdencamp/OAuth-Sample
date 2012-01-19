@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 # https://github.com/oauth/oauth-ruby
+# http://oauth.rubyforge.org/rdoc/
 require 'oauth'
 require 'oauth/consumer'
 # https://github.com/intridea/oauth2
