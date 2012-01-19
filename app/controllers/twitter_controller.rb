@@ -6,6 +6,7 @@ class TwitterController < ApplicationController
 # https://dev.twitter.com/docs/auth/oauth
 # https://dev.twitter.com/docs/api
 #
+# https://dev.twitter.com/docs/api/1/get/friends/ids
 
   def authorizeTwitterAccess
     # Retrieve Request Token from Twitter and Re-Direct to Twitter for Authentication
@@ -120,7 +121,7 @@ private
     #logger.info 'User Id -     ' + user_id
     #logger.info 'Screen Name - ' + screen_name
 
-    friends_url = "/1/friends/ids.json?cursor=-1&user_id=#{ user_id }"
+    friends_url = "/1/friends/ids.json?cursor=-1&stringify_ids=true&user_id=#{ user_id }"
     response = access_token.get(friends_url).body
     #PP::pp access_token, $stderr, 50
     #PP::pp response, $stderr, 50
@@ -141,7 +142,7 @@ private
     twitterFriends = []
     for cnt in 0..friends_cnt-1 do
       friend_id = friends[cnt]
-      logger.info friend_id
+      #logger.info friend_id
       friend = []
       friend << friend_id
       twitterFriends << friend
