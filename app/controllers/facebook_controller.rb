@@ -43,9 +43,9 @@ class FacebookController < ApplicationController
   
     if(params[:code] and params[:code] != '')
       access_code = params[:code]
-      logger.info 'Access Code  - ' + access_code
+      #logger.info 'Access Code  - ' + access_code
       access_token = getAppAccessToken access_code
-      logger.info 'Access Token - ' + access_token
+      #logger.info 'Access Token - ' + access_token
     end
         
     # Data for Views
@@ -55,10 +55,10 @@ class FacebookController < ApplicationController
     if access_token
       # Acces Code and Accees Token Retrieved
       @facebookMe = getFacebookMe access_token
-      logger.info @facebookMe
+      #logger.info @facebookMe
             
       @facebookFriends = getFacebookFriends access_token
-      logger.info @facebookFriends
+      #logger.info @facebookFriends
       
    end
 

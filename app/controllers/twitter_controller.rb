@@ -2,7 +2,10 @@ class TwitterController < ApplicationController
   layout "service"
   
 # https://dev.twitter.com/
+# https://dev.twitter.com/docs
 # https://dev.twitter.com/docs/auth/oauth
+# https://dev.twitter.com/docs/api
+#
 
   def authorizeTwitterAccess
     # Retrieve Request Token from Twitter and Re-Direct to Twitter for Authentication
@@ -132,7 +135,7 @@ private
     #PP::pp result, $stderr, 50
     
     friends = result[ 'ids']
-    PP::pp friends, $stderr, 50
+    #PP::pp friends, $stderr, 50
     friends_cnt = friends.length
     
     twitterFriends = []
