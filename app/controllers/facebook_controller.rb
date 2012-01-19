@@ -7,6 +7,7 @@ class FacebookController < ApplicationController
 # http://developers.facebook.com/docs/reference/api/
 # http://developers.facebook.com/docs/reference/api/user/
 # http://developers.facebook.com/docs/reference/api/FriendList/
+# http://stackoverflow.com/questions/7717881/facebook-object-graph-https-request-from-ruby
 # Facebook utilizes a two stage authentication
 # stage 1 - User Authenticates and Allows Application Component Access. Returns an Access Code.
 # Note: That the user grants the permissions requested in the scope variable of the authentication/authorization request.
