@@ -4,9 +4,10 @@ class GoogleController < ApplicationController
 
 # http://code.google.com/apis/contacts
 # http://code.google.com/apis/contactsdocs/3.0/developers_guide_protocol.html
+# http://code.google.com/apis/gdata/articles/using_ruby.html
 
   def authorizeGoogleAccess
-    # Retrieve Request Token from Yahoo and Re-Direct to Yahoo for Authentication
+    # Retrieve Request Token from Google and Re-Direct to Google for Authentication
     credentials = loadOAuthConfig 'Google'
     #logger.info 'Service URL - ' + credentials['Service URL']
     #logger.info 'Consumer Key - ' + credentials['Consumer Key']
