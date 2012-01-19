@@ -1,0 +1,15 @@
+<div>
+	<h2>Twitter User Information</h2>
+	<ul>
+		<li>Twitter Screen Name - <%= @twitterScreenName %>
+		</li>
+	</ul>
+	<br />
+	<h2>Contact EMail List</h2>
+	<ul>
+	<% for friend in @twitterFriends %>
+		<li class="TwitterFriend"><%= friend[0] %></li>
+		<br />
+	<% end %>
+	</ul>
+</div>
