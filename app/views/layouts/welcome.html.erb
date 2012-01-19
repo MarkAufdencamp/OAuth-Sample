@@ -29,26 +29,29 @@
 			<div class="MainMenu MenuButton">
 			    <%= link_to "Home", :controller => 'welcome' %>
 			</div>
-			<div class="MainMenu MenuButton">
-			   	<%= link_to "Yahoo API", :controller => 'yahoo' %>
-			</div>
-			<div class="MainMenu MenuButton">
-			   	<%= link_to "Google API", :controller => 'google' %>
-			</div>
-			<div class="MainMenu MenuButton">
+			<div class="MainMenu MenuButton Passes">
 			   	<%= link_to "Facebook API", :controller => 'facebook' %>
 			</div>
-			<div class="MainMenu MenuButton">
-			   	<%= link_to "MySpace API", :controller => 'myspace' %>
+			<div class="MainMenu MenuButton Passes">
+			   	<%= link_to "Twitter API", :controller => 'twitter' %>
 			</div>
-			<div class="MainMenu MenuButton">
-			   	<%= link_to "AOL API", :controller => "aol" %>
+			<div class="MainMenu MenuButton Passes">
+			   	<%= link_to "Google API", :controller => 'google' %>
 			</div>
-			<div class="MainMenu MenuButton">
+			<div class="MainMenu MenuButton Passes">
+			   	<%= link_to "Yahoo API", :controller => 'yahoo' %>
+			</div>
+			<div class="MainMenu MenuButton Fails">
 			   	<%= link_to "Linked In API", :controller => 'linkedin' %>
 			</div>
-			<div class="MainMenu MenuButton">
-			   	<%= link_to "Twitter API", :controller => 'twitter' %>
+			<div class="MainMenu MenuButton Fails">
+			   	<%= link_to "Windows Live API", :controller => 'windowslive' %>
+			</div>
+			<div class="MainMenu MenuButton Fails">
+			   	<%= link_to "AOL API", :controller => "aol" %>
+			</div>
+			<div class="MainMenu MenuButton Fails">
+			   	<%= link_to "MySpace API", :controller => 'myspace' %>
 			</div>
 		  </div>
 		  <!-- Page_Body_Left -->
@@ -74,7 +77,7 @@
 <br />
 		<div class="Page_Footer">
 		<p>
-		Copyright 2010 Mark Aufdencamp
+		Copyright 2010, 2012 Mark Aufdencamp
 		</p>
 		</div>
 	</body>

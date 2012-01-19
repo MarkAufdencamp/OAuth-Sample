@@ -10,6 +10,12 @@ div.MainMenu.MenuButton  {
 	background-color: lightblue;
 	min-height: 4ex;
 }
+div.MainMenu.MenuButton.Passes  {
+	background-color: green;
+}
+div.MainMenu.MenuButton.Fails  {
+	background-color: red;
+}
 div.MainMenu.MenuItem {
 }
 div.MainMenu.MenuItemTitle {

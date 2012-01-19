@@ -1,20 +1,4 @@
-<div class="ControlPanel MenuItem">
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Yahoo API", :controller => 'yahoo' %>
-	</div>
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("yahoo-logo.jpg"), :controller => 'yahoo'  %>
-	</div>
-</div>
-<div class="ControlPanel MenuItem">
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Google API", :controller => 'google' %>
-	</div>	
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("google-logo.jpg"), :controller => 'google'  %>
-	</div>
-</div>
-<div class="ControlPanel MenuItem">
+<div class="ControlPanel MenuItem Passes">
 	<div class="ControlPanel MenuItemTitle">
 		<%= link_to "Facebook API", :controller => 'facebook' %>
 	</div>
@@ -22,31 +6,31 @@
 		<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
 	</div>
 </div>
-<div class="ControlPanel MenuItem">
+<div class="ControlPanel MenuItem Passes">
 	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "MySpace API", :controller => 'myspace' %>
+		<%= link_to "Twitter API", :controller => 'twitter' %>	
 	</div>
 	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("myspace-logo.jpg"), :controller => 'myspace'  %>
+		<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
 	</div>
 </div>
-<div class="ControlPanel MenuItem">
+<div class="ControlPanel MenuItem Passes">
 	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "AOL API", :controller => 'aol' %>	
+		<%= link_to "Google API", :controller => 'google' %>
+	</div>	
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("google-logo.jpg"), :controller => 'google'  %>
+	</div>
+</div>
+<div class="ControlPanel MenuItem Passes">
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Yahoo API", :controller => 'yahoo' %>
 	</div>
 	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("aol-logo.jpg"), :controller => 'aol'  %>
+		<%= link_to image_tag("yahoo-logo.jpg"), :controller => 'yahoo'  %>
 	</div>
 </div>
-<div class="ControlPanel MenuItem">
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Windows Live API", :controller => 'windowslive' %>	
-	</div>
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("windows-live-logo.jpg"), :controller => 'windowslive'  %>
-	</div>
-</div>
-<div class="ControlPanel MenuItem">
+<div class="ControlPanel MenuItem Fails">
 	<div class="ControlPanel MenuItemTitle">
 		<%= link_to "Linked In API", :controller => 'linkedin' %>	
 	</div>
@@ -54,12 +38,28 @@
 		<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin'  %>
 	</div>
 </div>
-<div class="ControlPanel MenuItem">
+<div class="ControlPanel MenuItem Fails">
 	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Twitter API", :controller => 'twitter' %>	
+		<%= link_to "Windows Live API", :controller => 'windowslive' %>	
 	</div>
 	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
+		<%= link_to image_tag("windows-live-logo.jpg"), :controller => 'windowslive'  %>
+	</div>
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "AOL API", :controller => 'aol' %>	
+	</div>
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("aol-logo.jpg"), :controller => 'aol'  %>
+	</div>
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "MySpace API", :controller => 'myspace' %>
+	</div>
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("myspace-logo.jpg"), :controller => 'myspace'  %>
 	</div>
 </div>
 
