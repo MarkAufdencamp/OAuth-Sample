@@ -8,7 +8,7 @@
 	<h2>Contact EMail List</h2>
 	<ul>
 	<% for contact in @contacts %>
-		<li class="WindowsLiveContact"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></li>
+		<li class="WindowsLiveContact <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></li>
 		<br />
 	<% end %>
 	</ul>
