@@ -12,7 +12,7 @@
 	<h2>Contact EMail List</h2>
 	<ul>
 	<% for friend in @twitterFriends %>
-		<li class="TwitterFriend"><%= friend[0] %></li>
+		<li class="TwitterFriend <%= cycle('odd', 'even')%>"><%= friend[0] %></li>
 		<br />
 	<% end %>
 	</ul>
