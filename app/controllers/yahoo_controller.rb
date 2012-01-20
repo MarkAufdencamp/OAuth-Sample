@@ -7,6 +7,11 @@ class YahooController < ApplicationController
 # How to Hack Yahoo OAuth
 # http://groups.google.com/group/oauth-ruby/browse_thread/thread/4059b81775752caf
 
+# http://developer.yahoo.com/oauth/
+# http://developer.yahoo.com/oauth/guide/oauth-guide.html
+# http://developer.yahoo.com/oauth/guide/oauth-scopes.html
+# http://developer.yahoo.com/social/rest_api_guide/uri-general.html
+
   def authorizeYahooAccess
     # Retrieve Request Token from Yahoo and Re-Direct to Yahoo for Authentication
     credentials = loadOAuthConfig 'Yahoo'
@@ -63,13 +68,16 @@ class YahooController < ApplicationController
     end
     
     # Retrieve Yahoo GUID  and Contacts
-    @guid = ''
-    @contacts = []
+    @yahooGUId = ''
+    @yahooName = ''
+    @yahooContacts = []
     if got_request_token and got_access_token
       # Factory a OAuth Consumer - Yahoo API Consumer requires using header scheme and a realm
       access_token.consumer = getAPIConsumer credentials
-      @guid = getYahooGUID access_token
-      @contacts = getYahooContacts access_token
+      @yahooGUId = getYahooGUID access_token
+      profile = getYahooProfile @yahooGUId, access_token
+      @yahooName = profile['profile']['nickname']
+      @yahooContacts = getYahooContacts @yahooGUId, access_token
     end
   end
 
@@ -109,19 +117,29 @@ class YahooController < ApplicationController
     result = JSON.parse(data)
     result['guid']['value']    
   end
-  
-  def getYahooContacts access_token
-    contacts_url = "/v1/user/" + @guid + "/contacts?format=json"
+
+  def getYahooProfile guid, access_token
+    profile_url = "/v1/user/" + guid + "/profile?format=json"
+    response = access_token.get(profile_url)
+    data = response.body
+    profile = JSON.parse(data)
+    #PP::pp profile, $stderr, 50
+  end
+
+  def getYahooContacts guid, access_token
+    contacts_url = "/v1/user/" + guid + "/contacts?format=json"
     response = access_token.get(contacts_url)
     data = response.body
-    parseContactsResponse data
+    contacts = JSON.parse(data)
+    #PP::pp contacts, $stderr, 50
+    
+    parseContactsResponse contacts
   end
   
   def parseContactsResponse data
-    result = JSON.parse(data)
-    #PP::pp result, $stderr, 50
-    contacts = result['contacts']['contact']
-    contact_cnt = result['contacts']['total']
+
+    contacts = data['contacts']['contact']
+    contact_cnt = data['contacts']['total']
     yahooContacts = []
     for cnt in 0..contact_cnt-1 do
       contact = contacts[cnt]
