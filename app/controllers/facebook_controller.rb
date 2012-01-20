@@ -49,13 +49,16 @@ class FacebookController < ApplicationController
     end
         
     # Data for Views
-    @facebookMe = ''
+    @facebookId = ''
+    @facebookName = ''
     @facebookFriends = []
         
     if access_token
       # Acces Code and Accees Token Retrieved
-      @facebookMe = getFacebookMe access_token
+      facebookMe = getFacebookMe access_token
       #logger.info @facebookMe
+      @facebookId = facebookMe['id']
+      @facebookName = facebookMe['name']
             
       @facebookFriends = getFacebookFriends access_token
       #logger.info @facebookFriends
@@ -113,8 +116,9 @@ private
     http.use_ssl = true
     request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
     response = http.request(request)
-    data = response.body    
-    parseMeResponse data
+    result = response.body
+    PP::pp JSON.parse(result), $stderr, 50
+    data = JSON.parse(result)
   end
   
   def getFacebookFriends access_token
@@ -128,12 +132,6 @@ private
     parseFriendResponse data
   end
   
-  def parseMeResponse data
-    result = JSON.parse( data )
-    #PP::pp result, $stderr, 50
-    result['id']
-  end
-
   def parseFriendResponse data
     result = JSON.parse( data )
     #PP::pp result, $stderr, 50
