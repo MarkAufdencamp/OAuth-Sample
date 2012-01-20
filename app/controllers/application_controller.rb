@@ -32,17 +32,21 @@ class ApplicationController < ActionController::Base
         credentials['App ID'] = authKeys[key]['App ID']
         # Facebook
         credentials['App Secret'] = authKeys[key]['App Secret']
-        # Google, Yahoo
+        # Twitter, LinkedIn, Google, Yahoo
         credentials['Consumer Key'] = authKeys[key]['Consumer Key']
-        # Google, Yahoo
+        # Twitter, LinkedIn, Google, Yahoo
         credentials['Consumer Secret'] = authKeys[key]['Consumer Secret']
-        # Facebook, Google, Yahoo
+        # Facebook, Twitter, LinkedIn, Google, Yahoo
         credentials['Service URL'] = authKeys[key]['Service URL']
-        # Facebook, Google, Yahoo
+        # Facebook, Twitter, LinkedIn, Google, Yahoo
         credentials['Callback URL'] = authKeys[key]['Callback URL']
-        # Facebook, Google, Yahoo
+        # Facebook, Twitter, LinkedIn, Google, Yahoo
         credentials['Application URL'] = authKeys[key]['Application URL']
-      end
+         # Windows Live
+        credentials['Client Id'] = authKeys[key]['Client Id']
+        # Windows Live
+        credentials['Client Secret'] = authKeys[key]['Client Secret']
+     end
     end
     credentials
   end
