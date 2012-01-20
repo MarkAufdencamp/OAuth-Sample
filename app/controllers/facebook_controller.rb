@@ -117,7 +117,7 @@ private
     request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
     response = http.request(request)
     result = response.body
-    PP::pp JSON.parse(result), $stderr, 50
+    #PP::pp JSON.parse(result), $stderr, 50
     data = JSON.parse(result)
   end
   
