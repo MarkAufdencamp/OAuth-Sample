@@ -10,7 +10,7 @@
 	<h2>Contact EMail List</h2>
 	<ul>
 	<% for contact in @facebookFriends %>
-		<li class="FacebookContact"><%= contact[0] %><br /><%= contact[1] %></li>
+		<li class="FacebookContact <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %></li>
 		<br />
 	<% end %>
 	</ul>
