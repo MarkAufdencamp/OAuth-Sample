@@ -1,0 +1,17 @@
+<div>
+	<h2>LinkedIn User Information</h2>
+	<ul>
+		<li>LinkedIn User Id - <%= @linkedInId %>
+		</li>
+		<li>LinkedIn User Name - <%= @linkedInName %>
+		</li>
+	</ul>
+	<br />
+	<h2>Connections List</h2>
+	<ul>
+	<% for connection in @linkedInConnections %>
+		<li class="LinkedInConnection <%= cycle('odd', 'even')%>"><%= connection[0] %><br /><%= connection[1] %><br /><%= connection[2] %><br /><%= connection[3] %></li>
+		<br />
+	<% end %>
+	</ul>
+</div>
