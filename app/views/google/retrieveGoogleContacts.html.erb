@@ -1,14 +1,16 @@
 <div>
 	<h2>Google User Information</h2>
 	<ul>
-		<li>Google UserId - <%= @guid %>
+		<li>Google UserId - <%= @googleId %>
+		</li>
+		<li>Google Name - <%= @googleName %>
 		</li>
 	</ul>
 	<br />
 	<h2>Contact EMail List</h2>
 	<ul>
-	<% for contact in @contacts %>
-		<li class="GoogleContact"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></li>
+	<% for contact in @googleContacts %>
+		<li class="GoogleContact <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></li>
 		<br />
 	<% end %>
 	</ul>
