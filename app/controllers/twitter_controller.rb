@@ -22,7 +22,7 @@ class TwitterController < ApplicationController
       #Store Token and Secret to Session
       session[:request_token] = request_token.token
       session[:request_token_secret] = request_token.secret
-      # Redirect to Yahoo Authorization
+      # Redirect to Twitter Authorization
       redirect_to request_token.authorize_url  
     else    
       flash.now[:error] = 'Error Retrieving OAuth Request Token from Twitter'            
@@ -43,7 +43,7 @@ class TwitterController < ApplicationController
     #flash.now[:oauth_token] = "OAuth Token - " + oauth_token
     #flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
 
-    # Load Yahoo Credentials from comfig/oauth-config.yml
+    # Load Twitter Credentials from comfig/oauth-config.yml
     credentials = loadOAuthConfig 'Twitter'
     #PP::pp credentials, $stderr, 50
  
@@ -73,14 +73,22 @@ class TwitterController < ApplicationController
     #PP::pp access_token, $stderr, 50
     
     # Retrieve Twitter GUID and Contacts
+    @twitterName = ''
+    @twitterId = ''
     @twitterScreenName = ''
     @twitterFriends = []
     if got_request_token and got_access_token
       @twitterScreenName = getTwitterScreenName access_token
       
-      data = getTwitterFriends access_token
-      #logger.info data
-       @twitterFriends = parseFriendsResponse data
+      userArray = getTwitterUser access_token
+      user = userArray[0]
+      #PP::pp user, $stderr, 50
+      @twitterName = user['name']
+      @twitterId = user['id_str']
+      
+      friends = getTwitterFriends access_token
+      #PP::pp friends, $stderr, 50
+      @twitterFriends = parseFriendsResponse friends
     end
     
   end
@@ -112,30 +120,24 @@ private
     screen_name = token_params[:screen_name]
     #logger.info 'Screen Name - ' + screen_name    
   end
+  
+  def getTwitterUser access_token 
+    user_id = getTwitterUserId access_token   
+    user_url = "/1/users/lookup.json?user_id=#{ user_id}"
+    response = access_token.get(user_url).body
+    data = JSON.parse(response)
+  end
 
   def getTwitterFriends access_token
-    token_params = access_token.params
-    #PP::pp token_params, $stderr, 50
-    user_id = token_params[:user_id]
-    screen_name = token_params[:screen_name]
-    #logger.info 'User Id -     ' + user_id
-    #logger.info 'Screen Name - ' + screen_name
-
+    user_id = getTwitterUserId access_token
     friends_url = "/1/friends/ids.json?cursor=-1&stringify_ids=true&user_id=#{ user_id }"
     response = access_token.get(friends_url).body
-    #PP::pp access_token, $stderr, 50
-    #PP::pp response, $stderr, 50
-    
+    data = JSON.parse(response)
    end
   
   def parseFriendsResponse data
-    
-    #PP::pp data, $stderr, 50
-    
-    result = JSON.parse(data)
-    #PP::pp result, $stderr, 50
-    
-    friends = result[ 'ids']
+        
+    friends = data[ 'ids']
     #PP::pp friends, $stderr, 50
     friends_cnt = friends.length
     
