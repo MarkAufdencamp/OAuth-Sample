@@ -1,14 +1,15 @@
 <div>
 	<h2>Yahoo User Information</h2>
 	<ul>
-		<li>Globally Unique Identifier (GUID)- <%= @guid %></li>
-		<p>The GUID is unique to each user account on Yahoo.  The GUID is retrieved after the user has authenticated on Yahoo via an Access Token at the 'http://social.yahooapis.com/v1/me/guid?format=json' URL</p>
+		<li>Yahoo GUId - <%= @yahooGUId %></li>
+		<li>Yahoo Name - <%= @yahooName %></li>
 	</ul>
+		<p>The Globally Unique Identifier (GUID) is unique to each user account on Yahoo.  The GUID is retrieved after the user has authenticated on Yahoo via an Access Token at the 'http://social.yahooapis.com/v1/me/guid?format=json' URL</p>
 	<br />
 	<h2>Contact EMail List</h2>
 	<ul>
-	<% for contact in @contacts %>
-		<li class="YahooContact"><%= contact[0] %><br /><%= contact[1] %>, <%= contact[2] %><br /> <%= contact[3] %></li>
+	<% for contact in @yahooContacts %>
+		<li class="YahooContact <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %>, <%= contact[2] %><br /> <%= contact[3] %></li>
 		<br />
 	<% end %>
 	</ul>
