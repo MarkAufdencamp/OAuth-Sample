@@ -1,21 +1,24 @@
 .UserInfo.AOL {
-	
 }
 .UserContacts.AOL {
 }
 .UserContact.AOL {
-	height: 2ex;
-	width: 10em;
+	height: 3ex;
+	width: 20em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
 }
 .UserContact.AOL.odd {
-	background-color: blue;
-}
-.UserContact.AOL.even {
+	color: blue;
 	background-color: white;
 }
+.UserContact.AOL.even {
+	color: white;
+	background-color: blue;
+}
+
 
 .UserInfo.Facebook {
-
 }
 .UserContacts.Facebook {
 }
@@ -36,34 +39,41 @@
 
 
 .UserInfo.Google {
-	
 }
 .UserContacts.Google {
 }
 .UserContact.Google {
-	height: 3ex;
-	width: 20em;
+	height: 8ex;
+	width: 40em;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;	
 }
 .UserContact.Google.odd {
+	color: blue;
 	background-color: white;
 }
 .UserContact.Google.even {
+	color: white;
 	background-color: blue;
 }
 
 
 .UserInfo.LinkedIn {
 }
-.UserContacts.LinkedIn {
+.UserConnections.LinkedIn {
 }
-.UserContact.LinkedIn {
+.UserConnection.LinkedIn {
+	height: 8ex;
+	width: 40em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
 }
-.UserContact.LinkedIn.odd {
+.UserConnection.LinkedIn.odd {
+	color: blue;
 	background-color: white;
 }
-.UserContact.LinkedIn.even {
+.UserConnection.LinkedIn.even {
+	color: white;
 	background-color: blue;
 }
 
@@ -73,44 +83,57 @@
 .UserContacts.MySpace {
 }
 .UserContact.MySpace {
+	height: 3ex;
+	width: 20em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
 }
 .UserContact.MySpace.odd {
+	color: blue;
 	background-color: white;
 }
 .UserContact.MySpace.even {
+	color: white;
 	background-color: blue;
 }
 
 
 .UserInfo.Twitter {
 }
-.UserContact.Twitter {
-	
+.UserFriends.Twitter {
 }
-.UserContact.Twitter {
-	
+.UserFriend.Twitter {
+	height: 3ex;
+	width: 20em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
 }
-.UserContact.Twitter.odd {
+.UserFriend.Twitter.odd {
+	color: blue;
 	background-color: white;
 }
-.UserContact.Twitter.even {
+.UserFriend.Twitter.even {
+	color: white;
 	background-color: blue;
 }
 
 
 .UserInfo.WindowsLive {
-	
 }
 .UserContacts.WindowsLive {
-	
 }
 .UserContact.WindowsLive {
-	
+	height: 3ex;
+	width: 20em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
 }
 .UserContact.WindowsLive.odd {
+	color: blue;
 	background-color: white;
 }
 .UserContact.WindowsLive.even {
+	color: white;
 	background-color: blue;
 }
 
@@ -119,10 +142,16 @@
 .UserContacts.Yahoo {
 }
 .UserContact.Yahoo {
+	height: 8ex;
+	width: 40em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
 }
 .UserContact.Yahoo.odd {
+	color: blue;
 	background-color: white;
 }
 .UserContact.Yahoo.even {
+	color: white;
 	background-color: blue;
 }

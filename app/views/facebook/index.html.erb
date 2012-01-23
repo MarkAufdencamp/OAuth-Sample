@@ -1,12 +1,21 @@
-<div class="ServiceHeader">
-	<div class="Service Icon">
-		<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
+<div class="Service">
+	<div class="ServiceHeader">
+		<div class="ServiceIcon">
+			<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
+		</div>
+		<div class="ServiceTitle">
+			<h1>Facebook</h1>
+		</div>
+		<div class="ServiceLinks">
+			<a href="http://developers.facebook.com/docs" target="_blank" ><h2>Documentation</h2></a>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://developers.facebook.com/apps" target="_blank" ><h2>API Keys</h2></a>
+		</div>
 	</div>
-	<h1>Facebook API</h1>
-</div>
-<div class="ServiceBody">
-	<h2>Social API's</h2>
-	<div class="ServiceFeature">
-		<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'facebook', :action=> 'authorizeFacebookAccess' %>
-	<div>
+	<div class="ServiceBody">
+		<div class="ServiceFeature">
+			<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'facebook', :action=> 'authorizeFacebookAccess' %>
+		</div>
+	</div>
 </div>

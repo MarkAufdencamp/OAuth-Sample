@@ -1,19 +1,14 @@
-<div>
+<div class="ServiceSection Twitter">
 	<h2>Twitter User Information</h2>
-	<ul>
-		<li>Twitter Screen Name - <%= @twitterScreenName %>
-		</li>
-		<li>Twitter Id- <%= @twitterId %>
-		</li>
-		<li>Twitter User Name - <%= @twitterName %>
-		</li>
-	</ul>
-	<br />
+	<div class="UserInfo Twitter">
+		<div>Twitter Screen Name - <%= @twitterScreenName %></div>
+		<div>Twitter Id- <%= @twitterId %></div>
+		<div>Twitter User Name - <%= @twitterName %></div>
+	</div>
 	<h2>Contact EMail List</h2>
-	<ul>
+	<div class="UserFriends Twitter">
 	<% for friend in @twitterFriends %>
-		<li class="TwitterFriend <%= cycle('odd', 'even')%>"><%= friend[0] %></li>
-		<br />
+		<div class="UserFriend Twitter <%= cycle('odd', 'even')%>"><%= friend[0] %></div>
 	<% end %>
-	</ul>
+	</div>
 </div>

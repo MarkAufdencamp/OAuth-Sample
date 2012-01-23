@@ -1,41 +1,69 @@
 div.ServiceHeader {
-	display: block;
-	clear: none;
-	height: 10ex;
-	width: 20em;
-	margin-left: 12em;
-	margin-right: 12em;	
-	background-color: lightblue;
-}
-div.ServiceHeader h1{
-	display: inline;
-	clear: none;
-	height: 10ex;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;
-}
-div.Service.Icon {
 	display: inline;
 	float: left;
 	clear: none;
-	width: 10em;
+	height: 12ex;
+	width: 40em;
+	background-color: lightblue;
+	border: outset;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+}
+div.ServiceIcon {
+	display: inline;
+	float: left;
+	clear: none;
+	height: 12ex;
+	margin: 0 0 0 0;
+	padding: 1ex 1em 1ex 1em;
+	overflow: hidden;
+}
+div.ServiceIcon a img {
+	display: inline;
 	height: 10ex;
+	margin: 0 1ex 0 1ex;
+	padding: 0 0 0 0;
+}
+div.ServiceTitle {
+	display: inline;
+	float: left;
+	clear: none;
+	width: 8em;
+	height: 8ex;
+	margin: 0 0 0 0;
+	padding: 2ex 0 2ex 0;
+	overflow: hidden;
+
+}
+div.ServiceLinks {
+	display: inline;
+	float: left;
+	clear: none;
+	width: 15em;
+	height: 6ex;
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
 	overflow: hidden;
+
 }
-div.Service.Icon a img {
-	display: inline;
-	height: 80%;
-	width: 80%;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;
+div.ServiceLinks h2{
+	color: #B43530;
 }
 div.ServiceBody {
-	display: block;
+	display: inline;
+	float: left;
 	clear: none;
-	margin-left: 12em;
-	margin-right: 12em;	
+	height: 40ex;
+	width: 40em;
+	border: outset;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
 }
-div.ServiceFeature{
+div.ServiceFeature {
 }
+
+

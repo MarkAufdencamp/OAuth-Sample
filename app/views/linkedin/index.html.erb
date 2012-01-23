@@ -1,12 +1,21 @@
-<div class="ServiceHeader">
-	<div class="Service Icon">
-		<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin'  %>
+<div class="Service">
+	<div class="ServiceHeader">
+		<div class="ServiceIcon">
+			<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin'  %>
+		</div>
+		<div class="ServiceTitle">
+			<h1>LinkedIn</h1>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://developer.linkedin.com/apis" target="_blank" ><h2>Documentation</h2></a>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://www.linkedin.com/secure/developer" target="_blank" ><h2>API Keys</h2></a>
+		</div>
 	</div>
-	<h1>Linked In API</h1>
-</div>
-<div class="ServiceBody">
-	<h2>Social API's</h2>
-	<div class="ServiceFeature">
-		<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'linkedin', :action=> 'authorizeLinkedInAccess' %>
+	<div class="ServiceBody">
+		<div class="ServiceFeature">
+			<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'linkedin', :action=> 'authorizeLinkedInAccess' %>
+		</div>
 	</div>
 </div>

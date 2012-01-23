@@ -3,12 +3,10 @@
 	<div class="UserInfo AOL">
 		<div>AOL UserId - <%= @guid %></div>
 	</div>
-	<br />
 	<h2>Contact EMail List</h2>
 	<div class="UserContacts AOL">
 	<% for contact in @contacts %>
 		<div class="UserContact AOL <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
-		<br />
 	<% end %>
 	</div>
 </div>

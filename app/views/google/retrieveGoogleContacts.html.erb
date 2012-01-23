@@ -1,17 +1,13 @@
-<div>
+<div class="ServiceSection Google">
 	<h2>Google User Information</h2>
-	<ul>
-		<li>Google UserId - <%= @googleId %>
-		</li>
-		<li>Google Name - <%= @googleName %>
-		</li>
-	</ul>
-	<br />
+	<div class="UserInfo Google">
+		<div>Google UserId - <%= @googleId %></div>
+		<div>Google Name - <%= @googleName %></div>
+	</div>
 	<h2>Contact EMail List</h2>
-	<ul>
+	<div class="UserContacts Google">
 	<% for contact in @googleContacts %>
-		<li class="GoogleContact <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></li>
-		<br />
+		<div class="UserContact Google <%= cycle('odd', 'even')%>"><%= contact[0] %><br/><%= contact[1] %><br/><%= contact[2] %> <%= contact[3] %></div>
 	<% end %>
-	</ul>
+	</div>
 </div>

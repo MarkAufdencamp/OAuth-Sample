@@ -8,6 +8,7 @@
   		<%= stylesheet_link_tag 'controlPanel' %>
   		<%= stylesheet_link_tag 'mainMenu' %>
   		<%= stylesheet_link_tag 'servicePanel' %>
+  		<%= stylesheet_link_tag 'user-data' %>
 	</head>
 	<body>
 		<div class="Page_Header">
@@ -18,13 +19,9 @@
 		    <%= link_to image_tag("Social-Networking-Banner.gif"), :controller => 'welcome' %>
 		  </div>
 		</div>
-<br />
 		<div class="Page_Body">
 		  <!-- Page_Body_Left -->
 		  <div class="Page_Body Page_Body_Left">
-			<div class="MainMenu MenuButton">
-			    <%= link_to "Home", :controller => 'welcome' %>
-			</div>
 			<div class="MainMenu MenuButton Passes">
 			   	<%= link_to "Facebook API", :controller => 'facebook' %>
 			</div>
@@ -49,6 +46,9 @@
 			<div class="MainMenu MenuButton Fails">
 			   	<%= link_to "AOL API", :controller => 'aol' %>
 			</div>
+			<div class="MainMenu MenuButton">
+			    <%= link_to "Home", :controller => 'welcome' %>
+			</div>
 		  </div>
 		  <!-- Page_Body_Left -->
 		  
@@ -60,19 +60,19 @@
 		  
 		  <div class="Page_Body Page_Body_Center">
 		  	<div class="Page_Body Flash" >
-	<% flash.each do |key, msg| %>
-	  <%= content_tag :p, msg, :class => key %>
-	<% end %>
+				<% flash.each do |key, msg| %>
+				  <%= content_tag :p, msg, :class => key %>
+				<% end %>
 			</div>
 			
-		  	<%= yield %>
+	  		<%= yield %>
 		  	
 		  </div>
 		  <!-- Page_Body_Center -->
 
 		</div>
 		<!-- Page_Body -->
-<br />
+
 		<div class="Page_Footer">
 		<p>
 		Copyright 2010, 2012 Mark Aufdencamp
