@@ -1,4 +1,5 @@
 class LinkedinController < ApplicationController
+
   layout "service"
 
 # http://developer.linkedin.com
@@ -144,8 +145,7 @@ private
       #logger.info friend_id
       linkedInConnection = []
       linkedInConnection << connection['id']
-      linkedInConnection << connection['firstName']
-      linkedInConnection << connection['lastName']
+      linkedInConnection << connection['firstName'] + " " + connection['lastName']
       linkedInConnection << connection['headline']
       linkedInConnection << connection['industry']
       linkedInConnections << linkedInConnection

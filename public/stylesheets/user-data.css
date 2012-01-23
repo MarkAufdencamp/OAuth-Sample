@@ -1,0 +1,128 @@
+.UserInfo.AOL {
+	
+}
+.UserContacts.AOL {
+}
+.UserContact.AOL {
+	height: 2ex;
+	width: 10em;
+}
+.UserContact.AOL.odd {
+	background-color: blue;
+}
+.UserContact.AOL.even {
+	background-color: white;
+}
+
+.UserInfo.Facebook {
+
+}
+.UserContacts.Facebook {
+}
+.UserContact.Facebook {
+	height: 3ex;
+	width: 20em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
+}
+.UserContact.Facebook.odd {
+	color: blue;
+	background-color: white;
+}
+.UserContact.Facebook.even {
+	color: white;
+	background-color: blue;
+}
+
+
+.UserInfo.Google {
+	
+}
+.UserContacts.Google {
+}
+.UserContact.Google {
+	height: 3ex;
+	width: 20em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;	
+}
+.UserContact.Google.odd {
+	background-color: white;
+}
+.UserContact.Google.even {
+	background-color: blue;
+}
+
+
+.UserInfo.LinkedIn {
+}
+.UserContacts.LinkedIn {
+}
+.UserContact.LinkedIn {
+}
+.UserContact.LinkedIn.odd {
+	background-color: white;
+}
+.UserContact.LinkedIn.even {
+	background-color: blue;
+}
+
+
+.UserInfo.MySpace {
+}
+.UserContacts.MySpace {
+}
+.UserContact.MySpace {
+}
+.UserContact.MySpace.odd {
+	background-color: white;
+}
+.UserContact.MySpace.even {
+	background-color: blue;
+}
+
+
+.UserInfo.Twitter {
+}
+.UserContact.Twitter {
+	
+}
+.UserContact.Twitter {
+	
+}
+.UserContact.Twitter.odd {
+	background-color: white;
+}
+.UserContact.Twitter.even {
+	background-color: blue;
+}
+
+
+.UserInfo.WindowsLive {
+	
+}
+.UserContacts.WindowsLive {
+	
+}
+.UserContact.WindowsLive {
+	
+}
+.UserContact.WindowsLive.odd {
+	background-color: white;
+}
+.UserContact.WindowsLive.even {
+	background-color: blue;
+}
+
+.UserInfo.Yahoo {
+}
+.UserContacts.Yahoo {
+}
+.UserContact.Yahoo {
+}
+.UserContact.Yahoo.odd {
+	background-color: white;
+}
+.UserContact.Yahoo.even {
+	background-color: blue;
+}
