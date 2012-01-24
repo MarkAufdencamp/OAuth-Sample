@@ -16,17 +16,22 @@ class FacebookController < ApplicationController
 # After a token has been acquired, one may utilize the Facebook API to access permitted components. i.e. User, FriendList
 
   def authorizeFacebookAccess
-    # Retrieve Request Token from Yahoo and Re-Direct to Yahoo for Authentication
-    credentials = loadOAuthConfig 'Facebook'
+    # Retrieve Request Token from Facebook and Re-Direct to Facebook for Authentication
+    begin
+      credentials = loadOAuthConfig 'Facebook'
+    rescue
+    end
     #logger.info 'Service URL - ' + credentials['Service URL']
     #logger.info 'App ID - ' + credentials['App ID']
     #logger.info 'App Secret - ' + credentials['App Secret']
     
-    auth_client = getAuthClient credentials
-    auth_url = auth_client.auth_code.authorize_url( :redirect_uri => credentials['Callback URL'] )
-    auth_scope = "scope=user_about_me,friends_about_me"
-    url = "#{credentials['Service URL']}?client_id=#{credentials['App ID']}&#{auth_scope}&redirect_uri=#{credentials['Callback URL']}"
-    redirect_to url
+    if credentials
+      auth_scope = "scope=user_about_me,friends_about_me"
+      url = "#{credentials['Service URL']}?client_id=#{credentials['App ID']}&#{auth_scope}&redirect_uri=#{credentials['Callback URL']}"
+      redirect_to url
+    else
+      redirect_to :action => :index
+    end
 
   end
   
@@ -63,20 +68,14 @@ class FacebookController < ApplicationController
       @facebookFriends = getFacebookFriends access_token
       #logger.info @facebookFriends
       
-   end
-
-
-
+    end
+    
+    def auth_error
+      
+    end
   end
 
 private
-
-  
-  def getAuthClient credentials
-
-    OAuth2::Client.new( credentials['App ID'], credentials['App Secret'], :site => credentials['Service URL'] )
-    
-  end
       
   def getAppAccessToken access_code
     credentials = loadOAuthConfig 'Facebook'
