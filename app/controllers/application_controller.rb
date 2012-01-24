@@ -25,7 +25,18 @@ class ApplicationController < ActionController::Base
 
   def loadOAuthConfig serviceName
     credentials = Hash.new
-    authKeys = YAML::load_file("#{RAILS_ROOT}/config/oauth-key.yml") [RAILS_ENV]
+    oauthFilename = "#{RAILS_ROOT}/config/oauth-key.yml"
+    #logger.info RAILS_ROOT
+    #logger.info "#{RAILS_ROOT}/config/oauth-key.yml"
+    begin
+      authKeys = YAML::load_file(oauthFilename) [RAILS_ENV]
+    rescue
+      errorMsg = "YAML load failed. Expected file - " + oauthFilename
+      logger.info errorMsg
+      flash[:error_description] = errorMsg
+      Kernel::raise errorMsg
+    end
+    
     authKeys.each_key do | key |
       if key[serviceName]
         # Facebook

@@ -13,23 +13,34 @@ class GoogleController < ApplicationController
 
   def authorizeGoogleAccess
     # Retrieve Request Token from Google and Re-Direct to Google for Authentication
-    credentials = loadOAuthConfig 'Google'
+    begin
+      credentials = loadOAuthConfig 'Google'
+    rescue
+    end
     #logger.info 'Service URL - ' + credentials['Service URL']
     #logger.info 'Consumer Key - ' + credentials['Consumer Key']
     #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
-    auth_consumer = getAuthConsumer credentials
-    
-    auth_scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.google.com/m8/feeds/'
-    request_token = auth_consumer.get_request_token({:oauth_callback => credentials['Callback URL'] }, {:scope => auth_scope})
-    if request_token.callback_confirmed?
-      #Store Token and Secret to Session
-      session[:request_token] = request_token.token
-      session[:request_token_secret] = request_token.secret
-      # Redirect to Yahoo Authorization
-      redirect_to request_token.authorize_url  
-    else    
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from Google'            
+    if credentials
+      auth_consumer = getAuthConsumer credentials  
+      auth_scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.google.com/m8/feeds/'
+      request_token = auth_consumer.get_request_token({:oauth_callback => credentials['Callback URL'] }, {:scope => auth_scope})
+      if request_token.callback_confirmed?
+        #Store Token and Secret to Session
+        session[:request_token] = request_token.token
+        session[:request_token_secret] = request_token.secret
+        # Redirect to Yahoo Authorization
+        got_request_token = true  
+      else 
+        flash.now[:error] = 'Error Retrieving OAuth Request Token from Google'
+      end           
     end
+    
+    if credentials and got_request_token
+      redirect_to request_token.authorize_url  
+    else
+      redirect_to :action => :index
+    end
+    
   end
   
   def retrieveGoogleContacts

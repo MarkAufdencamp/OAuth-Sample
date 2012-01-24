@@ -1,4 +1,5 @@
 class TwitterController < ApplicationController
+  
   layout "service"
   
 # https://dev.twitter.com/
@@ -10,22 +11,33 @@ class TwitterController < ApplicationController
 
   def authorizeTwitterAccess
     # Retrieve Request Token from Twitter and Re-Direct to Twitter for Authentication
-    credentials = loadOAuthConfig 'Twitter'
+    begin
+      credentials = loadOAuthConfig 'Twitter'
+    rescue
+    end
     #logger.info 'Service URL - ' + credentials['Service URL']
     #logger.info 'Consumer Key - ' + credentials['Consumer Key']
     #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
-    auth_consumer = getAuthConsumer credentials
-    #PP::pp auth_consumer, $stderr, 50
     
-    request_token = auth_consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
-    if request_token.callback_confirmed?
-      #Store Token and Secret to Session
-      session[:request_token] = request_token.token
-      session[:request_token_secret] = request_token.secret
-      # Redirect to Twitter Authorization
+    if credentials
+      auth_consumer = getAuthConsumer credentials
+      #PP::pp auth_consumer, $stderr, 50
+      request_token = auth_consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
+      if request_token.callback_confirmed?
+        #Store Token and Secret to Session
+        session[:request_token] = request_token.token
+        session[:request_token_secret] = request_token.secret
+        # Redirect to Twitter Authorization
+        got_request_token = true
+      else
+        flash.now[:error] = 'Error Retrieving OAuth Request Token from Twitter'
+      end        
+    end
+    
+    if credentials and got_request_token
       redirect_to request_token.authorize_url  
-    else    
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from Twitter'            
+    else
+      redirect_to :action => :index
     end
 
   end

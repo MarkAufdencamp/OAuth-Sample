@@ -14,24 +14,34 @@ class LinkedinController < ApplicationController
 
   def authorizeLinkedInAccess
     # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication
-    credentials = loadOAuthConfig 'LinkedIn'
+    begin
+      credentials = loadOAuthConfig 'LinkedIn'
+    rescue
+    end
     #logger.info 'Service URL - ' + credentials['Service URL']
     #logger.info 'Consumer Key - ' + credentials['Consumer Key']
     #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
-    auth_consumer = getAuthConsumer credentials
-    #PP::pp auth_consumer, $stderr, 50
     
-    request_token = auth_consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
-    if request_token.callback_confirmed?
-      #Store Token and Secret to Session
-      session[:request_token] = request_token.token
-      session[:request_token_secret] = request_token.secret
-      # Redirect to LinkedIn Authorization
-      redirect_to request_token.authorize_url  
-    else    
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from LinkedIn'            
+    if credentials
+      auth_consumer = getAuthConsumer credentials
+      #PP::pp auth_consumer, $stderr, 50
+      request_token = auth_consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
+      if request_token.callback_confirmed?
+        #Store Token and Secret to Session
+        session[:request_token] = request_token.token
+        session[:request_token_secret] = request_token.secret
+        # Redirect to LinkedIn Authorization
+        got_request_token = true
+      else    
+        flash.now[:error] = 'Error Retrieving OAuth Request Token from LinkedIn'            
+      end
     end
-
+    
+    if credentials and got_request_token
+      redirect_to request_token.authorize_url  
+    else
+      redirect_to :action => :index
+    end
 
   end
   
