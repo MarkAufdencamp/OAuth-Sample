@@ -1,0 +1,4 @@
+class FacebookSocialService < SocialService
+  
+  
+end

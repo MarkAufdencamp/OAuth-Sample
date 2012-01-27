@@ -1,0 +1,4 @@
+class LinkedInSocialService < SocialService
+  
+  
+end

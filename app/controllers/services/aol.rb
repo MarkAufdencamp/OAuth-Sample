@@ -1,0 +1,4 @@
+class AolSocialService < SocialService
+  
+  
+end

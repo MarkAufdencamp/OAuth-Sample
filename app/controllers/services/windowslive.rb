@@ -1,0 +1,4 @@
+class WindowsLiveSocialService < SocialService
+  
+  
+end

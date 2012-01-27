@@ -1,0 +1,4 @@
+class TwitterSocialService < SocialService
+  
+  
+end

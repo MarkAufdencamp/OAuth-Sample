@@ -1,0 +1,4 @@
+class GoogleSocialService < SocialService
+  
+  
+end

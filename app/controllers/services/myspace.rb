@@ -1,0 +1,4 @@
+class MySpaceSocialService < SocialService
+  
+  
+end

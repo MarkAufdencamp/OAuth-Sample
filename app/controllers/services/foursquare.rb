@@ -1,0 +1,4 @@
+class FourSquareSocialService < SocialService
+  
+  
+end

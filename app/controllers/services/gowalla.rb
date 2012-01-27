@@ -1,0 +1,4 @@
+class GowallaSocialService < SocialService
+  
+  
+end
