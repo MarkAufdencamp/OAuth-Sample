@@ -1,12 +1,18 @@
-<div class="ServiceSection AOL">
-	<h2>AOL User Information</h2>
-	<div class="UserInfo AOL">
-		<div>AOL UserId - <%= @guid %></div>
+<div class="Service">
+	<div class="ServiceHeader AOL">
+		<h2>AOL User Information</h2>
+		<div class="UserInfo AOL">
+			<div>AOL UserId - <%= @guid %></div>
+			<br/>
+			<br/>
+		</div>
+		<h2>AOL EMail Address Book</h2>
 	</div>
-	<h2>Contact EMail List</h2>
-	<div class="UserContacts AOL">
-	<% for contact in @contacts %>
-		<div class="UserContact AOL <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
-	<% end %>
+	<div class="ServiceBody AOL">
+		<div class="UserContacts AOL">
+		<% for contact in @contacts %>
+			<div class="UserContact AOL <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
+		<% end %>
+		</div>
 	</div>
 </div>

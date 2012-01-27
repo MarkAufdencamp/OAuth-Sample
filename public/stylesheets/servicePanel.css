@@ -2,14 +2,28 @@ div.ServiceHeader {
 	display: inline;
 	float: left;
 	clear: none;
-	height: 12ex;
+	height: 16ex;
 	width: 40em;
 	background-color: #B4D5E5;
 	border: outset;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-o-border-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+div.ServiceHeader h1 {
+	color: #B79DB7;
+	color: #DE8992;
+	text-align: center;
+	margin: 1ex auto 0 auto;
+}
+div.ServiceHeader h2 {
+	color: #B79DB7;
+	color: #DE8992;
+	text-align: center;
+	margin: 1ex auto 0 auto;
 }
 div.ServiceIcon {
 	display: inline;
@@ -55,13 +69,16 @@ div.ServiceBody {
 	display: inline;
 	float: left;
 	clear: none;
-	height: 40ex;
+	height: 56ex;
 	width: 40em;
+	background-color: #B4D5E5;
 	border: outset;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-o-border-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
 }
 div.ServiceFeature {
 }

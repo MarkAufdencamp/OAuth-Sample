@@ -1,13 +1,18 @@
-<div class="ServiceSection WindowsLive">
-	<h2>Windows Live User Information</h2>
-	<div class="UserInfo WindowsLive">
-		<div>Windows Live UserId - <%= @windowsLiveId %></div>
-		<div>Windows Live UserName - <%= @windowsLiveName %></div>
+<div class="Service">
+	<div class="ServiceHeader WindowsLive">
+		<h2>Windows Live User Information</h2>
+		<div class="UserInfo WindowsLive">
+			<div>Windows Live UserId - <%= @windowsLiveId %></div>
+			<div>Windows Live UserName - <%= @windowsLiveName %></div>
+			<br/>
+		</div>
+		<h2>Hotmail EMail Adress Book</h2>
 	</div>
-	<h2>Contact EMail List</h2>
-	<div class="UserContacts WindowsLive">
-	<% for contact in @windowsLiveContacts %>
-		<div class="UserContact WindowsLive <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
-	<% end %>
+	<div class="ServiceBody WindowsLive">  
+		<div class="UserContacts WindowsLive">
+		<% for contact in @windowsLiveContacts %>
+			<div class="UserContact WindowsLive <%= cycle('odd', 'even')%>"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
+		<% end %>
+		</div>
 	</div>
 </div>

@@ -1,20 +1,63 @@
+.UserInfo {
+	border-bottom: solid;
+}
+.UserContacts {
+	overflow: scroll;
+	height: 55ex;
+	padding: .5ex 0 .5ex 0;
+}
+.UserFriends {
+	overflow: scroll;
+	height: 55ex;
+	padding: .5ex 0 .5ex 0;
+}
+.UserConections {
+	overflow: scroll;
+	height: 55ex;
+	padding: .5ex 0 .5ex 0;
+}
+
+.UserContact {
+	width: 37em;
+	margin: 0 .5em 0 .5em;
+	padding: .5ex .5em .5ex .5em;
+}
+.UserFriend {
+	width: 37em;
+	margin: 0 .5em 0 .5em;
+	padding: .5ex .5em .5ex .5em;
+}
+.UserConnection {
+	width: 37em;
+	margin: 0 .5em 0 .5em;
+	padding: .5ex .5em .5ex .5em;
+}
+
+
+.odd {
+	color: #0DB14B;
+	background-color: white;
+}
+.even {
+	color: white;
+	background-color: #0DB14B;	
+}
+
+.UserInfo.Sample {
+}
+.UserContacts.Sample {
+}
+.UserContact.Sample {
+	height: 3ex;
+}
+
+
 .UserInfo.AOL {
 }
 .UserContacts.AOL {
 }
 .UserContact.AOL {
 	height: 3ex;
-	width: 20em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserContact.AOL.odd {
-	color: blue;
-	background-color: white;
-}
-.UserContact.AOL.even {
-	color: white;
-	background-color: blue;
 }
 
 
@@ -24,17 +67,6 @@
 }
 .UserContact.Facebook {
 	height: 3ex;
-	width: 20em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserContact.Facebook.odd {
-	color: blue;
-	background-color: white;
-}
-.UserContact.Facebook.even {
-	color: white;
-	background-color: blue;
 }
 
 
@@ -44,17 +76,6 @@
 }
 .UserContact.Google {
 	height: 8ex;
-	width: 40em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserContact.Google.odd {
-	color: blue;
-	background-color: white;
-}
-.UserContact.Google.even {
-	color: white;
-	background-color: blue;
 }
 
 
@@ -63,18 +84,7 @@
 .UserConnections.LinkedIn {
 }
 .UserConnection.LinkedIn {
-	height: 8ex;
-	width: 40em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserConnection.LinkedIn.odd {
-	color: blue;
-	background-color: white;
-}
-.UserConnection.LinkedIn.even {
-	color: white;
-	background-color: blue;
+	height: 10ex;
 }
 
 
@@ -84,17 +94,6 @@
 }
 .UserContact.MySpace {
 	height: 3ex;
-	width: 20em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserContact.MySpace.odd {
-	color: blue;
-	background-color: white;
-}
-.UserContact.MySpace.even {
-	color: white;
-	background-color: blue;
 }
 
 
@@ -104,17 +103,6 @@
 }
 .UserFriend.Twitter {
 	height: 3ex;
-	width: 20em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserFriend.Twitter.odd {
-	color: blue;
-	background-color: white;
-}
-.UserFriend.Twitter.even {
-	color: white;
-	background-color: blue;
 }
 
 
@@ -124,18 +112,8 @@
 }
 .UserContact.WindowsLive {
 	height: 6ex;
-	width: 20em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
 }
-.UserContact.WindowsLive.odd {
-	color: blue;
-	background-color: white;
-}
-.UserContact.WindowsLive.even {
-	color: white;
-	background-color: blue;
-}
+
 
 .UserInfo.Yahoo {
 }
@@ -143,15 +121,4 @@
 }
 .UserContact.Yahoo {
 	height: 8ex;
-	width: 40em;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;	
-}
-.UserContact.Yahoo.odd {
-	color: blue;
-	background-color: white;
-}
-.UserContact.Yahoo.even {
-	color: white;
-	background-color: blue;
 }

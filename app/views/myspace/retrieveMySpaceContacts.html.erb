@@ -1,12 +1,18 @@
-<div class="ServiceSection MySpace">
-	<h2>MySpace User Information</h2>
-	<div class="UserInfo MySpace">
-		<div>MySpace UserId - <%= @guid %></div>
+<div class="Service">
+	<div class="ServiceHeader MySpace">
+		<h2>MySpace User Information</h2>
+		<div class="UserInfo MySpace">
+			<div>MySpace UserId - <%= @guid %></div>
+			<br/>
+			<br/>
+		</div>
+		<h2>MySpace Friend List</h2>
 	</div>
-	<h2>Contact EMail List</h2>
-	<div class="UserContacts MySpace">
-	<% for contact in @contacts %>
-		<div class="UserContact MySpace"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
-	<% end %>
+	<div class="ServiceBody MySpace">  
+		<div class="UserContacts MySpace">
+		<% for contact in @contacts %>
+			<div class="UserContact MySpace"><%= contact[0] %><br /><%= contact[1] %><br /><%= contact[2] %><br /><%= contact[3] %></div>
+		<% end %>
+		</div>
 	</div>
 </div>

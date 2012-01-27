@@ -1,13 +1,18 @@
-<div class="ServiceSection Facebook">
-	<h2>Facebook User Information</h2>
-	<div class="UserInfo Facebook">
-		<div>Facebook UserId - <%= @facebookId %></div>
-		<div>Facebook Name - <%= @facebookName %></div>
+<div class="Service">
+	<div class="ServiceHeader Facebook">
+		<h1>Facebook User Information</h1>
+		<div class="UserInfo Facebook">
+			<div>Facebook UserId - <%= @facebookId %></div>
+			<div>Facebook Name - <%= @facebookName %></div>
+			<br/>
+		</div>
+		<h2>Facebook Friends List</h2>
 	</div>
-	<h2>Contact EMail List</h2>
-	<div class="UserContacts Facebook">
-	<% for contact in @facebookFriends %>
-		<div class="UserContact Facebook <%= cycle('odd', 'even')%>"><%= contact[0] %> - <%= contact[1] %></div>
-	<% end %>
+	<div class="ServiceBody Facebook">  
+		<div class="UserContacts Facebook">
+		<% for contact in @facebookFriends %>
+			<div class="UserContact Facebook <%= cycle('odd', 'even')%>"><%= contact[0] %> - <%= contact[1] %></div>
+		<% end %>
+		</div>
 	</div>
 </div>

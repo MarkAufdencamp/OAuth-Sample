@@ -1,13 +1,18 @@
-<div class="ServiceSection LinkedIn">
-	<h2>LinkedIn User Information</h2>
-	<div class="UserInfo LinkedIn">
-		<div>LinkedIn User Id - <%= @linkedInId %></div>
-		<div>LinkedIn User Name - <%= @linkedInName %></div>
+<div class="Service">
+	<div class="ServiceHeader LinkedIn">
+		<h2>LinkedIn User Information</h2>
+		<div class="UserInfo LinkedIn">
+			<div>LinkedIn User Id - <%= @linkedInId %></div>
+			<div>LinkedIn User Name - <%= @linkedInName %></div>
+			<br/>
+		</div>
+		<h2>LinkedIn Connections List</h2>
 	</div>
-	<h2>Connections List</h2>
-	<div class="UserConections LinkedIn">
-	<% for connection in @linkedInConnections %>
-		<div class="UserConnection LinkedIn <%= cycle('odd', 'even')%>"><%= connection[0] %><br /><%= connection[1] %><br /><%= connection[2] %><br /><%= connection[3] %></div>
-	<% end %>
+	<div class="ServiceBody LinkedIn">  
+		<div class="UserConections LinkedIn">
+		<% for connection in @linkedInConnections %>
+			<div class="UserConnection LinkedIn <%= cycle('odd', 'even')%>"><%= connection[0] %><br /><%= connection[1] %><br /><%= connection[2] %><br /><%= connection[3] %></div>
+		<% end %>
+		</div>
 	</div>
 </div>
