@@ -1,0 +1,18 @@
+<div class="Service">
+	<div class="ServiceHeader Sample">
+	  <h1>Sample User Information</h1>
+	  <div class="UserInfo Sample">
+	    <div>Sample UserId - <%= @sampleId %></div>
+	    <div>Sample Name - <%= @sampleName %></div>
+	    <br/>
+	  </div>  
+	  <h2>Sample Contacts List</h2>
+	</div>
+	<div class="ServiceBody Sample">  
+	  <div class="UserContacts Sample">
+	  <% for contact in @sampleContacts %>
+	    <div class="UserContact Sample <%= cycle('odd', 'even')%>"><%= contact[0] %> - <%= contact[1] %></div>
+	  <% end %>
+	  </div>  
+	</div>
+</div>
