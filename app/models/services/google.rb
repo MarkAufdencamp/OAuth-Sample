@@ -74,7 +74,7 @@ class GoogleSocialService < SocialService
     uri = URI.parse(url)
     headers = {
       'Host' => 'accounts.google.com',
-      'Referer' => 'http://localhost:3000/google/retrieveGoogleContacts',
+      'Referer' => credentials['Callback URL'],
       'Content-Type' => 'application/x-www-form-urlencoded'
     }
 
