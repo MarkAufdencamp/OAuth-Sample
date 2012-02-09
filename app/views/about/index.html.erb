@@ -1,0 +1,48 @@
+<img src="http://www.gravatar.com/avatar/181451e9c2a7ebbcd6ae28cea81146c8.png" />
+<div>
+<p>
+	OAuth-Sample has been designed and develeoped by Mark Aufdencamp with assistance from Tracy Marcom.
+	This was our attempt at constructing our own Rails application utilizing an adaptive design style with CSS.
+	Various social network sites providing OAuth support are featured with options for authorizing, revoking, and accessing data from the site.
+	The code is publicly available at GitHub - https://github.com/MarkAufdencamp/OAuth-Sample.
+</p>
+<br />
+<p>
+	Adaptive CSS design is possible, but requires expertise and hard work.
+	The home landing page with a Control Panel look and feel seems to have captured the "Adaptive Design" label, but we need further work on the ServicePanel's. 
+</p>
+<br />
+<p>
+	We initially encoded access to the social service inside controller methods for ease of learning.
+	We plan on continuing to re-factor the service access from the controllers into a SocialService model class as we have with the GoogleSocialService model class
+	We've incorporated most access via class methods and I'm sure will refactor over time into an instance object.	
+</p>
+<br />
+<p>	
+	We've learned a great deal about OAuth, Ruby, Rails, Passenger, Capistrano, and CSS developing this project.
+	We still need to learn how to Cucumber/RSpec this development to accomplish a TDD status.
+	Learning how to generate a new ca-certificates file wasn't anything I had on my wish list, but thanks to Twitter's SSL Cert uzilizing a new Verisign CA, we learned the Debian way of ca-certificates generation
+</p>
+<br />
+<p>
+	Learning OAuth is an endeavor, but accomplishable with the right knowledge and tools.
+	It's important to understand the "Authorization" process, with a resulting "Code" unique to the user.
+	This includes a redirect from our site to the service, and a corresponding redirect by the service back to our site.
+	This "AuthorizatioCode" can then be exchanged for an "AccessToken" which must be passed with each API request to the service.
+	OAuth v1 Requires a two step exchange of a "RequestToken" to an "AccessToken".
+	Token's expire, AuthorizationCode's can be revoked by the service/user.
+	Store the "AuthorizationCode" with your User's credentials.
+</p>
+<br />
+<p>
+	oauth-key.yml, git, GitHub, cap deploy
+</p>
+<br />
+<p>
+	Add Authlogic Gem.
+	Add OpenId Support.
+	Remove "AuthorizationCode" from Session Storage and persist in Users model.
+	Add Email Signup Confirmation
+	Add Password Reset for Local User Acounts
+</p>
+</div>

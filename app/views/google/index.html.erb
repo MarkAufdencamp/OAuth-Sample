@@ -16,39 +16,39 @@
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
 			<% if session[:googleAuthCode] %>
-				<div class="ControlPanel MenuItem Fails">	
-					<div class="ControlPanel MenuItemIcon">
-					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServiceIcon"), :controller=> 'google', :action=> 'revokeGoogleAccess' %>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'revokeGoogleAccess' %>
 					</div>
-					<div class="ControlPanel MenuItemTitle">
+					<div class="ServicePanel MenuItemTitle">
 					<%= link_to "Revoke Google Access", :controller => 'google', :action=> 'revokeGoogleAccess' %>	
 					</div>
 				</div>
-				<div class="ControlPanel MenuItem Passes">
-					<div class="ControlPanel MenuItemIcon">
-					<%= link_to image_tag("contacts-256Px-012.png", :class => "icon"), :controller=> 'google', :action=> 'retrieveGoogleContacts' %>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'retrieveGoogleContacts' %>
 					</div>
-					<div class="ControlPanel MenuItemTitle">
+					<div class="ServicePanel MenuItemTitle">
 					<%= link_to "Retrieve Google Contacts", :controller => 'google', :action=> 'retrieveGoogleContacts' %>	
 					</div>
 				</div>
 			<% else %>
-				<div class="ControlPanel MenuItem Passes">	
-					<div class="ControlPanel MenuItemIcon">
-					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "icon"), :controller=> 'google', :action=> 'authorizeGoogleAccess' %>
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'authorizeGoogleAccess' %>
 					</div>
-					<div class="ControlPanel MenuItemTitle">
+					<div class="ServicePanel MenuItemTitle">
 					<%= link_to "Authorize Google Access", :controller => 'google', :action=> 'authorizeGoogleAccess' %>	
 					</div>
 				</div>
 			<% end %>
-				<div class="ControlPanel MenuItem Passes">	
-					<div class="ControlPanel MenuItemIcon">
-					<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "icon"), :controller=> 'google', :action=> 'authorizationStatus' %>
-					</div>
-					<div class="ControlPanel MenuItemTitle">
-					<%= link_to "Google Authorization Status", :controller => 'google', :action=> 'authorizationStatus' %>	
-					</div>
+			<div class="ServicePanel MenuItem Green">	
+				<div class="ServicePanel MenuItemIcon">
+				<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'authorizationStatus' %>
 				</div>
+				<div class="ServicePanel MenuItemTitle">
+				<%= link_to "Google Authorization Status", :controller => 'google', :action=> 'authorizationStatus' %>	
+				</div>
+			</div>
 	</div>
 </div>

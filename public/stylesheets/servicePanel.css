@@ -83,4 +83,38 @@ div.ServiceBody {
 div.ServiceFeature {
 }
 
+div.ServicePanel.MenuItem {
+	display: inline;
+	float: left;
+	clear: none;
+	width: 10em;
+	height: 20ex;
+	overflow: hidden;
+	border: outset;
+	margin: 1.5ex 1.25em 1.5ex 1.25em;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+}
+div.ServicePanel.MenuItem.Green {
+	background-color: #0DB14B;
+}
+div.ServicePanel.MenuItem.Red {
+	background-color: #DE8992;
+}
+div.ServicePanel.MenuItemTitle {
+	width: 60%;
+	margin: 1ex 20% 1ex 20%;
+}
+div.ServicePanel.MenuItemIcon {
+	width: 6em;
+	margin: 1ex auto 1ex auto;
+}
+div.ServicePanel.MenuItemIcon a img {
+/*	border: double;*/
+	width: 60%;
+	margin: 1ex 20% 1ex 20%;
+}
+
 
