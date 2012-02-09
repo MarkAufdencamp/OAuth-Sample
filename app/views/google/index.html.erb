@@ -10,12 +10,45 @@
 			<a href="http://code.google.com/apis" target="_blank" ><h2>Documentation</h2></a>
 		</div>
 		<div class="ServiceLinks">
-			<a href="https://accounts.google.com/ManageDomains" target="_blank" ><h2>API Keys</h2></a>
+			<a href="https://code.google.com/apis/console/" target="_blank" ><h2>API Keys</h2></a>
 		</div>
 	</div>
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
-			<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'google', :action=> 'authorizeGoogleAccess' %>
-		</div>
+			<% if session[:googleAuthCode] %>
+				<div class="ControlPanel MenuItem Fails">	
+					<div class="ControlPanel MenuItemIcon">
+					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServiceIcon"), :controller=> 'google', :action=> 'revokeGoogleAccess' %>
+					</div>
+					<div class="ControlPanel MenuItemTitle">
+					<%= link_to "Revoke Google Access", :controller => 'google', :action=> 'revokeGoogleAccess' %>	
+					</div>
+				</div>
+				<div class="ControlPanel MenuItem Passes">
+					<div class="ControlPanel MenuItemIcon">
+					<%= link_to image_tag("contacts-256Px-012.png", :class => "icon"), :controller=> 'google', :action=> 'retrieveGoogleContacts' %>
+					</div>
+					<div class="ControlPanel MenuItemTitle">
+					<%= link_to "Retrieve Google Contacts", :controller => 'google', :action=> 'retrieveGoogleContacts' %>	
+					</div>
+				</div>
+			<% else %>
+				<div class="ControlPanel MenuItem Passes">	
+					<div class="ControlPanel MenuItemIcon">
+					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "icon"), :controller=> 'google', :action=> 'authorizeGoogleAccess' %>
+					</div>
+					<div class="ControlPanel MenuItemTitle">
+					<%= link_to "Authorize Google Access", :controller => 'google', :action=> 'authorizeGoogleAccess' %>	
+					</div>
+				</div>
+			<% end %>
+				<div class="ControlPanel MenuItem Passes">	
+					<div class="ControlPanel MenuItemIcon">
+					<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "icon"), :controller=> 'google', :action=> 'authorizationStatus' %>
+					</div>
+					<div class="ControlPanel MenuItemTitle">
+					<%= link_to "Google Authorization Status", :controller => 'google', :action=> 'authorizationStatus' %>	
+					</div>
+				</div>
 	</div>
 </div>

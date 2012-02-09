@@ -18,7 +18,6 @@ class GoogleController < ApplicationController
 
 
   def authorizeGoogleAccess
-
     begin
       url = GoogleSocialService.getAuthCodeURL
       redirect_to url
@@ -26,34 +25,32 @@ class GoogleController < ApplicationController
       flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
-
-
   end
 
   
-  def googleAccessAuthorized
-
-    # Test the referrer?
-    
+  def authorizationStatus
+    # Test the referrer?    
     if(params[:code] and params[:code] != '')
-      authCode = params[:code]
       # Store User Authoization Code
-      # =authCode
-    else
-      flash[:error] = params[:error]
-      redirect_to :auth_error
+      session[:googleAuthCode] = params[:code]
     end
-    
+    if !session[:googleAuthCode]
+      flash[:error] = params[:error]
+    end
   end
 
-
+  def revokeGoogleAccess
+      session[:googleAuthCode] = nil
+      redirect_to :action => :index    
+  end
+  
   def retrieveGoogleContacts
     
     #PP::pp params, $stderr, 50
     
     got_access_token = false
-    if(params[:code] and params[:code] != '')
-      authCode = params[:code]
+    if(session[:googleAuthCode])
+      authCode = session[:googleAuthCode]
       access_token = GoogleSocialService.getAccessToken authCode
       #PP::pp access_token, $stderr, 50
       #oauth2AccessToken = GoogleSocialService.getOAuth2AccessToken authCode
@@ -61,20 +58,8 @@ class GoogleController < ApplicationController
       got_access_token = true
     else
       flash[:error] = params[:error]
-      redirect_to :auth_error
-    end
-
-    #got_access_token = false
-    # Retrieve User Authorization Code
-    #authCode = 
-    #if authCode
-    #  access_token = GoogleSocialService.getAccessToken auth_code
-    #  got_access_token = true
-    #else
-    #  flash[:error] = params[:error]
-    #  redirect_to :auth_error
-    #end
- 
+      redirect_to :action => :googleAccessDenied
+    end 
      
     # Retrieve Google GUID and Contacts
     @googleId = ''
@@ -91,7 +76,7 @@ class GoogleController < ApplicationController
 
   end
   
-  def auth_error
+  def googleAccessDenied
     
   end
 

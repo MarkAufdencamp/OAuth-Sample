@@ -161,7 +161,7 @@ class GoogleSocialService < SocialService
   
   def self.parseGoogleContacts contacts
     googleContacts = []
-    PP::pp contacts, $stderr, 50
+    #PP::pp contacts, $stderr, 50
     contacts_cnt = contacts.length
     for cnt in 0..contacts_cnt-1 do
       contact = contacts[cnt]
@@ -185,8 +185,7 @@ class GoogleSocialService < SocialService
       if contact['gd$email']
         gdEMail = contact['gd$email']
         contact_address = gdEMail[0]['address']
-        PP::pp gdEMail[0], $stderr, 50
-        #gdAddress
+        #PP::pp gdEMail[0], $stderr, 50
       end
       
       contact_Phone = ""

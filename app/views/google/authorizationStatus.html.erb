@@ -1,0 +1,41 @@
+<div class="Service">
+	<div class="ServiceHeader">
+		<div class="ServiceIcon">
+			<%= link_to image_tag("google-logo.jpg"), :controller => 'google'  %>
+		</div>
+		<div class="ServiceTitle">
+			<h1>Google</h1>
+		</div>
+		<div class="ServiceLinks">
+			<a href="http://code.google.com/apis" target="_blank" ><h2>Documentation</h2></a>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://code.google.com/apis/console/" target="_blank" ><h2>API Keys</h2></a>
+		</div>
+	</div>
+	<div class="ServiceBody">
+		<div class="ServiceFeature">
+			<% if session[:googleAuthCode] %>
+				<div class="ControlPanel MenuItem Passes">
+					<div class="ControlPanel MenuItemIcon">
+					<%= link_to image_tag("authorized-256Px-146.png", :class => "icon"), :controller=> 'google', :action=> 'index' %>
+					</div>
+					<div class="ControlPanel MenuItemTitle">
+					<%= link_to "Google Access Authorized", :controller => 'google', :action=> 'index' %>	
+					</div>
+				</div>
+						
+			<% else %>
+				<div class="ControlPanel MenuItem Fails">	
+					<div class="ControlPanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "icon"), :controller=> 'google', :action=> 'index' %>
+					</div>
+					<div class="ControlPanel MenuItemTitle">
+					<%= link_to "Google Access Denied", :controller => 'google', :action=> 'index' %>	
+					</div>
+				</div>
+						
+			<% end %>
+		</div>
+	</div>
+</div>
