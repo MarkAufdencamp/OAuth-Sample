@@ -15,7 +15,41 @@
 	</div>
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
-			<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'linkedin', :action=> 'authorizeLinkedInAccess' %>
+			<% if session[:linkedInAccessToken] %>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'linkedin', :action=> 'revokeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Revoke LinkedIn Access", :controller => 'linkedin', :action=> 'revokeAccess' %>	
+					</div>
+				</div>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'linkedin', :action=> 'retrieveLinkedInConnections' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Retrieve LinkedIn Connections", :controller => 'linkedin', :action=> 'retrieveLinkedInConnections' %>	
+					</div>
+				</div>
+			<% else %>
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'linkedin', :action=> 'authorizeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Authorize LinkedIn Access", :controller => 'linkedin', :action=> 'authorizeAccess' %>	
+					</div>
+				</div>
+			<% end %>
+			<div class="ServicePanel MenuItem Green">	
+				<div class="ServicePanel MenuItemIcon">
+				<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'linkedin', :action=> 'authorizationStatus' %>
+				</div>
+				<div class="ServicePanel MenuItemTitle">
+				<%= link_to "LinkedIn Authorization Status", :controller => 'linkedin', :action=> 'authorizationStatus' %>	
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

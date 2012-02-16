@@ -1,0 +1,57 @@
+<div class="Service">
+	<div class="ServiceHeader">
+		<div class="ServiceIcon">
+			<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
+		</div>
+		<div class="ServiceTitle">
+			<h1>Facebook</h1>
+		</div>
+		<div class="ServiceLinks">
+			<a href="http://developers.facebook.com/docs" target="_blank" ><h2>Documentation</h2></a>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://developers.facebook.com/apps" target="_blank" ><h2>API Keys</h2></a>
+		</div>
+	</div>
+	<div class="ServiceBody">
+		<div class="ServiceFeature">
+			<% if session[:facebookAccessToken] %>
+
+				<div>
+					Facebook Access has been Authorized!  Authorization Code Stored in Session.			
+				</div>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Facebook Access Authorized - Return to Servce Panel", :controller => 'facebook', :action=> 'index' %>	
+					</div>
+				</div>						
+
+			<% else %>
+			
+				<div>
+					Facebook Access NOT Authorized! No Authorization Code.
+				</div>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Facebook Access Denied - Return to Servce Panel", :controller => 'facebook', :action=> 'index' %>	
+					</div>
+				</div>
+						
+			<% end %>
+			
+			
+		</div>
+		<div class="TokenInfo">
+			Auth Code - <%= session[:facebookAuthCode] %><br />
+			Access Token - <%= session[:facebookAccessToken] %><br />
+			Access Token Birth - <%= session[:facebookTokenBirth] %><br />
+			Access Token Life (plugged)- <%= session[:facebookTokenExpiresIn] %><br />
+		</div>
+	</div>
+</div>

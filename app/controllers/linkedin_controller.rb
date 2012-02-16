@@ -1,3 +1,5 @@
+require Rails.root.join('app', 'models', 'services', 'linkedin')
+
 class LinkedinController < ApplicationController
 
   layout "service"
@@ -12,157 +14,84 @@ class LinkedinController < ApplicationController
 # https://developer.linkedin.com/documents/connections-api
 
 
-  def authorizeLinkedInAccess
-    # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication
-    begin
-      credentials = loadOAuthConfig 'LinkedIn'
-    rescue
-    end
-    #logger.info 'Service URL - ' + credentials['Service URL']
-    #logger.info 'Consumer Key - ' + credentials['Consumer Key']
-    #logger.info 'Consumer Secret - ' + credentials['Consumer Secret']
-    
-    if credentials
-      auth_consumer = getAuthConsumer credentials
-      #PP::pp auth_consumer, $stderr, 50
-      request_token = auth_consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
-      if request_token.callback_confirmed?
-        #Store Token and Secret to Session
-        session[:request_token] = request_token.token
-        session[:request_token_secret] = request_token.secret
-        # Redirect to LinkedIn Authorization
-        got_request_token = true
-      else    
-        flash.now[:error] = 'Error Retrieving OAuth Request Token from LinkedIn'            
-      end
-    end
-    
-    if credentials and got_request_token
-      redirect_to request_token.authorize_url  
+  def authorizeAccess
+    # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication    
+    requestToken = LinkedInSocialService.requestToken
+    #PP::pp requestToken, $stderr, 50
+    if requestToken
+      session[:linkedInRequestToken] = requestToken.token
+      session[:linkedInRequestTokenSecret] = requestToken.secret
+      redirect_to requestToken.authorize_url  
     else
+      flash.now[:error] = 'Error Retrieving OAuth Request Token from LinkedIn'            
       redirect_to :action => :index
     end
-
   end
   
-  def retrieveLinkedInConnections
-    # Retrieve Token and Verifier from URL
-    oauth_token = params[:oauth_token]
-    oauth_verifier = params[:oauth_verifier]
-    #logger.info 'OAuth Token - ' + oauth_token
-    #logger.info 'OAuth Verifier - '  + oauth_verifier
-    
-    # Useful Debugging Information?
-    #flash.now[:request_token] = "Request Token - " + session[:request_token]
-    #flash.now[:request_token_secret] = "Request Token Secret - " + session[:request_token_secret]
-    #flash.now[:oauth_token] = "OAuth Token - " + oauth_token
-    #flash.now[:oauth_verifier] = "OAuth Verifier - " + oauth_verifier
-
-    # Load LinkedIn Credentials from comfig/oauth-config.yml
-    credentials = loadOAuthConfig 'LinkedIn'
-    #PP::pp credentials, $stderr, 50
- 
-    # Factory a OAuth Consumer
-    auth_consumer = getAuthConsumer credentials
-    
-    # Factory Request Token
-    got_request_token = false
-    begin
-      request_token = OAuth::RequestToken.new(auth_consumer, session[:request_token], session[:request_token_secret])
-      got_request_token = true
-    rescue
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from LinkedIn'
-    end 
-    #PP::pp request_token, $stderr, 50
-     
-    # Exchange Request Token for Access Token
-    got_access_token = false
-    if got_request_token
-      begin
-        access_token = request_token.get_access_token(:oauth_verifier => oauth_verifier)
-        got_access_token = true
-      rescue
-        flash.now[:error] = 'Error Retrieving OAuth Access Token from LinkedIn'
-      end  
+  def authorizationStatus
+    # PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
+    # Compare session[:linkedInRequestToken], params[:oauth_token]
+    if (params[:oauth_token] and params[:oauth_verifier] and !session[:linkedInAccessToken])
+      # Store User Authoization Code
+      session[:linkedInOAuthToken] = params[:oauth_token]
+      session[:linkedInVerifier] = params[:oauth_verifier]
+      session[:linkedInTokenBirth] = Time.now
+      accessToken = LinkedInSocialService.newAccessToken( session[:linkedInRequestToken], session[:linkedInRequestTokenSecret], session[:linkedInVerifier] )
+      PP::pp accessToken, $stderr, 50
+      session[:linkedInAccessToken] = accessToken.token
+      session[:linkedInAccessTokenSecret] = accessToken.secret
+      session[:linkedInExpiresIn] = accessToken.params['oauth_expires_in']
+      session[:linkedInAuthorizationExpiresIn] = accessToken.params['oauth_authorization_expires_in']
     end
-    #PP::pp access_token, $stderr, 50
+
+    if !accessToken
+      flash[:error] = params[:error]
+    end
+  end
+
+  def revokeAccess
+    # Housekeeping
+    session[:linkedInRequestToken] = nil
+    session[:linkedInRequestTokenSecret] = nil
+    session[:linkedInOAuthToken] = nil
+    # The one that really matters
+    session[:linkedInVerifier] = nil  
+    session[:linkedInAccessToken]  = nil
+    session[:linkedInAccessTokenSecret] = nil
+    
+    redirect_to :action => :index    
+  end
+
+  def accessDenied
+    
+  end
+
+  def retrieveLinkedInConnections
+    # Retrieve Token and Verifier from URL     
+    accessToken = LinkedInSocialService.accessToken(session[:linkedInAccessToken], session[:linkedInAccessTokenSecret])
+    PP::pp accessToken, $stderr, 50
   
     # Retrieve LinkedIn ID and Connections
     @linkedInId = ''
     @linkedInName = ''
     @linkedInConnections = []
-    if got_request_token and got_access_token
-      linkedInProfile = getLinkedInProfile access_token
-      #PP::pp linkedInProfile, $stderr, 50
+    linkedInProfile = LinkedInSocialService.linkedInProfile accessToken
+    #PP::pp linkedInProfile, $stderr, 50
        
-      @linkedInId = linkedInProfile['id']
-      firstName = linkedInProfile['firstName']
-      lastName = linkedInProfile['lastName']
-      @linkedInName = firstName + " " + lastName
-      linkedInConnections = getLinkedInConnections access_token
-      #PP::pp linkedInConnections, $stderr, 50
-      @linkedInConnections = linkedInConnections
-    end
+    @linkedInId = linkedInProfile['id']
+    firstName = linkedInProfile['firstName']
+    lastName = linkedInProfile['lastName']
+    @linkedInName = firstName + " " + lastName
+    linkedInConnections = LinkedInSocialService.linkedInConnections accessToken
+    #PP::pp linkedInConnections, $stderr, 50
+    @linkedInConnections = linkedInConnections
   
   end
   
   
 private
 
-  def getAuthConsumer credentials
-    OAuth::Consumer.new(credentials['Consumer Key'],
-      credentials['Consumer Secret'],
-        { 
-        :site => credentials['Service URL'],
-        :request_token_path => '/uas/oauth/requestToken',
-        :authorize_path => '/uas/oauth/authorize',
-        :access_token_path => '/uas/oauth/accessToken',
-        :signature_method => "HMAC-SHA1"
-        })        
-  end
-  
-  def getLinkedInProfile access_token
-    # Pick some fields
-    fields = ['id', 'first-name', 'last-name', 'headline', 'industry', 'num-connections'].join(',')
-    
-    # Make a request for JSON data
-    json_txt = access_token.get("/v1/people/~:(#{fields})", 'x-li-format' => 'json').body
-    profile = JSON.parse(json_txt)
-    #PP::pp profile, $stderr, 50
- 
-
-  end 
-  
-  def getLinkedInConnections access_token
-    # Pick some fields
-    fields = ['id', 'first-name', 'last-name', 'headline', 'industry'].join(',')
-    
-    # Make a request for JSON data
-    json_txt = access_token.get("/v1/people/~/connections:(#{fields})", 'x-li-format' => 'json').body
-    connections = JSON.parse(json_txt)
-    parseLinkedInConnections connections
-  end
-  
-  def parseLinkedInConnections data
-    
-    #PP::pp data, $stderr, 50
-    connections = data['values']
-    
-    connections_cnt = connections.length
-    linkedInConnections = []
-    for cnt in 0..connections_cnt-1 do
-      connection = connections[cnt]
-      #logger.info friend_id
-      linkedInConnection = []
-      linkedInConnection << connection['id']
-      linkedInConnection << connection['firstName'] + " " + connection['lastName']
-      linkedInConnection << connection['headline']
-      linkedInConnection << connection['industry']
-      linkedInConnections << linkedInConnection
-    end
-    
-    linkedInConnections
-   
-  end
   
 end

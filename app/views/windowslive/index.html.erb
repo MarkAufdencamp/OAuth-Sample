@@ -15,7 +15,41 @@
 	</div>
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
-			<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'windowslive', :action=> 'authorizeWindowsLiveAccess' %>
+			<% if session[:windowsLiveAccessToken] %>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'windowslive', :action=> 'revokeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Revoke Windows Live Access", :controller => 'windowslive', :action=> 'revokeAccess' %>	
+					</div>
+				</div>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'windowslive', :action=> 'retrieveWindowsLiveContacts' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Retrieve Windows Live Contacts", :controller => 'windowslive', :action=> 'retrieveWindowsLiveContacts' %>	
+					</div>
+				</div>
+			<% else %>
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'windowslive', :action=> 'authorizeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Authorize Windows Live Access", :controller => 'windowslive', :action=> 'authorizeAccess' %>	
+					</div>
+				</div>
+			<% end %>
+			<div class="ServicePanel MenuItem Green">	
+				<div class="ServicePanel MenuItemIcon">
+				<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'windowslive', :action=> 'authorizationStatus' %>
+				</div>
+				<div class="ServicePanel MenuItemTitle">
+				<%= link_to "Windows Live Authorization Status", :controller => 'windowslive', :action=> 'authorizationStatus' %>	
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

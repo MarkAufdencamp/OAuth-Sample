@@ -16,26 +16,42 @@
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
 			<% if session[:googleAuthCode] %>
-				<div class="ControlPanel MenuItem Passes">
-					<div class="ControlPanel MenuItemIcon">
-					<%= link_to image_tag("authorized-256Px-146.png", :class => "icon"), :controller=> 'google', :action=> 'index' %>
-					</div>
-					<div class="ControlPanel MenuItemTitle">
-					<%= link_to "Google Access Authorized", :controller => 'google', :action=> 'index' %>	
-					</div>
+
+				<div>
+					Google Access has been Authorized!  Authorization Code Stored in Session.			
 				</div>
-						
-			<% else %>
-				<div class="ControlPanel MenuItem Fails">	
-					<div class="ControlPanel MenuItemIcon">
-					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "icon"), :controller=> 'google', :action=> 'index' %>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'index' %>
 					</div>
-					<div class="ControlPanel MenuItemTitle">
-					<%= link_to "Google Access Denied", :controller => 'google', :action=> 'index' %>	
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Google Access Authorized - Return to Servce Panel", :controller => 'google', :action=> 'index' %>	
+					</div>
+				</div>						
+
+			<% else %>
+			
+				<div>
+					Google Access NOT Authorized! No Authorization Code.
+				</div>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Google Access Denied - Return to Servce Panel", :controller => 'google', :action=> 'index' %>	
 					</div>
 				</div>
 						
 			<% end %>
+		</div>
+		<div class="TokenInfo">
+			Auth Code - <%= session[:googleAuthCode] %><br />
+			Access Token - <%= session[:googleAccessToken] %><br />
+			Refresh Token - <%= session[:googleRefreshToken] %><br />
+			Id Token - <%= session[:googleIdToken] %><br />
+			Access Token Birth - <%= session[:googleTokenBirth] %><br />
+			Access Token Life - <%= session[:googleTokenExpiresIn] %><br />
 		</div>
 	</div>
 </div>

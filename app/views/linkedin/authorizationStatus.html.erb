@@ -1,0 +1,54 @@
+<div class="Service">
+	<div class="ServiceHeader">
+		<div class="ServiceIcon">
+			<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin'  %>
+		</div>
+		<div class="ServiceTitle">
+			<h1>LinkedIn</h1>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://developer.linkedin.com/apis" target="_blank" ><h2>Documentation</h2></a>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://www.linkedin.com/secure/developer" target="_blank" ><h2>API Keys</h2></a>
+		</div>
+	</div>
+	<div class="ServiceBody">
+		<div class="ServiceFeature">
+			<% if session[:linkedInAccessToken] %>
+				<div>
+					LinkedIn Access has been Authorized!  Access Token Stored in Session.			
+				</div>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'linkedin', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "LinkedIn Access Authorized - Return to Service Panel", :controller => 'linkedin', :action=> 'index' %>	
+					</div>
+				</div>						
+			<% else %>		
+				<div>
+					LinkedIn Access NOT Authorized! No Authorization Code.
+				</div>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'linkedin', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "LinkedIn Access Denied - Return to Service Panel", :controller => 'linkedin', :action=> 'index' %>	
+					</div>
+				</div>				
+			<% end %>
+		</div>
+		<div class="TokenInfo">
+			Request Token - <%= session[:linkedInRequestToken] %><br />
+			Request Token Secret - <%= session[:linkedInRequestTokenSecret] %><br />
+			OAuth Verifier - <%= session[:linkedInVerifier] %><br />
+			Access Token - <%= session[:linkedInAccessToken] %><br />
+			Access Token Secret - <%= session[:linkedInAccessTokenSecret] %><br />
+			Access Token Expires In - <%= session[:linkedInExpiresIn] %><br />
+			LinkedIn Authorization Expires In - <%= session[:linkedInAuthorizationExpiresIn] %><br />
+		</div>
+	</div>
+</div>

@@ -1,3 +1,5 @@
+require Rails.root.join('app', 'models', 'services', 'facebook')
+
 class FacebookController < ApplicationController
 
   layout "service"
@@ -14,143 +16,83 @@ class FacebookController < ApplicationController
 # Stage 2 - The Stage 1 Access Code and the Application Id are utilized to request an Access Token, returns an Access Token.
 # Note: This is a token for the user/app to access the permitted components. It expires and can be revoked!
 # After a token has been acquired, one may utilize the Facebook API to access permitted components. i.e. User, FriendList
-
-  def authorizeFacebookAccess
+  
+  def authorizeAccess
     # Retrieve Request Token from Facebook and Re-Direct to Facebook for Authentication
     begin
-      credentials = loadOAuthConfig 'Facebook'
-    rescue
-    end
-    #logger.info 'Service URL - ' + credentials['Service URL']
-    #logger.info 'App ID - ' + credentials['App ID']
-    #logger.info 'App Secret - ' + credentials['App Secret']
-    
-    if credentials
-      auth_scope = "scope=user_about_me,friends_about_me"
-      url = "#{credentials['Service URL']}?client_id=#{credentials['App ID']}&#{auth_scope}&redirect_uri=#{credentials['Callback URL']}"
+      # Generate and Store nonce
+      url = FacebookSocialService.authCodeURL
       redirect_to url
-    else
+    rescue
+      flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
 
   end
   
-  def retrieveFacebookContacts
-    
-    # Strip params
-    if(params[:error] and params[:error] != '')
-      flash[:error] = params[:error]
-      if(params[:error_desciption] and params[:error_desciption] != '')
-        flash[:error_desciption] = params[:error_desciption]
-        redirect_to :auth_error
-      end
-    end
-  
+  def authorizationStatus
+    #PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
     if(params[:code] and params[:code] != '')
-      access_code = params[:code]
-      #logger.info 'Access Code  - ' + access_code
-      access_token = getAppAccessToken access_code
-      #logger.info 'Access Token - ' + access_token
+      # Store User Authoization Code
+      session[:facebookAuthCode] = params[:code]
+      if(session[:facebookAuthCode] and !session[:facebookAccessToken])
+        authCode = session[:facebookAuthCode]
+        session[:facebookTokenBirth] = Time.now
+        accessToken = FacebookSocialService.newAccessToken authCode
+        PP::pp accessToken, $stderr, 50
+
+        session[:facebookAccessToken] = accessToken.token
+        session[:facebookTokenExpiresIn] = 3600
+        #PP::pp session, $stderr, 50
+        if !accessToken
+          flash[:error] = "Error Retrieving AccessToken.  Authorization Code Present. FacebookSocialService.accessToken authCode failed to Return Token."
+          redirect_to :action => :accessDenied        
+        end
+      else
+        flash[:error] = "Error Retrieving Access Token.  No Authorization Code Found."
+        redirect_to :action => :accessDenied
+      end 
     end
-        
-    # Data for Views
+    if !session[:facebookAuthCode]
+      flash[:error] = params[:error]
+    end
+  end
+
+
+  def revokeAccess
+    session[:facebookAccessToken] = nil
+    session[:facebookAuthCode] = nil
+    redirect_to :action => :index    
+  end
+
+  def retrieveFacebookFriends
+    #PP::pp params, $stderr, 50
+    accessToken = FacebookSocialService.accessToken session[:facebookAccessToken]
+    PP::pp accessToken, $stderr, 50
+ 
+    # Retrieve Facebook Profile and Friends
     @facebookId = ''
     @facebookName = ''
     @facebookFriends = []
-        
-    if access_token
-      # Acces Code and Accees Token Retrieved
-      facebookMe = getFacebookMe access_token
-      #logger.info @facebookMe
+    #gotToken = false
+    if accessToken
+      facebookMe = FacebookSocialService.facebookMe accessToken
       @facebookId = facebookMe['id']
       @facebookName = facebookMe['name']
-            
-      @facebookFriends = getFacebookFriends access_token
-      #logger.info @facebookFriends
-      
-    end
-    
-    def auth_error
-      
+      @facebookFriends = FacebookSocialService.facebookFriends accessToken
+      #PP::pp @facebookFriends, $stderr, 50
     end
   end
+
+
+  def accessDenied
+    
+  end
+
 
 private
       
-  def getAppAccessToken access_code
-    credentials = loadOAuthConfig 'Facebook'
-    url = "https://graph.facebook.com/oauth/access_token?client_id=#{credentials['App ID']}&redirect_uri=#{credentials['Callback URL']}&client_secret=#{credentials['App Secret']}&code=#{CGI.escape(access_code)}"
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
-    response = http.request(request)
-
-    # Split the response into the access_token and the expires
-    access_token = ""
-    expires = ""
-    data = response.body.split("&")
-    cur_param = data[0].split("=")
-    if CGI.unescape( cur_param[0] ) == "access_token"
-      access_token = CGI.unescape( cur_param[1] )
-    else
-      
-    end
-    
-    cur_param = data[1].split("=")
-    if CGI.unescape( cur_param[0] ) == "expires"
-      expires = CGI.unescape( cur_param[1] )
-    else
-      
-    end
-        
-    access_token
-    
-  end
-  
-  def getFacebookMe access_token
-    url = "https://graph.facebook.com/me?access_token=#{CGI.escape(access_token)}"
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
-    response = http.request(request)
-    result = response.body
-    #PP::pp JSON.parse(result), $stderr, 50
-    data = JSON.parse(result)
-  end
-  
-  def getFacebookFriends access_token
-    url = "https://graph.facebook.com/me/friends?access_token=#{CGI.escape(access_token)}"
-    uri = URI.parse(url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
-    response = http.request(request)
-    data = response.body
-    parseFriendResponse data
-  end
-  
-  def parseFriendResponse data
-    result = JSON.parse( data )
-    #PP::pp result, $stderr, 50
-    friends = result['data']
-    friends_cnt = friends.length
-
-    facebookFriends = []
-    for cnt in 0..friends_cnt-1 do
-      friend = friends[cnt]
-      friend_name = friend['name']
-      friend_id = friend['id']
-      #logger.info friend_name
-      #logger.info friend_name
-      friend = []
-      friend << friend_name
-      friend << friend_id
-      facebookFriends << friend
-    end
-    
-    facebookFriends
-  end
   
 end

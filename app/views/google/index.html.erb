@@ -15,13 +15,13 @@
 	</div>
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
-			<% if session[:googleAuthCode] %>
+			<% if session[:googleAccessToken] %>
 				<div class="ServicePanel MenuItem Red">	
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'revokeGoogleAccess' %>
+					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'revokeAccess' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Revoke Google Access", :controller => 'google', :action=> 'revokeGoogleAccess' %>	
+					<%= link_to "Revoke Google Access", :controller => 'google', :action=> 'revokeAccess' %>	
 					</div>
 				</div>
 				<div class="ServicePanel MenuItem Green">
@@ -35,10 +35,10 @@
 			<% else %>
 				<div class="ServicePanel MenuItem Green">	
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'authorizeGoogleAccess' %>
+					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'google', :action=> 'authorizeAccess' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Authorize Google Access", :controller => 'google', :action=> 'authorizeGoogleAccess' %>	
+					<%= link_to "Authorize Google Access", :controller => 'google', :action=> 'authorizeAccess' %>	
 					</div>
 				</div>
 			<% end %>
@@ -50,5 +50,6 @@
 				<%= link_to "Google Authorization Status", :controller => 'google', :action=> 'authorizationStatus' %>	
 				</div>
 			</div>
+		</div>
 	</div>
 </div>

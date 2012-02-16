@@ -88,7 +88,7 @@ div.ServicePanel.MenuItem {
 	float: left;
 	clear: none;
 	width: 10em;
-	height: 20ex;
+	height: 24ex;
 	overflow: hidden;
 	border: outset;
 	margin: 1.5ex 1.25em 1.5ex 1.25em;
@@ -116,5 +116,7 @@ div.ServicePanel.MenuItemIcon a img {
 	width: 60%;
 	margin: 1ex 20% 1ex 20%;
 }
-
+div.TokenInfo {
+	clear: both;
+}
 

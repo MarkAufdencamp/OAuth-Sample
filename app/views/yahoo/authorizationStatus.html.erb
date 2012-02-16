@@ -1,0 +1,57 @@
+<div class="Service">
+	<div class="ServiceHeader">
+		<div class="ServiceIcon">
+			<%= link_to image_tag("yahoo-logo.jpg"), :controller => 'yahoo'  %>
+		</div>
+		<div class="ServiceTitle">
+			<h1>Yahoo</h1>
+		</div>
+		<div class="ServiceLinks">
+			<a href="http://developer.yahoo.com/" target="_blank" ><h2>Documentation</h2></a>
+		</div>
+		<div class="ServiceLinks">
+			<a href="https://developer.apps.yahoo.com/projects" target="_blank" ><h2>API Keys</h2></a>
+		</div>
+	</div>
+	<div class="ServiceBody">
+		<div class="ServiceFeature">
+			<% if session[:yahooAccessToken] %>
+				<div>
+					Yahoo Access has been Authorized!  Access Token Stored in Session.			
+				</div>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'yahoo', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Yahoo Access Authorized - Return to Service Panel", :controller => 'yahoo', :action=> 'index' %>	
+					</div>
+				</div>						
+			<% else %>		
+				<div>
+					Yahoo Access NOT Authorized! No Authorization Code.
+				</div>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'yahoo', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Yahoo Access Denied - Return to Service Panel", :controller => 'yahoo', :action=> 'index' %>	
+					</div>
+				</div>				
+			<% end %>			
+		</div>
+		<div class="TokenInfo">
+			Request Token - <%= session[:yahooRequestToken] %><br />
+			Request Token Secret - <%= session[:yahooRequestTokenSecret] %><br />
+			OAuth Verifier - <%= session[:yahooVerifier] %><br />
+			Access Token - <%= session[:yahooAccessToken] %><br />
+			Access Token Secret - <%= session[:yahooAccessTokenSecret] %><br />
+			Access Token Birth - <%= session[:yahooTokenBirth] %><br />
+			Access Token Expires In - <%= session[:yahooExpiresIn] %><br />
+			Yahoo GUId - <%= session[:yahooGUId] %><br />
+			Yahoo Session Handle - <%= session[:yahooSessionHandle] %><br />
+			Yahoo Authorization Expires In - <%= session[:yahooAuthorizationExpiresIn] %><br />
+		</div>
+	</div>
+</div>

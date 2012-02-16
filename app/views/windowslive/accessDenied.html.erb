@@ -1,0 +1,11 @@
+				<div>
+					Windows Live Access NOT Authorized! No Authorization Code.
+				</div>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'windowslive', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Windows Live Access Denied - Return to Servce Panel", :controller => 'windowslive', :action=> 'index' %>	
+					</div>
+				</div>

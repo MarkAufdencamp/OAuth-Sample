@@ -1,0 +1,11 @@
+				<div>
+					Twitter Access NOT Authorized! No Authorization Code.
+				</div>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Twitter Access Denied - Return to Servce Panel", :controller => 'twitter', :action=> 'index' %>	
+					</div>
+				</div>

@@ -15,7 +15,41 @@
 	</div>
 	<div class="ServiceBody">
 		<div class="ServiceFeature">
-			<%= link_to image_tag("buttons/RetrieveContacts.png"), :controller=> 'yahoo', :action=> 'authorizeYahooAccess' %>
+			<% if session[:yahooAccessToken] %>
+				<div class="ServicePanel MenuItem Red">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'yahoo', :action=> 'revokeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Revoke Yahoo Access", :controller => 'yahoo', :action=> 'revokeAccess' %>	
+					</div>
+				</div>
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'yahoo', :action=> 'retrieveYahooContacts' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Retrieve Yahoo Contacts", :controller => 'yahoo', :action=> 'retrieveYahooContacts' %>	
+					</div>
+				</div>
+			<% else %>
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'yahoo', :action=> 'authorizeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+					<%= link_to "Authorize Yahoo Access", :controller => 'yahoo', :action=> 'authorizeAccess' %>	
+					</div>
+				</div>
+			<% end %>
+			<div class="ServicePanel MenuItem Green">	
+				<div class="ServicePanel MenuItemIcon">
+				<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'yahoo', :action=> 'authorizationStatus' %>
+				</div>
+				<div class="ServicePanel MenuItemTitle">
+				<%= link_to "Yahoo Authorization Status", :controller => 'yahoo', :action=> 'authorizationStatus' %>	
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

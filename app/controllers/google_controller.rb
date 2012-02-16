@@ -17,9 +17,9 @@ class GoogleController < ApplicationController
 # https://code.google.com/apis/console/
 
 
-  def authorizeGoogleAccess
+  def authorizeAccess
     begin
-      url = GoogleSocialService.getAuthCodeURL
+      url = GoogleSocialService.authCodeURL
       redirect_to url
     rescue
       flash[:error_description] = errorMsg
@@ -29,54 +29,65 @@ class GoogleController < ApplicationController
 
   
   def authorizationStatus
-    # Test the referrer?    
+    #PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
     if(params[:code] and params[:code] != '')
       # Store User Authoization Code
       session[:googleAuthCode] = params[:code]
+      if(session[:googleAuthCode] and !session[:googleAccessToken])
+        authCode = session[:googleAuthCode]
+        session[:googleTokenBirth] = Time.now
+        accessToken = GoogleSocialService.newAccessToken authCode
+        PP::pp accessToken, $stderr, 50
+
+        session[:googleAccessToken] = accessToken.token
+        session[:googleRefreshToken] = accessToken.refresh_token
+        session[:googleTokenExpiresIn] = accessToken.expires_in
+        session[:googleIdToken] = accessToken.params['id_token']
+        #PP::pp session, $stderr, 50
+        # TODO: Save the Access Token
+        if !accessToken
+          flash[:error] = "Error Retrieving AccessToken.  Authorization Code Present. GoogleSocialService.accessToken authCode failed to Return Token."
+          redirect_to :action => :accessDenied        
+        end
+      else
+        flash[:error] = "Error Retrieving Access Token.  No Authorization Code Found."
+        redirect_to :action => :accessDenied
+      end 
+
     end
     if !session[:googleAuthCode]
       flash[:error] = params[:error]
     end
   end
 
-  def revokeGoogleAccess
-      session[:googleAuthCode] = nil
-      redirect_to :action => :index    
+  def revokeAccess
+    session[:googleIdToken] = nil
+    session[:googleRefreshToken] = nil
+    session[:googleAccessToken] = nil
+    session[:googleAuthCode] = nil
+    redirect_to :action => :index    
   end
   
   def retrieveGoogleContacts
-    
-    #PP::pp params, $stderr, 50
-    
-    got_access_token = false
-    if(session[:googleAuthCode])
-      authCode = session[:googleAuthCode]
-      access_token = GoogleSocialService.getAccessToken authCode
-      #PP::pp access_token, $stderr, 50
-      #oauth2AccessToken = GoogleSocialService.getOAuth2AccessToken authCode
-      #PP::pp oauth2AccessToken, $stderr, 50
-      got_access_token = true
-    else
-      flash[:error] = params[:error]
-      redirect_to :action => :googleAccessDenied
-    end 
-     
+    accessToken = GoogleSocialService.accessToken session[:googleAccessToken]
+    PP::pp accessToken, $stderr, 50
+           
     # Retrieve Google GUID and Contacts
     @googleId = ''
     @googleName = ''
     @googleContacts = []
-    #got_access_token = false
-    if got_access_token
-      userProfile = GoogleSocialService.getGoogleProfile access_token
+    if accessToken
+      userProfile = GoogleSocialService.googleProfile accessToken
       @googleId = userProfile['id']
-      @googleName = userProfile['name']
-      @googleContacts = GoogleSocialService.getGoogleContacts access_token
+      googleName = userProfile['name']
+      @googleContacts = GoogleSocialService.googleContacts accessToken
       #PP::pp @googleContacts, $stderr, 50
     end
-
   end
   
-  def googleAccessDenied
+  def accessDenied
     
   end
 

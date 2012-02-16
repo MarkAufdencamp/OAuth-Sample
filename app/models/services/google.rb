@@ -1,7 +1,6 @@
 require Rails.root.join('app', 'models', 'services', 'socialservice')
 require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 
-require 'net/http'
 # http://code.google.com/apis/contacts
 # http://code.google.com/apis/contactsdocs/3.0/developers_guide_protocol.html
 # http://code.google.com/apis/gdata/articles/using_ruby.html
@@ -26,6 +25,68 @@ require 'net/http'
 
 class GoogleSocialService < SocialService
   
+
+  def self.authCodeURL 
+    credentials = getOAuthConfig
+    client = getAuthConsumer credentials
+    client.auth_code.authorize_url(:redirect_uri => credentials['Callback URL'], :scope => 'https://www.googleapis.com/auth/userinfo.profile https://www.google.com/m8/feeds/', :access_type => "offline", :approval_prompt => "force")
+  end
+  
+
+  def self.newAccessToken authCode   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+
+    #tokenURL = client.token_url(
+    #  :client_id => credentials['Client Id'],
+    #  :redirect_uri => credentials['Callback URL'],
+    #  :client_secret => credentials['Client Secret'],
+    #  :grant_type => "authorization_code", 
+    #  :code => authCode)
+    #PP::pp tokenURL, $stderr, 50
+      
+    token = client.get_token(
+      :client_id => credentials['Client Id'],
+      :redirect_uri => credentials['Callback URL'],
+      :client_secret => credentials['Client Secret'],
+      :grant_type => "authorization_code", 
+      :code => authCode,
+      :parse => :json,
+      :token_method => :post,
+      :mode => :header
+      )
+
+  end
+  
+
+  def self.accessToken token   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+    
+    OAuth2::AccessToken.new(client, token)
+  end
+  
+  
+  def self.googleProfile token
+    response = token.get("https://www.googleapis.com/oauth2/v1/userinfo")
+    #PP::pp response.body, $stderr, 50
+    result = response.body
+    data = JSON.parse(result)
+  end
+  
+  
+  def self.googleContacts token
+    response = token.get("https://www.google.com/m8/feeds/contacts/default/full", :params => { 'v' => '3.0', 'alt' => 'json'} )
+    #PP::pp response.body, $stderr, 50
+    result = response.body
+    data = JSON.parse(result)
+    parseGoogleContacts data['feed']['entry']
+  end  
+
+  
+private
+  
+  # Read OAuth Configuration file RAILS.root.join('config', 'oauth-key.yml) for Google Key
   def self.getOAuthConfig
     oauthConfig = OAuthConfig.new
     begin
@@ -36,129 +97,28 @@ class GoogleSocialService < SocialService
     config
   end
 
-  def self.getAuthConsumer
-    credentials = getOAuthConfig
+  # Factory OAuth2 Client from credentials hash
+  def self.getAuthConsumer credentials
     OAuth2::Client.new(credentials['Client Id'],
       credentials['Client Secret'],
-        { 
         :site => credentials['Service URL'],
-        #:ssl =>  {
-          
-        #  },
         :authorize_url => '/o/oauth2/auth',
-        :token_url => '/o/oauth2/token',
-        :token_method => :post,
-        #:connection_opts => {
-          
-        #  }
-        })        
-  end
-
-  def self.getAuthCodeURL 
-      begin
-        credentials = getOAuthConfig
-      rescue
-        Kernel::raise errorMsg
-      end
-      auth_scope = "scope=https://www.googleapis.com/auth/userinfo.profile+https://www.google.com/m8/feeds/"
-      url = "#{credentials['Service URL']}/o/oauth2/auth?client_id=#{credentials['Client Id']}&#{auth_scope}&redirect_uri=#{credentials['Callback URL']}&response_type=code&access_type=offline"
+        :token_url => '/o/oauth2/token'
+        )     
   end
   
-
-  def self.getAccessToken authCode
-    
-    credentials = getOAuthConfig
-    params ="client_id=#{credentials['Client Id']}&redirect_uri=#{credentials['Callback URL']}&client_secret=#{credentials['Client Secret']}&code=access_code&grant_type=authorization_code"
-    url = "#{credentials['Service URL']}/o/oauth2/token?client_id=#{credentials['Client Id']}&redirect_uri=#{credentials['Callback URL']}&client_secret=#{credentials['Client Secret']}&code=#{CGI.escape(authCode)}&grant_type=authorization_code"
-    #url = "#{credentials['Service URL']}/o/oauth/token"
-    uri = URI.parse(url)
-    headers = {
-      'Host' => 'accounts.google.com',
-      'Referer' => credentials['Callback URL'],
-      'Content-Type' => 'application/x-www-form-urlencoded'
-    }
-
-    http = Net::HTTP.new(uri.host, 443)
-    http.use_ssl = true
-  
-    #puts 'URI Scheme - '
-    #PP::pp uri.scheme, $stderr, 50
-    #puts 'URI Host - '
-    #PP::pp uri.host, $stderr, 50
-    #puts 'URI Port - '
-    #PP::pp uri.port, $stderr, 50
-    #puts 'URI Path - '
-    #PP::pp uri.path, $stderr, 50
-    #puts 'URI Query - '
-    #PP::pp uri.query, $stderr, 50
-
-    response, data = http.post(uri.path, uri.query, headers)
-    #puts 'Response Code - ' + response.code
-    #puts 'Response Message' + response.message
-    #PP::pp response, $stderr, 50
-    #PP::pp data, $stderr, 50
-
-    # Split the response into the access_token and the expires
-    #PP::pp response.body, $stderr, 50
-    json_data = JSON.parse(response.body)        
-    access_token = json_data['access_token']
-    #PP::pp access_token, $stderr, 50
-    token_type = json_data['token_type']
-    #PP::pp token_type, $stderr, 50
-    expires = json_data['expires_in']
-    #PP::pp expires, $stderr, 50
-    
-    access_token
-    
-  end
-
-  
-  def self.refreshToken accessToken
-    
-  end
-
-    
-  def self.getGoogleProfile access_token
-    credentials = getOAuthConfig
-    profile_url = "https://www.googleapis.com/oauth2/v1/userinfo"
-    params = "?access_token=#{CGI.escape(access_token)}"
-    url = profile_url + params
-    uri = URI.parse(url)
-    
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
-    response = http.request(request)
-    result = response.body
-    
-    data = JSON.parse(result)
+  # Factory OAuth2 Client from credentials hash
+  def self.getTokenConsumer credentials
+    OAuth2::Client.new(credentials['Client Id'],
+      credentials['Client Secret'],
+        :site => credentials['Service URL'],
+        :authorize_url => '/o/oauth2/auth',
+        :token_url => '/o/oauth2/token'
+        )     
   end
 
 
-  def self.getGoogleContacts access_token
-
-    # Google URL for Full Contact Retrieval
-    #   "http://www.google.com/m8/feeds/contacts/default/full"
-    # Alternately the Google userId can be substituted for default
-    #   "http://www.google.com/m8/feeds/contacts/hostmaster@iluviya.net/full"
-    # for JSON instead of XML contacts_url = "/m8/feeds/contacts/default/full?alt=json"
-    contacts_url = "https://www.google.com/m8/feeds/contacts/default/full"
-
-    credentials = getOAuthConfig
-    params = "?access_token=#{CGI.escape(access_token)}&v=3.0&alt=json"
-    url = contacts_url + params
-    uri = URI.parse(url)
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Get.new(uri.path + "?" + uri.query)
-    response = http.request(request)
-    result = response.body
-    data = JSON.parse(result)
-    parseGoogleContacts data['feed']['entry']
-  end
-  
-  
+  # Parse Google Contacts JSON response into Array
   def self.parseGoogleContacts contacts
     googleContacts = []
     #PP::pp contacts, $stderr, 50
@@ -208,16 +168,5 @@ class GoogleSocialService < SocialService
     
     googleContacts 
   end
-  
-  
-  def self.getOAuth2AccessToken authCode
 
-    credentials = getOAuthConfig
-    client = getAuthConsumer
-    #PP::pp client, $stderr, 50
-    client.auth_code.authorize_url( :redirect_uri => credentials['Callback URL'])
-    token = client.auth_code.get_token( authCode, :redirect_uri => credentials['Callback URL'])
-    
-  end
-    
 end
