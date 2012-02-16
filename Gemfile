@@ -20,6 +20,11 @@ gem "oauth-plugin",     "0.3.14"
 
 gem "oauth2",           "0.5.2"
 
+gem "faraday"
+gem "faraday_middleware"
+
+gem "authlogic"
+
 group :development do
 	gem "sqlite3-ruby", :require => "sqlite3"
 end
