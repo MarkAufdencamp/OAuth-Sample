@@ -13,6 +13,9 @@ require 'json'
 require 'xmlsimple'
 require 'pp'
 
+
+require 'authlogic'
+
 require 'net/http'
 require 'cgi'
 
