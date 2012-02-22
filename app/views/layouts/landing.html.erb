@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>OAuth Sample Service API Page</title>
+		<%= stylesheet_link_tag 'reset' %>  		
+  		<%= stylesheet_link_tag 'default' %>
+  		<%= stylesheet_link_tag 'controlPanel' %>
+  		<%= stylesheet_link_tag 'mainMenu' %>
+  		<%= stylesheet_link_tag 'servicePanel' %>
+  		<%= stylesheet_link_tag 'landing' %>
+	</head>
+	<body>
+		<div class="Page_Header">
+		  <div class="Page_Header Page_Header_App_Name">
+		  	<h1>OAuth-Sample Application</h1>
+		  </div>
+		  <div class="Page_Header Page_Header_Logo">
+		    <%= link_to image_tag("Social-Networking-Banner.gif"), :controller => 'welcome' %>
+		  </div>
+		</div>
+		<div class="Page_Body">
+
+
+  		<%= yield %>		  
+
+
+		</div>
+		<!-- Page_Body -->
+		<div class="Page_Footer">
+		<p>
+		Copyright 2010, 2012 Mark Aufdencamp
+		</p>
+		</div>
+	</body>
+</html>
