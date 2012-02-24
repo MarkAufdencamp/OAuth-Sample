@@ -11,6 +11,27 @@
   		<%= stylesheet_link_tag 'landing' %>
 	</head>
 	<body>
+
+		<!-- http://developers.facebook.com/docs/reference/plugins/like/ -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
+		<!-- https://dev.twitter.com/docs/tweet-button -->
+		<script>!function(d,s,id){
+			var js,fjs=d.getElementsByTagName(s)[0];
+			if(!d.getElementById(id)){js=d.createElement(s);
+				js.id=id;js.src="//platform.twitter.com/widgets.js";
+				fjs.parentNode.insertBefore(js,fjs);
+			}
+		}(document,"script","twitter-wjs");
+		</script>
+
 		<div class="Page_Header">
 		  <div class="Page_Header Page_Header_App_Name">
 		  	<h1>OAuth-Sample Application</h1>
@@ -20,26 +41,7 @@
 		  </div>
 		</div>
 		<div class="Page_Body">
-		  <!-- Page_Body_Left -->
-		  <div class="Page_Body Page_Body_Left">
-		  </div>
-		  <!-- Page_Body_Left -->
-		  
-		  <!-- Page_Body_Right -->	  
-		  <div class="Page_Body Page_Body_Right" >
-		  </div>
-		  <!-- Page_Body_Right -->
-		  
-		  <div class="Page_Body Page_Body_Center">
-		  	<div class="Page_Body Flash" >
-		  		<p style="color: green"><%= flash[:notice] %></p>
-			</div>
-			
 		  	<%= yield %>
-		  	
-		  </div>
-		  <!-- Page_Body_Center -->
-
 		</div>
 		<!-- Page_Body -->
 		<div class="Page_Footer">
