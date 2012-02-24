@@ -26,44 +26,16 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
-  def loadOAuthConfig serviceName
-    credentials = Hash.new
-    oauthFilename = "#{RAILS_ROOT}/config/oauth-key.yml"
-    #logger.info RAILS_ROOT
-    #logger.info "#{RAILS_ROOT}/config/oauth-key.yml"
-    begin
-      authKeys = YAML::load_file(oauthFilename) [RAILS_ENV]
-    rescue
-      errorMsg = "YAML load failed. Expected file - " + oauthFilename
-      logger.info errorMsg
-      flash[:error_description] = errorMsg
-      Kernel::raise errorMsg
-    end
-    
-    authKeys.each_key do | key |
-      if key[serviceName]
-        # Facebook
-        credentials['App ID'] = authKeys[key]['App ID']
-        # Facebook
-        credentials['App Secret'] = authKeys[key]['App Secret']
-        # Twitter, LinkedIn, Google, Yahoo
-        credentials['Consumer Key'] = authKeys[key]['Consumer Key']
-        # Twitter, LinkedIn, Google, Yahoo
-        credentials['Consumer Secret'] = authKeys[key]['Consumer Secret']
-        # Facebook, Twitter, LinkedIn, Google, Yahoo
-        credentials['Service URL'] = authKeys[key]['Service URL']
-        # Facebook, Twitter, LinkedIn, Google, Yahoo
-        credentials['Callback URL'] = authKeys[key]['Callback URL']
-        # Facebook, Twitter, LinkedIn, Google, Yahoo
-        credentials['Application URL'] = authKeys[key]['Application URL']
-         # Windows Live
-        credentials['Client Id'] = authKeys[key]['Client Id']
-        # Windows Live
-        credentials['Client Secret'] = authKeys[key]['Client Secret']
-     end
-    end
-    credentials
+  helper_method :current_user
+  
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @currrent_user_session = UserSession.find
   end
-
+  
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = current_user_session && current_user_session.record
+  end
 
 end
