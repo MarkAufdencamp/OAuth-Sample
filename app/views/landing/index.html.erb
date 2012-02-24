@@ -7,4 +7,51 @@
 		<%= link_to "Login", login_path %>
 	<% end %>
 </div>
-	
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook', :action => 'signin'  %>
+	</div>
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Signin", :controller => 'facebook', :action => 'signin' %>
+	</div>
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter', :action => 'signin'  %>
+	</div>
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Signin", :controller => 'twitter', :action => 'signin' %>
+	</div>
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("google-logo.jpg"), :controller => 'google', :action => 'signin'  %>
+	</div>
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Signin", :controller => 'google', :action => 'signin' %>
+	</div>	
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("yahoo-logo.jpg"), :controller => 'yahoo', :action => 'signin'  %>
+	</div>
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Signin", :controller => 'yahoo', :action => 'signin' %>
+	</div>	
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin', :action => 'signin'  %>
+	</div>
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Signin", :controller => 'linkedin', :action => 'signin' %>
+	</div>	
+</div>
+<div class="ControlPanel MenuItem Fails">
+	<div class="ControlPanel MenuItemIcon">
+		<%= link_to image_tag("windows-live-logo.jpg"), :controller => 'windowslive', :action => 'signin'  %>
+	</div>
+	<div class="ControlPanel MenuItemTitle">
+		<%= link_to "Signin", :controller => 'windowslive', :action => 'signin' %>
+	</div>	
+</div>

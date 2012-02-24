@@ -20,10 +20,25 @@
 		  </div>
 		</div>
 		<div class="Page_Body">
-
-
-  		<%= yield %>		  
-
+		  <!-- Page_Body_Left -->
+		  <div class="Page_Body Page_Body_Left">
+		  </div>
+		  <!-- Page_Body_Left -->
+		  
+		  <!-- Page_Body_Right -->	  
+		  <div class="Page_Body Page_Body_Right" >
+		  </div>
+		  <!-- Page_Body_Right -->
+		  
+		  <div class="Page_Body Page_Body_Center">
+		  	<div class="Page_Body Flash" >
+		  		<p style="color: green"><%= flash[:notice] %></p>
+			</div>
+			
+		  	<%= yield %>
+		  	
+		  </div>
+		  <!-- Page_Body_Center -->
 
 		</div>
 		<!-- Page_Body -->
