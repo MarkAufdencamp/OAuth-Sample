@@ -24,6 +24,7 @@ gem "faraday"
 gem "faraday_middleware"
 
 gem "authlogic"
+gem "nifty-generators"
 
 group :development do
 	gem "sqlite3-ruby", :require => "sqlite3"
