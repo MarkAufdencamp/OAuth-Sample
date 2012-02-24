@@ -1,57 +1,88 @@
-<div id="user_nav">
-	<% if current_user %>
-		<%= link_to "Edit Profile", edit_user_path(:current) %>
-		<%= link_to "Logout", logout_path %>
-	<% else %>
-		<%= link_to "Register", new_user_path %>
-		<%= link_to "Login", login_path %>
-	<% end %>
+<!-- Page_Body_Left -->
+<div class="Page_Body Page_Body_Left">
+
+	<div id="facebook_like_button">
+		<!-- http://developers.facebook.com/docs/reference/plugins/like/ -->
+		<div class="fb-like" data-href="https://iluviya.net/OAuth-Sample" data-send="false" data-layout="box_count" data-width="450" data-show-faces="false"></div>
+	</div>
+
+	<div id="twitter_tweet_button">
+		<!-- https://dev.twitter.com/docs/tweet-button -->
+		<a href="https://twitter.com/share" class="twitter-share-button" data-lang="en">Tweet</a>		
+	</div>
+
 </div>
-<div class="ControlPanel MenuItem Fails">
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook', :action => 'signin'  %>
-	</div>
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Signin", :controller => 'facebook', :action => 'signin' %>
+<!-- Page_Body_Left -->
+		  
+<!-- Page_Body_Right -->	  
+<div class="Page_Body Page_Body_Right" >
+
+	<div id="user_nav">
+		<% if current_user %>
+			<%= link_to "Edit Profile", edit_user_path(:current) %>
+			<%= link_to "Logout", logout_path %>
+		<% else %>
+			<%= link_to "Register", new_user_path %>
+			<%= link_to "Login", login_path %>
+		<% end %>
 	</div>
 </div>
-<div class="ControlPanel MenuItem Fails">
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter', :action => 'signin'  %>
+<!-- Page_Body_Right -->
+		  
+<div class="Page_Body Page_Body_Center">
+	<div class="Page_Body Flash" >
+		<p style="color: green"><%= flash[:notice] %></p>
 	</div>
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Signin", :controller => 'twitter', :action => 'signin' %>
+			
+	<div class="ControlPanel MenuItem Fails">
+		<div class="ControlPanel MenuItemIcon">
+			<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook', :action => 'signin'  %>
+		</div>
+		<div class="ControlPanel MenuItemTitle">
+			<%= link_to "Signin", :controller => 'facebook', :action => 'signin' %>
+		</div>
 	</div>
+	<div class="ControlPanel MenuItem Fails">
+		<div class="ControlPanel MenuItemIcon">
+			<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter', :action => 'signin'  %>
+		</div>
+		<div class="ControlPanel MenuItemTitle">
+			<%= link_to "Signin", :controller => 'twitter', :action => 'signin' %>
+		</div>
+	</div>
+	<div class="ControlPanel MenuItem Fails">
+		<div class="ControlPanel MenuItemIcon">
+			<%= link_to image_tag("google-logo.jpg"), :controller => 'google', :action => 'signin'  %>
+		</div>
+		<div class="ControlPanel MenuItemTitle">
+			<%= link_to "Signin", :controller => 'google', :action => 'signin' %>
+		</div>	
+	</div>
+	<div class="ControlPanel MenuItem Fails">
+		<div class="ControlPanel MenuItemIcon">
+			<%= link_to image_tag("yahoo-logo.jpg"), :controller => 'yahoo', :action => 'signin'  %>
+		</div>
+		<div class="ControlPanel MenuItemTitle">
+			<%= link_to "Signin", :controller => 'yahoo', :action => 'signin' %>
+		</div>	
+	</div>
+	<div class="ControlPanel MenuItem Fails">
+		<div class="ControlPanel MenuItemIcon">
+			<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin', :action => 'signin'  %>
+		</div>
+		<div class="ControlPanel MenuItemTitle">
+			<%= link_to "Signin", :controller => 'linkedin', :action => 'signin' %>
+		</div>	
+	</div>
+	<div class="ControlPanel MenuItem Fails">
+		<div class="ControlPanel MenuItemIcon">
+			<%= link_to image_tag("windows-live-logo.jpg"), :controller => 'windowslive', :action => 'signin'  %>
+		</div>
+		<div class="ControlPanel MenuItemTitle">
+			<%= link_to "Signin", :controller => 'windowslive', :action => 'signin' %>
+		</div>	
+	</div>
+
 </div>
-<div class="ControlPanel MenuItem Fails">
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("google-logo.jpg"), :controller => 'google', :action => 'signin'  %>
-	</div>
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Signin", :controller => 'google', :action => 'signin' %>
-	</div>	
-</div>
-<div class="ControlPanel MenuItem Fails">
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("yahoo-logo.jpg"), :controller => 'yahoo', :action => 'signin'  %>
-	</div>
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Signin", :controller => 'yahoo', :action => 'signin' %>
-	</div>	
-</div>
-<div class="ControlPanel MenuItem Fails">
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin', :action => 'signin'  %>
-	</div>
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Signin", :controller => 'linkedin', :action => 'signin' %>
-	</div>	
-</div>
-<div class="ControlPanel MenuItem Fails">
-	<div class="ControlPanel MenuItemIcon">
-		<%= link_to image_tag("windows-live-logo.jpg"), :controller => 'windowslive', :action => 'signin'  %>
-	</div>
-	<div class="ControlPanel MenuItemTitle">
-		<%= link_to "Signin", :controller => 'windowslive', :action => 'signin' %>
-	</div>	
-</div>
+<!-- Page_Body_Center -->
+
