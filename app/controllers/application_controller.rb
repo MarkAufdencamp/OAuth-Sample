@@ -27,6 +27,8 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
   helper_method :current_user
+
+private
   
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
