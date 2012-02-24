@@ -24,6 +24,7 @@ class FacebookController < ApplicationController
       url = FacebookSocialService.authCodeURL
       redirect_to url
     rescue
+      errorMsg = "Unable to retrieve Authorization URL"
       flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
@@ -91,7 +92,10 @@ class FacebookController < ApplicationController
     
   end
 
-
+  def signin
+    
+  end
+  
 private
       
   

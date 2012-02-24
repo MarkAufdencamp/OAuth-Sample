@@ -23,7 +23,8 @@ class LinkedinController < ApplicationController
       session[:linkedInRequestTokenSecret] = requestToken.secret
       redirect_to requestToken.authorize_url  
     else
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from LinkedIn'            
+      errorMsg = "Unable to retrieve Request Token"
+      flash.now[:error] = errorMsg            
       redirect_to :action => :index
     end
   end
@@ -89,8 +90,11 @@ class LinkedinController < ApplicationController
     @linkedInConnections = linkedInConnections
   
   end
-  
-  
+
+  def signin
+    
+  end
+
 private
 
   

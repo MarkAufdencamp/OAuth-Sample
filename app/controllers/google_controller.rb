@@ -22,6 +22,7 @@ class GoogleController < ApplicationController
       url = GoogleSocialService.authCodeURL
       redirect_to url
     rescue
+      errorMsg = "Unable to retrieve Authorization URL"
       flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
@@ -91,6 +92,9 @@ class GoogleController < ApplicationController
     
   end
 
+  def signin
+    
+  end
 private
   
   

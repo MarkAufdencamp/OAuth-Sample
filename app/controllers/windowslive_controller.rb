@@ -22,6 +22,7 @@ class WindowsliveController < ApplicationController
       url = WindowsLiveSocialService.authCodeURL
       redirect_to url
     rescue
+      errorMsg = "Umable to retrieve Authorization URL"
       flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
@@ -92,7 +93,11 @@ class WindowsliveController < ApplicationController
   def accessDenied
       
   end
+
+  def signin
     
+  end
+
 private
 
   

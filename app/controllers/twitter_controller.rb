@@ -20,7 +20,8 @@ class TwitterController < ApplicationController
       session[:twitterRequestTokenSecret] = requestToken.secret
       redirect_to requestToken.authorize_url  
     else
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from Twitter'            
+      errorMsg = "Unable to retrieve Request Token"
+      flash.now[:error] = errorMsg            
       redirect_to :action => :index
     end
 
@@ -97,6 +98,10 @@ class TwitterController < ApplicationController
     
   end
 
+  def signin
+    
+  end
+  
 private
   
   

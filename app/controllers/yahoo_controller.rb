@@ -13,7 +13,8 @@ class YahooController < ApplicationController
       session[:yahooRequestTokenSecret] = requestToken.secret
       redirect_to requestToken.authorize_url  
     else
-      flash.now[:error] = 'Error Retrieving OAuth Request Token from Yahoo'            
+      errorMsg = "Unable to retrieve Request Token"
+      flash.now[:error] = errorMsg            
       redirect_to :action => :index
     end
 
@@ -81,6 +82,10 @@ class YahooController < ApplicationController
     @yahooContacts = YahooSocialService.yahooContacts accessToken, @yahooGUId
   end
 
-  private
+  def signin
+    
+  end
+
+private
   
 end
