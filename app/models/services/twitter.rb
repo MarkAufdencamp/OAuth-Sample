@@ -1,14 +1,35 @@
 require Rails.root.join('app', 'models', 'services', 'socialservice')
 require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 
+# https://dev.twitter.com/docs/api/1/get/users/lookup
+
 class TwitterSocialService < SocialService
   
-  def self.requestToken 
+  def self.signinRequestToken 
     credentials = getOAuthConfig
     consumer = getAuthConsumer credentials
-    consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
+    consumer.get_request_token(:oauth_callback => credentials['Signin Callback URL'])
   end
   
+  def self.newSigninToken requestToken, requestTokenSecret, verifier
+    credentials = getOAuthConfig
+    consumer = getAuthConsumer credentials
+    requestToken = OAuth::RequestToken.new(consumer, requestToken, requestTokenSecret)
+    signinToken = requestToken.get_access_token(:oauth_verifier => verifier)
+  end
+
+  def self.signinToken signinToken, signinTokenSecret
+    credentials = getOAuthConfig
+    consumer = getTokenConsumer credentials
+    accessToken = OAuth::AccessToken.new(consumer, signinToken, signinTokenSecret)
+  end
+  
+  def self.accessRequestToken 
+    credentials = getOAuthConfig
+    consumer = getAuthConsumer credentials
+    consumer.get_request_token(:oauth_callback => credentials['Access Callback URL'])
+  end
+
   def self.newAccessToken requestToken, requestTokenSecret, verifier
     credentials = getOAuthConfig
     consumer = getAuthConsumer credentials
@@ -48,6 +69,7 @@ private
     begin
       config = oauthConfig.loadOAuthConfig 'Twitter'
     rescue
+      errorMsg = "Unable to load config/oauth-key.yml"
       Kernel::raise errorMsg
     end
     config

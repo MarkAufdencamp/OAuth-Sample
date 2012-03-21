@@ -12,20 +12,63 @@ require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 # http://msdn.microsoft.com/en-us/library/hh243646.aspx
 # Obtaining user consent
 # http://msdn.microsoft.com/en-us/windowslive/hh278359
+# http://msdn.microsoft.com/en-us/live/hh561433
+# http://msdn.microsoft.com/library/hh243650.aspx
 
 class WindowsLiveSocialService < SocialService
   
-  def self.authCodeURL 
+  def self.signinURL 
     credentials = getOAuthConfig
     client = getAuthConsumer credentials
     client.auth_code.authorize_url(
-      :redirect_uri => credentials['Callback URL'],
-      :scope => 'wl.signin,wl.basic,wl.offline_access',
+      :redirect_uri => credentials['Signin Callback URL'],
+      :scope => 'wl.signin,wl.basic,wl.emails',
       :grant_type => "authorization_code", 
       :response_type => "code")
   end
   
+  def self.newSigninToken authCode   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+
+    #tokenURL = client.token_url(
+    #  :client_id => credentials['Client Id'],
+    #  :redirect_uri => credentials['Callback URL'],
+    #  :client_secret => credentials['Client Secret'],
+    #  :grant_type => "authorization_code",
+    #  :code => authCode)
+    #PP::pp tokenURL, $stderr, 50
+      
+    token = client.get_token( 
+      :client_id => credentials['Client Id'],
+      :redirect_uri => credentials['Signin Callback URL'],
+      :client_secret => credentials['Client Secret'],
+      :grant_type => "authorization_code",
+      :code => authCode,
+      :parse => :json,
+      :token_method => :get,
+      :mode => :header,
+      :param_name => 'bearer_token'
+      )
+  end
   
+  def self.signinToken token   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+    
+    OAuth2::AccessToken.new(client, token)
+  end
+
+  def self.accessURL 
+    credentials = getOAuthConfig
+    client = getAuthConsumer credentials
+    client.auth_code.authorize_url(
+      :redirect_uri => credentials['Access Callback URL'],
+      :scope => 'wl.signin,wl.basic,wl.emails,wl.offline_access',
+      :grant_type => "authorization_code", 
+      :response_type => "code")
+  end
+    
   def self.newAccessToken authCode   
     credentials = getOAuthConfig
     client = getTokenConsumer credentials
@@ -40,7 +83,7 @@ class WindowsLiveSocialService < SocialService
       
     token = client.get_token( 
       :client_id => credentials['Client Id'],
-      :redirect_uri => credentials['Callback URL'],
+      :redirect_uri => credentials['Access Callback URL'],
       :client_secret => credentials['Client Secret'],
       :grant_type => "authorization_code",
       :code => authCode,
@@ -65,7 +108,6 @@ class WindowsLiveSocialService < SocialService
     data = JSON.parse(result)
   end
   
-  
   def self.windowsLiveContacts token
     response = token.get("https://apis.live.net/v5.0/me/contacts")
     #PP::pp response.body, $stderr, 50
@@ -83,6 +125,7 @@ private
     begin
       config = oauthConfig.loadOAuthConfig 'WindowsLive'
     rescue
+      errorMsg = "Unable to load config/oauth-key.yml"
       Kernel::raise errorMsg
     end
     config

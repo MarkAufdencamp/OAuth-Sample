@@ -3,10 +3,29 @@ require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 
 class LinkedInSocialService < SocialService
   
-  def self.requestToken 
+  def self.signinRequestToken 
     credentials = getOAuthConfig
     consumer = getAuthConsumer credentials
-    consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
+    consumer.get_request_token(:oauth_callback => credentials['Signin Callback URL'])
+  end
+  
+  def self.newSigninToken requestToken, requestTokenSecret, verifier
+    credentials = getOAuthConfig
+    consumer = getAuthConsumer credentials
+    requestToken = OAuth::RequestToken.new(consumer, requestToken, requestTokenSecret)
+    signinToken = requestToken.get_access_token(:oauth_verifier => verifier)
+  end
+  
+  def self.signinToken signinToken, signinTokenSecret
+    credentials = getOAuthConfig
+    consumer = getTokenConsumer credentials
+    accessToken = OAuth::AccessToken.new(consumer, signinToken, signinTokenSecret)
+  end
+  
+  def self.accessRequestToken 
+    credentials = getOAuthConfig
+    consumer = getAuthConsumer credentials
+    consumer.get_request_token(:oauth_callback => credentials['Access Callback URL'])
   end
   
   def self.newAccessToken requestToken, requestTokenSecret, verifier
@@ -54,6 +73,7 @@ class LinkedInSocialService < SocialService
     begin
       config = oauthConfig.loadOAuthConfig 'LinkedIn'
     rescue
+      errorMsg = "Unable to load config/oauth-key.yml"
       Kernel::raise errorMsg
     end
     config

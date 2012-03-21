@@ -15,10 +15,29 @@ require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 
 class YahooSocialService < SocialService
   
-  def self.requestToken 
+  def self.signinRequestToken 
     credentials = getOAuthConfig
     consumer = getAuthConsumer credentials
-    consumer.get_request_token(:oauth_callback => credentials['Callback URL'])
+    consumer.get_request_token(:oauth_callback => credentials['Signin Callback URL'])
+  end
+  
+  def self.newSigninToken requestToken, requestTokenSecret, verifier
+    credentials = getOAuthConfig
+    consumer = getAuthConsumer credentials
+    requestToken = OAuth::RequestToken.new(consumer, requestToken, requestTokenSecret)
+    signinToken = requestToken.get_access_token(:oauth_verifier => verifier)
+  end
+  
+  def self.signinToken signinToken, signinTokenSecret, sessionHandle
+    credentials = getOAuthConfig
+    consumer = getTokenConsumer credentials
+    accessToken = OAuth::AccessToken.new(consumer, signinToken, signinTokenSecret)
+  end
+
+  def self.accessRequestToken 
+    credentials = getOAuthConfig
+    consumer = getAuthConsumer credentials
+    consumer.get_request_token(:oauth_callback => credentials['Access Callback URL'])
   end
   
   def self.newAccessToken requestToken, requestTokenSecret, verifier
@@ -36,6 +55,7 @@ class YahooSocialService < SocialService
 
   def self.yahooGUID access_token
     response = access_token.get('/v1/me/guid?format=json') 
+    PP::pp response, $stderr
     data = response.body
     result = JSON.parse(data)
     result['guid']['value']    
@@ -44,6 +64,7 @@ class YahooSocialService < SocialService
   def self.yahooProfile access_token,  guid
     profile_url = "/v1/user/" + guid + "/profile?format=json"
     response = access_token.get(profile_url)
+    PP::pp response, $stderr
     data = response.body
     profile = JSON.parse(data)
     #PP::pp profile, $stderr, 50
@@ -67,6 +88,7 @@ private
     begin
       config = oauthConfig.loadOAuthConfig 'Yahoo'
     rescue
+      errorMsg = "Unable to load config/oauth-key.yml"
       Kernel::raise errorMsg
     end
     config

@@ -13,11 +13,36 @@ require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 # http://code.google.com/apis/accounts/docs/OAuth2Login.html
 # https://code.google.com/apis/console/
 
+# https://github.com/binarylogic/authlogic_openid
+# https://github.com/ryanb/nifty-generators
+# http://railscasts.com/episodes/67-restful-authentication
+# http://railscasts.com/episodes/121-non-active-record-model
+# http://railscasts.com/episodes/160-authlogic
+# http://railscasts.com/episodes/170-openid-with-authlogic
+#
+# http://code.google.com/apis/accounts/docs/OpenID.html
+# https://dev.twitter.com/docs/auth/browser-sign-flow
+# http://developers.facebook.com/docs/guides/web/
+# http://openid.net/connect/
+# http://msdn.microsoft.com/en-us/live/hh561433
+#
+# http://phpmaster.com/where-on-earth-are-you/?utm_medium=email&utm_campaign=PHPMaster+Newsletter+-+14+February+2012&utm_content=PHPMaster+Newsletter+-+14+February+2012+CID_74916e0e4419b88d00a20298405b1a53&utm_source=Newsletter&utm_term=More
+#
+#
+#
+#
+#
+#
+#
+
+
+
 #
 # oauth-key.yml
 #        Google:
 #            Application URL: https://domain.tld/OAuth-Sample
-#            CallbackURL: https://domain.tld/OAuth-Sample/google/retrieveGoogleContacts
+#            Access Callback URL: https://domain.tld/OAuth-Sample/google/retrieveGoogleContacts
+#            Signin Callback URL: https://domain.tld/OAuth-Sample/google/retrieveGoogleContacts
 #            Service URL: https://accounts.google.com
 #            Client Id: "xxxxxxxxxxxxx.apps.googleusercontent.com"
 #            Client Secret: "xxxxxxxxxxxxxxxxxxxxxxxx"
@@ -26,10 +51,49 @@ require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 class GoogleSocialService < SocialService
   
 
-  def self.authCodeURL 
+
+  def self.signinURL 
     credentials = getOAuthConfig
     client = getAuthConsumer credentials
-    client.auth_code.authorize_url(:redirect_uri => credentials['Callback URL'], :scope => 'https://www.googleapis.com/auth/userinfo.profile https://www.google.com/m8/feeds/', :access_type => "offline", :approval_prompt => "force")
+    client.auth_code.authorize_url(:redirect_uri => credentials['Signin Callback URL'], :scope => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email', :access_type => "online", :approval_prompt => "auto")
+  end
+  
+  def self.newSigninToken authCode   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+
+    #tokenURL = client.token_url(
+    #  :client_id => credentials['Client Id'],
+    #  :redirect_uri => credentials['Callback URL'],
+    #  :client_secret => credentials['Client Secret'],
+    #  :grant_type => "authorization_code", 
+    #  :code => authCode)
+    #PP::pp tokenURL, $stderr, 50
+      
+    token = client.get_token(
+      :client_id => credentials['Client Id'],
+      :redirect_uri => credentials['Signin Callback URL'],
+      :client_secret => credentials['Client Secret'],
+      :grant_type => "authorization_code", 
+      :code => authCode,
+      :parse => :json,
+      :token_method => :post,
+      :mode => :header
+      )
+
+  end
+  
+  def self.signinToken token   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+    
+    OAuth2::AccessToken.new(client, token)
+  end
+
+  def self.accessURL 
+    credentials = getOAuthConfig
+    client = getAuthConsumer credentials
+    client.auth_code.authorize_url(:redirect_uri => credentials['Access Callback URL'], :scope => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.google.com/m8/feeds/', :access_type => "offline", :approval_prompt => "force")
   end
   
 
@@ -47,7 +111,7 @@ class GoogleSocialService < SocialService
       
     token = client.get_token(
       :client_id => credentials['Client Id'],
-      :redirect_uri => credentials['Callback URL'],
+      :redirect_uri => credentials['Access Callback URL'],
       :client_secret => credentials['Client Secret'],
       :grant_type => "authorization_code", 
       :code => authCode,
@@ -75,7 +139,7 @@ class GoogleSocialService < SocialService
   end
   
   
-  def self.googleContacts token
+  def self.googleContacts accessToken
     response = token.get("https://www.google.com/m8/feeds/contacts/default/full", :params => { 'v' => '3.0', 'alt' => 'json'} )
     #PP::pp response.body, $stderr, 50
     result = response.body
@@ -92,6 +156,7 @@ private
     begin
       config = oauthConfig.loadOAuthConfig 'Google'
     rescue
+      errorMsg = "Unable to load config/oauth-key.yml"
       Kernel::raise errorMsg
     end
     config
@@ -167,6 +232,10 @@ private
     end
     
     googleContacts 
+  end
+
+  def self.isTokenExpired?
+  
   end
 
 end

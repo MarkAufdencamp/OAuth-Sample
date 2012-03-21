@@ -1,6 +1,5 @@
 require Rails.root.join('app', 'models', 'services', 'socialservice')
 require Rails.root.join('app', 'models', 'services', 'oauthconfig')
-
 # http://developers.facebook.com/docs/authentication/
 # http://developers.facebook.com/docs/reference/api/permissions/
 # http://developers.facebook.com/docs/reference/api/
@@ -14,15 +13,60 @@ require Rails.root.join('app', 'models', 'services', 'oauthconfig')
 # Note: This is a token for the user/app to access the permitted components. It expires and can be revoked!
 # After a token has been acquired, one may utilize the Facebook API to access permitted components. i.e. User, FriendList
 
+# oauth-key.yml
+#        Facebook:
+#            Application URL: https://domain.tld/OAuth-Sample
+#            Access Callback URL: https://domain.tld/OAuth-Sample/google/retrieveGoogleContacts
+#            Signin Callback URL: https://domain.tld/OAuth-Sample/google/retrieveGoogleContacts
+#            Service URL: https://accounts.google.com
+#            Client Id: "xxxxxxxxxxxxx.apps.googleusercontent.com"
+#            Client Secret: "xxxxxxxxxxxxxxxxxxxxxxxx"
+#
+
 class FacebookSocialService < SocialService
   
-  def self.authCodeURL 
+  def self.signinURL 
     credentials = getOAuthConfig
     client = getAuthConsumer credentials
-    client.auth_code.authorize_url(:redirect_uri => credentials['Callback URL'], :scope => 'user_about_me,friends_about_me,offline_access')
+    client.auth_code.authorize_url(:redirect_uri => credentials['Signin Callback URL'], :scope => 'user_about_me, email')
+  end
+  
+  def self.newSigninToken authCode   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+
+    #tokenURL = client.token_url(
+    #  :client_id => credentials['App ID'],
+    #  :redirect_uri => credentials['Callback URL'],
+    #  :client_secret => credentials['App Secret'],
+    #  :code => authCode)
+    #PP::pp tokenURL, $stderr, 50
+    
+    token = client.get_token( 
+      :client_id => credentials['App ID'],
+      :redirect_uri => credentials['Signin Callback URL'],
+      :client_secret => credentials['App Secret'],
+      :code => authCode,
+      :parse => :query,
+      :token_method => :get,
+      :mode => :query,
+      :param_name => 'access_token'
+      )
   end
 
-  
+  def self.signinToken token
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+    
+    OAuth2::AccessToken.new(client, token)
+  end
+
+  def self.accessURL 
+    credentials = getOAuthConfig
+    client = getAuthConsumer credentials
+    client.auth_code.authorize_url(:redirect_uri => credentials['Access Callback URL'], :scope => 'user_about_me,friends_about_me,offline_access')
+  end
+
   def self.newAccessToken authCode   
     credentials = getOAuthConfig
     client = getTokenConsumer credentials
@@ -36,7 +80,7 @@ class FacebookSocialService < SocialService
     
     token = client.get_token( 
       :client_id => credentials['App ID'],
-      :redirect_uri => credentials['Callback URL'],
+      :redirect_uri => credentials['Access Callback URL'],
       :client_secret => credentials['App Secret'],
       :code => authCode,
       :parse => :query,
