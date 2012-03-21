@@ -6,18 +6,17 @@ class YahooController < ApplicationController
 
   def authorizeAccess
     # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication    
-    requestToken = YahooSocialService.requestToken
+    requestToken = YahooSocialService.accessRequestToken
     #PP::pp requestToken, $stderr, 50
     if requestToken
       session[:yahooRequestToken] = requestToken.token
       session[:yahooRequestTokenSecret] = requestToken.secret
       redirect_to requestToken.authorize_url  
     else
-      errorMsg = "Unable to retrieve Request Token"
+      errorMsg = "Unable to retrieve Access Request Token"
       flash.now[:error] = errorMsg            
       redirect_to :action => :index
     end
-
   end
   
   def authorizationStatus
@@ -32,7 +31,7 @@ class YahooController < ApplicationController
       # Timestamp Token Instantiation
       session[:yahooTokenBirth] = Time.now
       accessToken = YahooSocialService.newAccessToken( session[:yahooRequestToken], session[:yahooRequestTokenSecret], session[:yahooVerifier] )
-      PP::pp accessToken, $stderr, 50
+      #PP::pp accessToken, $stderr, 50
 
       session[:yahooAccessToken] = accessToken.token
       session[:yahooAccessTokenSecret] = accessToken.secret
@@ -70,7 +69,7 @@ class YahooController < ApplicationController
   def retrieveYahooContacts    
     # Retrieve Token and Verifier from URL
     accessToken = YahooSocialService.accessToken(session[:yahooAccessToken], session[:yahooAccessTokenSecret], session[:yahooSessionHandle])
-    PP::pp accessToken, $stderr, 50
+    #PP::pp accessToken, $stderr, 50
     
     # Retrieve Yahoo GUID  and Contacts
     @yahooGUId = ''
@@ -83,9 +82,62 @@ class YahooController < ApplicationController
   end
 
   def signin
-    
+    # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication    
+    requestToken = YahooSocialService.signinRequestToken
+    #PP::pp requestToken, $stderr, 50
+    if requestToken
+      session[:yahooRequestToken] = requestToken.token
+      session[:yahooRequestTokenSecret] = requestToken.secret
+      redirect_to requestToken.authorize_url  
+    else
+      errorMsg = "Unable to retrieve Signin Request Token"
+      flash.now[:error] = errorMsg            
+      redirect_to :action => :index
+    end
   end
 
+  def userAuthenticated
+    #PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
+    # Compare session[:yahooRequestToken], params[:oauth_token]
+    session[:yahooSigninToken] = nil
+    if (params[:oauth_token] and params[:oauth_verifier] and !session[:yahooSigninToken])
+      # Store User Authoization Code
+      session[:yahooOAuthToken] = params[:oauth_token]
+      session[:yahooVerifier] = params[:oauth_verifier]
+      signinToken = YahooSocialService.newSigninToken( session[:yahooRequestToken], session[:yahooRequestTokenSecret], session[:yahooVerifier] )
+      PP::pp signinToken, $stderr, 50
+
+      session[:yahooSigninToken] = signinToken.token
+      session[:yahooSigninTokenSecret] = signinToken.secret
+      session[:yahooSessionHandle] = signinToken.params['oauth_session_handle']
+
+      session[:yahooGUId] = signinToken.params['xoauth_yahoo_guid']
+    end
+
+    signinToken = YahooSocialService.signinToken(session[:yahooSigninToken], session[:yahooSigninTokenSecret], session[:yahooSessionHandle])
+    
+
+    if !signinToken
+      flash[:error] = params[:error]
+      redirect_to :action => :accessDenied
+      return
+    end
+    
+    if signinToken
+      @yahooGUId = YahooSocialService.yahooGUID signinToken
+      profile = YahooSocialService.yahooProfile( signinToken, @yahooGUId )    
+      PP::pp profile, $stderr
+    end
+    
+    if profile
+      @yahooName = profile['profile']['nickname']    
+    end
+
+    redirect_to :controller => 'Welcome'
+  end
+  
 private
   
 end

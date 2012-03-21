@@ -21,10 +21,10 @@ class FacebookController < ApplicationController
     # Retrieve Request Token from Facebook and Re-Direct to Facebook for Authentication
     begin
       # Generate and Store nonce
-      url = FacebookSocialService.authCodeURL
+      url = FacebookSocialService.accessURL
       redirect_to url
     rescue
-      errorMsg = "Unable to retrieve Authorization URL"
+      errorMsg = "Unable to retrieve Access URL"
       flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
@@ -42,13 +42,13 @@ class FacebookController < ApplicationController
         authCode = session[:facebookAuthCode]
         session[:facebookTokenBirth] = Time.now
         accessToken = FacebookSocialService.newAccessToken authCode
-        PP::pp accessToken, $stderr, 50
+        #PP::pp accessToken, $stderr, 50
 
         session[:facebookAccessToken] = accessToken.token
         session[:facebookTokenExpiresIn] = 3600
         #PP::pp session, $stderr, 50
         if !accessToken
-          flash[:error] = "Error Retrieving AccessToken.  Authorization Code Present. FacebookSocialService.accessToken authCode failed to Return Token."
+          flash[:error] = "Error Retrieving Access Token.  Authorization Code Present. FacebookSocialService.accessToken authCode failed to Return Token."
           redirect_to :action => :accessDenied        
         end
       else
@@ -71,7 +71,7 @@ class FacebookController < ApplicationController
   def retrieveFacebookFriends
     #PP::pp params, $stderr, 50
     accessToken = FacebookSocialService.accessToken session[:facebookAccessToken]
-    PP::pp accessToken, $stderr, 50
+    #PP::pp accessToken, $stderr, 50
  
     # Retrieve Facebook Profile and Friends
     @facebookId = ''
@@ -93,9 +93,67 @@ class FacebookController < ApplicationController
   end
 
   def signin
-    
+    # Retrieve Request Token from Facebook and Re-Direct to Facebook for Authentication
+    begin
+      # Generate and Store nonce
+      url = FacebookSocialService.signinURL
+      redirect_to url
+    rescue
+      errorMsg = "Unable to retrieve Signin URL"
+      flash[:error_description] = errorMsg
+      redirect_to :action => :index
+    end   
   end
   
+  def userAuthenticated
+   #PP::pp params, $stderr, 50
+   #PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
+    if(params[:code] and params[:code] != '')
+      # Store User Authoization Code
+      session[:facebookSigninCode] = params[:code]
+      session[:facebookSigninToken] = nil
+      if(session[:facebookSigninCode] and !session[:facebookSigninToken])
+        signinCode = session[:facebookSigninCode]
+        #PP::pp authCode, $stderr, 50
+        signinToken = FacebookSocialService.newSigninToken signinCode
+        #PP::pp signinToken, $stderr, 50
+
+        session[:facebookSigninToken] = signinToken.token
+        if !signinToken
+          flash[:error] = "Error Retrieving Signin Token.  Authorization Code Present. FacebookSocialService.accessToken authCode failed to Return Token."
+          redirect_to :action => :accessDenied
+          return   
+        end
+      else
+        flash[:error] = "Error Retrieving Signin Token.  No Authorization Code Found."
+        redirect_to :action => :accessDenied
+        return
+      end 
+    end
+    if !session[:facebookSigninCode]
+      flash[:error] = params[:error]
+    end
+    
+    # Retrieve the Use Email Address
+    signinToken = FacebookSocialService.signinToken session[:facebookSigninToken]
+    if signinToken
+      facebookMe = FacebookSocialService.facebookMe signinToken
+    end
+    
+    # Factory a User_Session
+    if facebookMe
+      #PP::pp facebookMe, $stderr, 50
+      @facebookId = facebookMe['id']
+      @facebookUserName = facebookMe['username']
+      @facebookEMail = facebookMe['email']
+    end
+    
+    redirect_to :controller => 'Welcome'
+    
+  end
+
 private
       
   

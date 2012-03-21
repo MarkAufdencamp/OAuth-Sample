@@ -19,10 +19,10 @@ class WindowsliveController < ApplicationController
   def authorizeAccess
     # Retrieve Request Token from WindowsLive and Re-Direct to WindowsLive for Authentication
     begin
-      url = WindowsLiveSocialService.authCodeURL
+      url = WindowsLiveSocialService.accessURL
       redirect_to url
     rescue
-      errorMsg = "Umable to retrieve Authorization URL"
+      errorMsg = "Umable to retrieve Access URL"
       flash[:error_description] = errorMsg
       redirect_to :action => :index
     end
@@ -40,7 +40,7 @@ class WindowsliveController < ApplicationController
         authCode = session[:windowsLiveAuthCode]
         session[:windowsLiveTokenBirth] = Time.now
         accessToken = WindowsLiveSocialService.newAccessToken authCode
-        PP::pp accessToken, $stderr, 50
+        #PP::pp accessToken, $stderr, 50
 
         session[:windowsLiveAccessToken] = accessToken.token
         session[:windowsLiveTokenExpiresIn] = accessToken.expires_in
@@ -49,7 +49,7 @@ class WindowsliveController < ApplicationController
         #PP::pp session, $stderr, 50
         # TODO: Save the Access Token
         if !accessToken
-          flash[:error] = "Error Retrieving AccessToken.  Authorization Code Present. WindowsLiveSocialService.accessToken authCode failed to Return Token."
+          flash[:error] = "Error Retrieving Access Token.  Authorization Code Present. WindowsLiveSocialService.accessToken authCode failed to Return Token."
           redirect_to :action => :accessDenied        
         end
       else
@@ -75,7 +75,7 @@ class WindowsliveController < ApplicationController
   def retrieveWindowsLiveContacts
     #PP::pp params, $stderr, 50
     accessToken = WindowsLiveSocialService.accessToken session[:windowsLiveAccessToken]
-    PP::pp accessToken, $stderr, 50
+    #PP::pp accessToken, $stderr, 50
         
     # Data for Views
     @windowsLiveId = ''
@@ -95,6 +95,59 @@ class WindowsliveController < ApplicationController
   end
 
   def signin
+    begin
+      url = WindowsLiveSocialService.signinURL
+      redirect_to url
+    rescue
+      errorMsg = "Umable to retrieve Signin URL"
+      flash[:error_description] = errorMsg
+      redirect_to :action => :index
+    end
+  end
+  
+  def userAuthenticated
+    #PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
+    
+    if(params[:code] and params[:code] != '')
+      # Store User Authoization Code
+      session[:windowsLiveSigninCode] = params[:code]
+      session[:windowsLiveSigninToken]  = nil
+      if(session[:windowsLiveSigninCode] and !session[:windowsLiveSigninToken])
+        authCode = session[:windowsLiveSigninCode]
+        signinToken = WindowsLiveSocialService.newSigninToken authCode
+        #PP::pp signinToken, $stderr, 50
+
+        session[:windowsLiveSigninToken] = signinToken.token
+        #PP::pp session, $stderr, 50
+        # TODO: Save the Access Token
+        if !signinToken
+          flash[:error] = "Error Retrieving Signin Token.  Authorization Code Present. WindowsLiveSocialService.signinToken authCode failed to Return Token."
+          redirect_to :action => :accessDenied        
+        end
+      else
+        flash[:error] = "Error Retrieving Signin Token.  No Authorization Code Found."
+        redirect_to :action => :accessDenied
+      end
+    end
+    if !session[:windowsLiveSigninCode]
+      flash[:error] = params[:error]
+    end
+    
+    signinToken = WindowsLiveSocialService.signinToken session[:windowsLiveSigninToken]
+    if signinToken
+      windowsLiveMe = WindowsLiveSocialService.windowsLiveMe signinToken
+    end    
+    
+    if windowsLiveMe
+      #PP::pp windowsLiveMe, $stderr, 50
+      @windowsLiveId = windowsLiveMe['id']
+      @windowsLiveName = windowsLiveMe['name']        
+      @windowsLiveEMail = windowsLiveMe['emails']['preferred']
+    end
+    
+    redirect_to :controller => 'Welcome'
     
   end
 

@@ -16,14 +16,14 @@ class LinkedinController < ApplicationController
 
   def authorizeAccess
     # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication    
-    requestToken = LinkedInSocialService.requestToken
+    requestToken = LinkedInSocialService.accessRequestToken
     #PP::pp requestToken, $stderr, 50
     if requestToken
       session[:linkedInRequestToken] = requestToken.token
       session[:linkedInRequestTokenSecret] = requestToken.secret
       redirect_to requestToken.authorize_url  
     else
-      errorMsg = "Unable to retrieve Request Token"
+      errorMsg = "Unable to retrieve Access Request Token"
       flash.now[:error] = errorMsg            
       redirect_to :action => :index
     end
@@ -92,9 +92,61 @@ class LinkedinController < ApplicationController
   end
 
   def signin
-    
+    # Retrieve Request Token from LinkedIn and Re-Direct to LinkedIn for Authentication    
+    requestToken = LinkedInSocialService.signinRequestToken
+    #PP::pp requestToken, $stderr, 50
+    if requestToken
+      session[:linkedInRequestToken] = requestToken.token
+      session[:linkedInRequestTokenSecret] = requestToken.secret
+      redirect_to requestToken.authorize_url  
+    else
+      errorMsg = "Unable to retrieve Signin Request Token"
+      flash.now[:error] = errorMsg            
+      redirect_to :action => :index
+    end
   end
 
+  def userAuthenticated
+    # PP::pp session, $stderr, 50
+    # Test the referrer
+    # Retrieve and Test nonce
+    # Compare session[:linkedInRequestToken], params[:oauth_token]
+    session[:linkedInSigninToken] = nil
+    session[:linkedInSigninTokenSecret] = nil
+    if (params[:oauth_token] and params[:oauth_verifier] and !session[:linkedInSigninToken])
+      # Store User Authoization Code
+      session[:linkedInOAuthToken] = params[:oauth_token]
+      session[:linkedInVerifier] = params[:oauth_verifier]
+      signinToken = LinkedInSocialService.newSigninToken( session[:linkedInRequestToken], session[:linkedInRequestTokenSecret], session[:linkedInVerifier] )
+      PP::pp signinToken, $stderr, 50
+      session[:linkedInSigninToken] = signinToken.token
+      session[:linkedInSigninTokenSecret] = signinToken.secret
+    else
+        flash[:error] = "Error Retrieving Signin Token.  No Authorization Code Found."
+        redirect_to :action => :accessDenied
+    end
+
+    if !signinToken
+      flash[:error] = params[:error]
+      redirect_to :action => :accessDenied
+      return
+    end
+    
+    if signinToken
+      linkedInProfile = LinkedInSocialService.linkedInProfile signinToken
+      PP::pp linkedInProfile, $stderr
+    end
+    
+    if linkedInProfile  
+      @linkedInId = linkedInProfile['id']
+      firstName = linkedInProfile['firstName']
+      lastName = linkedInProfile['lastName']
+      @linkedInName = firstName + " " + lastName
+    end
+    
+    redirect_to :controller => 'Welcome'
+  end
+  
 private
 
   
