@@ -1,18 +1,32 @@
 <div class="Service">
-	<div class="ServiceHeader Google">
-		<h2>Google User Information</h2>
-		<div class="UserInfo Google">
-			<div>Google UserId - <%= @googleId %></div>
-			<div>Google Name - <%= @googleName %></div>
-			<br/>
+	<div class="ServiceHeader">
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("google-logo.jpg"), :controller => 'google'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>Google User Information</h1>
+			</div>
+			<div class="ServiceUserInfo">
+				<div class="UserInfo Google">
+					<ul class="UserInfo">
+						<li><h2>Google Id</h2><p class="Id"> <%= session[:googleId] %></p></li>
+						<li><h2>Google User Name</h2><p class="Name">  <%= session[:googleUserName] %></p></li>
+						<li><h2>Google EMail</h2><p class="EMail">  <%= session[:googleEMail] %></p></li>
+					</ul>
+				</div>
+			</div>
+			<h2>Google EMail Address Book</h2>
 		</div>
-		<h2>Google EMail Address Book</h2>
 	</div>
-	<div class="ServiceBody Google">  
-		<div class="UserContacts Google">
-		<% for contact in @googleContacts %>
-			<div class="UserContact Google <%= cycle('odd', 'even')%>"><%= contact[0] %><br/><%= contact[1] %><br/><%= contact[2] %> <%= contact[3] %></div>
-		<% end %>
+		
+	<div class="ServiceBody">  
+		<div class="ServiceBodyGroup">
+			<div class="UserContacts Google">
+				<% for contact in @googleContacts %>
+				<div class="UserContact Google <%= cycle('odd', 'even')%>"><%= contact[0] %><br/><%= contact[1] %><br/><%= contact[2] %> <%= contact[3] %></div>
+				<% end %>
+			</div>
 		</div>
 	</div>
 </div>
