@@ -73,6 +73,7 @@ div.Page_Body.Page_Body_Right{
 	padding: 0 0 0 0;
 }
 div.Page_Body.Page_Body_Center{
+	height: 100%;
 	margin: 0 12em 0 12em;
 	padding: 0 0 0 0;
 }
@@ -97,6 +98,7 @@ div.Page_Body p{
 	padding: 0 0 0 0;		
 }
 div.Page_Body.Flash{
+	
 }
 div.Page_Footer{
 	display: block;
