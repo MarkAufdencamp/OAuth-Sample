@@ -107,7 +107,7 @@ class YahooController < ApplicationController
       session[:yahooOAuthToken] = params[:oauth_token]
       session[:yahooVerifier] = params[:oauth_verifier]
       signinToken = YahooSocialService.newSigninToken( session[:yahooRequestToken], session[:yahooRequestTokenSecret], session[:yahooVerifier] )
-      PP::pp signinToken, $stderr, 50
+      #PP::pp signinToken, $stderr, 50
 
       session[:yahooSigninToken] = signinToken.token
       session[:yahooSigninTokenSecret] = signinToken.secret
@@ -128,11 +128,13 @@ class YahooController < ApplicationController
     if signinToken
       @yahooGUId = YahooSocialService.yahooGUID signinToken
       profile = YahooSocialService.yahooProfile( signinToken, @yahooGUId )    
-      PP::pp profile, $stderr
+      #PP::pp profile, $stderr
     end
     
     if profile
-      @yahooName = profile['profile']['nickname']    
+      @yahooName = profile['profile']['nickname']
+      session[:yahooGUId] = @yahooGUId
+      session[:yahooUserName] = @yahooName
     end
 
     redirect_to :controller => 'Welcome'

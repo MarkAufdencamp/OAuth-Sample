@@ -35,9 +35,9 @@ class WindowsliveController < ApplicationController
     
     if(params[:code] and params[:code] != '')
       # Store User Authoization Code
-      session[:windowsLiveAuthCode] = params[:code]
-      if(session[:windowsLiveAuthCode] and !session[:windowsLiveAccessToken])
-        authCode = session[:windowsLiveAuthCode]
+      session[:windowsLiveAccessCode] = params[:code]
+      if(session[:windowsLiveAccessCode] and !session[:windowsLiveAccessToken])
+        authCode = session[:windowsLiveAccessCode]
         session[:windowsLiveTokenBirth] = Time.now
         accessToken = WindowsLiveSocialService.newAccessToken authCode
         #PP::pp accessToken, $stderr, 50
@@ -57,7 +57,7 @@ class WindowsliveController < ApplicationController
         redirect_to :action => :accessDenied
       end
     end
-    if !session[:windowsLiveAuthCode]
+    if !session[:windowsLiveAccessCode]
       flash[:error] = params[:error]
     end
   end
@@ -66,7 +66,7 @@ class WindowsliveController < ApplicationController
     session[:windowsLiveAuthenticationToken] = nil
     session[:windowsLiveRefreshToken] = nil
     session[:windowsLiveAccessToken] = nil
-    session[:windowsLiveAuthCode] = nil
+    session[:windowsLiveAccessCode] = nil
 
     redirect_to :action => :index
 
@@ -145,6 +145,9 @@ class WindowsliveController < ApplicationController
       @windowsLiveId = windowsLiveMe['id']
       @windowsLiveName = windowsLiveMe['name']        
       @windowsLiveEMail = windowsLiveMe['emails']['preferred']
+      session[:windowsLiveId] = @windowsLiveId
+      session[:windowsLiveUserName] = @windowsLiveName
+      session[:windowsLiveEMail] = @windowsLiveEMail
     end
     
     redirect_to :controller => 'Welcome'

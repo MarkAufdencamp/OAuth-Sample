@@ -35,9 +35,9 @@ class GoogleController < ApplicationController
     # Retrieve and Test nonce
     if(params[:code] and params[:code] != '')
       # Store User Authoization Code
-      session[:googleAuthCode] = params[:code]
-      if(session[:googleAuthCode] and !session[:googleAccessToken])
-        authCode = session[:googleAuthCode]
+      session[:googleAccessCode] = params[:code]
+      if(session[:googleAccessCode] and !session[:googleAccessToken])
+        authCode = session[:googleAccessCode]
         session[:googleTokenBirth] = Time.now
         accessToken = GoogleSocialService.newAccessToken authCode
         #PP::pp accessToken, $stderr, 50
@@ -58,16 +58,18 @@ class GoogleController < ApplicationController
       end 
 
     end
-    if !session[:googleAuthCode]
+    if !session[:googleAccessCode]
       flash[:error] = params[:error]
     end
   end
 
   def revokeAccess
-    session[:googleIdToken] = nil
     session[:googleRefreshToken] = nil
     session[:googleAccessToken] = nil
-    session[:googleAuthCode] = nil
+    session[:googleAccessCode] = nil
+    session[:googleTokenExpiresIn] = nil
+    session[:googleTokenBirth] = nil
+    
     redirect_to :action => :index    
   end
   
@@ -147,6 +149,9 @@ class GoogleController < ApplicationController
       @googleId = userProfile['id']
       @googleName = userProfile['name']
       @googleEMail = userProfile['email']
+      session[:googleId] = @googleId
+      session[:googleUserName] = @googleName
+      session[:googleEMail] = @googleEMail
     end
     
     redirect_to :controller => 'Welcome'

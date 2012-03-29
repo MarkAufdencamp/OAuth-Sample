@@ -40,7 +40,7 @@ class LinkedinController < ApplicationController
       session[:linkedInVerifier] = params[:oauth_verifier]
       session[:linkedInTokenBirth] = Time.now
       accessToken = LinkedInSocialService.newAccessToken( session[:linkedInRequestToken], session[:linkedInRequestTokenSecret], session[:linkedInVerifier] )
-      PP::pp accessToken, $stderr, 50
+      #PP::pp accessToken, $stderr, 50
       session[:linkedInAccessToken] = accessToken.token
       session[:linkedInAccessTokenSecret] = accessToken.secret
       session[:linkedInExpiresIn] = accessToken.params['oauth_expires_in']
@@ -72,7 +72,7 @@ class LinkedinController < ApplicationController
   def retrieveLinkedInConnections
     # Retrieve Token and Verifier from URL     
     accessToken = LinkedInSocialService.accessToken(session[:linkedInAccessToken], session[:linkedInAccessTokenSecret])
-    PP::pp accessToken, $stderr, 50
+    #PP::pp accessToken, $stderr, 50
   
     # Retrieve LinkedIn ID and Connections
     @linkedInId = ''
@@ -118,7 +118,7 @@ class LinkedinController < ApplicationController
       session[:linkedInOAuthToken] = params[:oauth_token]
       session[:linkedInVerifier] = params[:oauth_verifier]
       signinToken = LinkedInSocialService.newSigninToken( session[:linkedInRequestToken], session[:linkedInRequestTokenSecret], session[:linkedInVerifier] )
-      PP::pp signinToken, $stderr, 50
+      #PP::pp signinToken, $stderr, 50
       session[:linkedInSigninToken] = signinToken.token
       session[:linkedInSigninTokenSecret] = signinToken.secret
     else
@@ -134,7 +134,7 @@ class LinkedinController < ApplicationController
     
     if signinToken
       linkedInProfile = LinkedInSocialService.linkedInProfile signinToken
-      PP::pp linkedInProfile, $stderr
+      #PP::pp linkedInProfile, $stderr
     end
     
     if linkedInProfile  
@@ -142,6 +142,8 @@ class LinkedinController < ApplicationController
       firstName = linkedInProfile['firstName']
       lastName = linkedInProfile['lastName']
       @linkedInName = firstName + " " + lastName
+      session[:linkedInUserId] = @linkedInId
+      session[:linkedInUserName] = @linkedInName
     end
     
     redirect_to :controller => 'Welcome'

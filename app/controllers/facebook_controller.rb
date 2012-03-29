@@ -37,9 +37,9 @@ class FacebookController < ApplicationController
     # Retrieve and Test nonce
     if(params[:code] and params[:code] != '')
       # Store User Authoization Code
-      session[:facebookAuthCode] = params[:code]
-      if(session[:facebookAuthCode] and !session[:facebookAccessToken])
-        authCode = session[:facebookAuthCode]
+      session[:facebookAccessCode] = params[:code]
+      if(session[:facebookAccessCode] and !session[:facebookAccessToken])
+        authCode = session[:facebookAccessCode]
         session[:facebookTokenBirth] = Time.now
         accessToken = FacebookSocialService.newAccessToken authCode
         #PP::pp accessToken, $stderr, 50
@@ -56,7 +56,7 @@ class FacebookController < ApplicationController
         redirect_to :action => :accessDenied
       end 
     end
-    if !session[:facebookAuthCode]
+    if !session[:facebookAccessCode]
       flash[:error] = params[:error]
     end
   end
@@ -64,7 +64,9 @@ class FacebookController < ApplicationController
 
   def revokeAccess
     session[:facebookAccessToken] = nil
-    session[:facebookAuthCode] = nil
+    session[:facebookAccessCode] = nil
+    session[:facebookTokenBirth] = nil
+    session[:facebookTokenExpiresIn] = nil
     redirect_to :action => :index    
   end
 
@@ -148,7 +150,11 @@ class FacebookController < ApplicationController
       @facebookId = facebookMe['id']
       @facebookUserName = facebookMe['username']
       @facebookEMail = facebookMe['email']
+      session[:facebookId] = @facebookId
+      session[:facebookUserName] = @facebookUserName
+      session[:facebookEMail] = @facebookEMail
     end
+    
     
     redirect_to :controller => 'Welcome'
     

@@ -72,7 +72,7 @@ class TwitterController < ApplicationController
   def retrieveTwitterFriends
     # Retrieve Token and Verifier from URL     
     accessToken = TwitterSocialService.accessToken(session[:twitterAccessToken], session[:twitterAccessTokenSecret])
-    PP::pp accessToken, $stderr, 50
+    #PP::pp accessToken, $stderr, 50
     
     # Retrieve Twitter GUID and Contacts
     @twitterName = ''
@@ -147,6 +147,7 @@ class TwitterController < ApplicationController
       user = userArray[0]
       @twitterName = user['name']
       @twitterId = user['id_str']
+      session[:twitterUserName] = @twitterName
     end
 
     redirect_to :controller => 'Welcome'
