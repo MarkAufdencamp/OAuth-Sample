@@ -1,53 +1,62 @@
 <div class="Service">
 	<div class="ServiceHeader">
-		<div class="ServiceIcon">
-			<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
-		</div>
-		<div class="ServiceTitle">
-			<h1>Twitter</h1>
-		</div>
-		<div class="ServiceLinks">
-			<a href="https://dev.twitter.com/" target="_blank" ><h2>Documentation</h2></a>
-		</div>
-		<div class="ServiceLinks">
-			<a href="https://dev.twitter.com/apps" target="_blank" ><h2>API Keys</h2></a>
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>Twitter</h1>
+			</div>
+			<div class="ServiceLinks">
+				<p><a href="https://dev.twitter.com/" target="_blank" ><h2>Documentation</h2></a></p>
+				<p><a href="https://dev.twitter.com/apps" target="_blank" ><h2>API Keys</h2></a></p>
+			</div>
 		</div>
 	</div>
+	
 	<div class="ServiceBody">
-		<div class="ServiceFeature">
-			<% if session[:twitterAccessToken] %>
+		<div class="ServiceBodyGroup">
+		<% if session[:twitterAccessToken] %>
+			<div class="ServiceFeature">
 				<div class="ServicePanel MenuItem Red">	
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'revokeAccess' %>
+						<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'revokeAccess' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Revoke Twitter Access", :controller => 'twitter', :action=> 'revokeAccess' %>	
+						<%= link_to "Revoke Twitter Access", :controller => 'twitter', :action=> 'revokeAccess' %>	
 					</div>
 				</div>
+			</div>
+			<div class="ServiceFeature">
 				<div class="ServicePanel MenuItem Green">
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'retrieveTitterFriends' %>
+						<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'retrieveTitterFriends' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Retrieve Twitter Friends", :controller => 'twitter', :action=> 'retrieveTwitterFriends' %>	
+						<%= link_to "Retrieve Twitter Friends", :controller => 'twitter', :action=> 'retrieveTwitterFriends' %>	
 					</div>
 				</div>
-			<% else %>
+			</div>
+		<% else %>
+			<div class="ServiceFeature">
 				<div class="ServicePanel MenuItem Green">	
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'authorizeAccess' %>
+						<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'authorizeAccess' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Authorize Twitter Access", :controller => 'twitter', :action=> 'authorizeAccess' %>	
+						<%= link_to "Authorize Twitter Access", :controller => 'twitter', :action=> 'authorizeAccess' %>	
 					</div>
 				</div>
-			<% end %>
-			<div class="ServicePanel MenuItem Green">	
-				<div class="ServicePanel MenuItemIcon">
-				<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'authorizationStatus' %>
-				</div>
-				<div class="ServicePanel MenuItemTitle">
-				<%= link_to "Twitter Authorization Status", :controller => 'twitter', :action=> 'authorizationStatus' %>	
+			</div>
+		<% end %>
+			<div class="ServiceFeature">
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+						<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'authorizationStatus' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+						<%= link_to "Twitter Authorization Status", :controller => 'twitter', :action=> 'authorizationStatus' %>	
+					</div>
 				</div>
 			</div>
 		</div>

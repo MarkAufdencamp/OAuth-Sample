@@ -1,18 +1,32 @@
 <div class="Service">
-	<div class="ServiceHeader Twitter">
-		<h1>Twitter User Information</h1>
-		<div class="UserInfo Twitter">
-			<div>Twitter Screen Name - <%= @twitterScreenName %></div>
-			<div>Twitter Id- <%= @twitterId %></div>
-			<div>Twitter User Name - <%= @twitterName %></div>
+	<div class="ServiceHeader">
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>Twitter User Information</h1>
+			</div>
+			<div class="ServiceUserInfo">
+				<div class="UserInfo Twitter">
+					<ul class="UserInfo">
+						<li><h2>Twitter Id</h2><p class="Id"> <%= session[:twitterUserId] %></p></li>
+						<li><h2>Twitter User Name</h2><p class="Name">  <%= session[:twitterScreenName] %></p></li>
+						<li><h2>Twitter Screen Name</h2><p class="Name">  <%= session[:twitterUserName] %></p></li>
+					</ul>
+				</div>
+			</div>
+			<h2>Twitter Friends List</h2>
 		</div>
-		<h2>Twitter Friends List</h2>
 	</div>
-	<div class="ServiceBody Twitter">  
-		<div class="UserFriends Twitter">
-		<% for friend in @twitterFriends %>
-			<div class="UserFriend Twitter <%= cycle('odd', 'even')%>"><%= friend[0] %></div>
-		<% end %>
+
+	<div class="ServiceBody">  
+		<div class="ServiceBodyGroup">
+			<div class="UserFriends Twitter">
+			<% for friend in @twitterFriends %>
+				<div class="UserFriend Twitter <%= cycle('odd', 'even')%>"><%= friend[0] %></div>
+			<% end %>
+			</div>
 		</div>
 	</div>
 </div>

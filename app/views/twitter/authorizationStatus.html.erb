@@ -1,54 +1,134 @@
+<script>
+	dojo.require("dijit.Dialog");
+	var signinToken = function(){		
+		dijit.byId('signinToken').show();
+		}
+	var signinTokenSecret = function(){		
+		dijit.byId('signinTokenSecret').show();
+		}
+	var accessToken = function(){		
+		dijit.byId('accessToken').show();
+		}
+	var accessTokenSecret = function(){		
+		dijit.byId('accessTokenSecret').show();
+		}
+</script>
+
+
 <div class="Service">
 	<div class="ServiceHeader">
-		<div class="ServiceIcon">
-			<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
-		</div>
-		<div class="ServiceTitle">
-			<h1>Twitter</h1>
-		</div>
-		<div class="ServiceLinks">
-			<a href="https://dev.twitter.com/" target="_blank" ><h2>Documentation</h2></a>
-		</div>
-		<div class="ServiceLinks">
-			<a href="https://dev.twitter.com/apps" target="_blank" ><h2>API Keys</h2></a>
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("twitter-icon.png"), :controller => 'twitter'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>Twitter</h1>
+			</div>
+			<div class="ServiceLinks">
+				<p><a href="https://dev.twitter.com/" target="_blank" ><h2>Documentation</h2></a></p>
+				<p><a href="https://dev.twitter.com/apps" target="_blank" ><h2>API Keys</h2></a></p>
+			</div>
 		</div>
 	</div>
+	
 	<div class="ServiceBody">
-		<div class="ServiceFeature">
-			<% if session[:twitterAccessToken] %>
-				<div>
-					Twitter Access has been Authorized!  Access Token Stored in Session.			
-				</div>
+		<div class="ServiceBodyGroup">
+		<% if session[:twitterSigninToken] %>
+			<div class="ServiceFeature">
 				<div class="ServicePanel MenuItem Green">
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'index' %>
+						<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'index' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Twitter Access Authorized - Return to Service Panel", :controller => 'twitter', :action=> 'index' %>	
+						<%= link_to "Signin with Twitter Account", :controller => 'twitter', :action=> 'index' %>	
+					</div>
+				</div>
+			</div>
+		<% end %>
+		<% if session[:twitterSigninToken] %>		
+			<div class="ServiceFeature">
+				<div class="ServicePanel MenuItem Green">
+					<div class="UserSigninInfo">
+						<ul class="UserSigninInfo">
+							<li><h2>Twitter User Id</h2><p class="Id"> <%= session[:twitterUserId] %></p></li>
+							<li><h2>Twitter Screen Name</h2><p class="Name"> <%= session[:twitterScreenName] %></p></li>
+							<li><h2>Twitter User Name</h2><p class="Name"> <%= session[:twitterUserName] %></p></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		<% end %>
+		<% if session[:twitterAccessToken] %>
+			<div class="ServiceFeature">
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+						<%= link_to image_tag("authorized-256Px-146.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'index' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+						<%= link_to "Twitter Account Access Authorized", :controller => 'twitter', :action=> 'index' %>	
 					</div>
 				</div>						
-			<% else %>		
-				<div>
-					Twitter Access NOT Authorized! No Authorization Code.
-				</div>
+		</div>
+		<% end %>	
+		<% if !session[:twitterAccessToken] %>
+			<div class="ServiceFeature">							
 				<div class="ServicePanel MenuItem Red">	
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'index' %>
+						<%= link_to image_tag("unauthorized-256Px-145.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'twitter', :action=> 'index' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Twitter Access Denied - Return to Service Panel", :controller => 'twitter', :action=> 'index' %>	
+						<%= link_to "Twitter Account Access NOT Authorized", :controller => 'twitter', :action=> 'index' %>	
 					</div>
 				</div>				
-			<% end %>			
-		</div>
-		<div class="TokenInfo">
-			Request Token - <%= session[:twitterRequestToken] %><br />
-			Request Token Secret - <%= session[:twitterRequestTokenSecret] %><br />
-			OAuth Verifier - <%= session[:twitterVerifier] %><br />
-			Access Token - <%= session[:twitterAccessToken] %><br />
-			Access Token Secret - <%= session[:twitterAccessTokenSecret] %><br />
-			Access Token Birth - <%= session[:twitterTokenBirth] %><br />
-			Access Token Life - Until User Revocation
+			</div>
+		<% end %>			
+		<% if session[:twitterSigninToken] %>
+			<div class="ServiceFeature">							
+				<div class="ServicePanel MenuItem Green">	
+					<ul class="SigninTokenInfo">
+						<a href="javascript:signinToken()"><li><h2>Signin Token</h2><%= image_tag("keys-256Px-144.png")  %></li></a>
+						<a href="javascript:signinTokenSecret()"><li><h2>Signin Token Secret</h2><%= image_tag("keys-256Px-144.png")  %></li></a>
+					</ul>
+				</div>
+			</div>
+		<% end %>
+		<% if session[:twitterAccessToken] %>
+			<div class="ServiceFeature">							
+				<div class="ServicePanel MenuItem Green">	
+					<ul class="AccessTokenInfo">
+						<a href="javascript:accessToken()"><li><h2>Access Token</h2><%= image_tag("keys-256Px-144.png")  %></li></a>
+						<a href="javascript:accessTokenSecret()"><li><h2>Access Token Secret</h2><%= image_tag("keys-256Px-144.png")  %></li></a>
+					</ul>
+				</div>
+			</div>
+		<% end %>
 		</div>
 	</div>
+	
+	<div id="signinToken" dojoType="dijit.Dialog">
+		<h2>Signin Token</h2>
+		<p style="overflow: auto;"><%= session[:twitterSigninToken] %></p>
+	</div>
+	
+	<div id="signinTokenSecret" dojoType="dijit.Dialog">
+		<h2>Signin Token Secret</h2>
+		<p style="overflow: auto;"><%= session[:twitterSigninTokenSecret] %></p>
+	</div>
+	
+	<div id="accessToken" dojoType="dijit.Dialog">
+		<h2>Access Token</h2>
+		<p style="overflow: auto;"><%= session[:twitterAccessToken] %></p>
+		<h2>OAuth Verifier</h2>
+		<p class="Id"> <%= session[:twitterVerifier] %></p>
+		<h2>Access Token Birth</h2>
+		<p class="Id"> <%= session[:twitterTokenBirth] %></p>
+		<h2>Access Token Life</h2>
+		<p class="Id">Until User Revocation</p>
+	</div>
+	
+	<div id="accessTokenSecret" dojoType="dijit.Dialog">
+		<h2>Access Token Secret</h2>
+		<p style="overflow: auto;"><%= session[:twitterAccessTokenSecret] %></p>
+	</div>
+
 </div>
