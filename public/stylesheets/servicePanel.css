@@ -1,53 +1,54 @@
 div.ServiceHeader {
-	display: inline;
-	float: left;
 	clear: none;
-	height: 16ex;
-	width: 40em;
+	float: left;
+	max-width: 36em;
 	background-color: #B4D5E5;
-	border: outset;
 	-webkit-border-top-left-radius: 10px;
 	-webkit-border-top-right-radius: 10px;
 	-moz-border-radius-topleft: 10px;
 	-moz-border-radius-topright: 10px;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
+	border-bottom: solid;
+}
+div.ServiceHeaderGroup {
 }
 div.ServiceHeader h1 {
 	color: #B79DB7;
-	color: #DE8992;
+	/*color: #DE8992;*/
 	text-align: center;
-	margin: 1ex auto 0 auto;
+	margin: 0 auto 0 auto;
 }
 div.ServiceHeader h2 {
-	color: #B79DB7;
+	/*color: #B79DB7;*/
 	color: #DE8992;
 	text-align: center;
-	margin: 1ex auto 0 auto;
+	margin: 0 auto 0 auto;
 }
 div.ServiceIcon {
 	display: inline;
 	float: left;
 	clear: none;
-	height: 12ex;
+	height: 10ex;
+	width: 10em;
 	margin: 0 0 0 0;
 	padding: 1ex 1em 1ex 1em;
 	overflow: hidden;
 }
 div.ServiceIcon a img {
 	display: inline;
-	height: 10ex;
-	margin: 0 1ex 0 1ex;
+	width: 4em;
+	margin: 1ex 3em 1ex 3em;
 	padding: 0 0 0 0;
 }
 div.ServiceTitle {
 	display: inline;
 	float: left;
 	clear: none;
-	width: 8em;
-	height: 8ex;
-	margin: 0 0 0 0;
-	padding: 2ex 0 2ex 0;
+	width: 10em;
+	height: 10ex;
+	margin: 1ex 1em 1ex 1em;
+	padding: 0 0 0 0;
 	overflow: hidden;
 
 }
@@ -55,9 +56,9 @@ div.ServiceLinks {
 	display: inline;
 	float: left;
 	clear: none;
-	width: 15em;
-	height: 6ex;
-	margin: 0 0 0 0;
+	width: 10em;
+	height: 10ex;
+	margin: 1ex 1em 1ex 1em;
 	padding: 0 0 0 0;
 	overflow: hidden;
 
@@ -65,14 +66,31 @@ div.ServiceLinks {
 div.ServiceLinks h2{
 	color: #B43530;
 }
-div.ServiceBody {
+div.ServiceUserInfo {
 	display: inline;
 	float: left;
 	clear: none;
-	height: 56ex;
-	width: 40em;
-	background-color: #B4D5E5;
-	border: outset;
+	width: 10em;
+	height: 10ex;
+	margin: 1ex 1em 1ex 1em;
+	padding: 0 0 0 0;
+	overflow: hidden;
+}
+
+
+
+
+div.ServiceBody {
+	clear: none;
+	max-width: 36em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+div.ServiceBodyGroup {
+	display: inline;
+	float: left;
+	clear: none;
+	/*background-color: #B4D5E5;*/
 	-webkit-border-bottom-left-radius: 10px;
 	-webkit-border-bottom-right-radius: 10px;
 	-moz-border-radius-bottomleft: 10px;
@@ -81,6 +99,10 @@ div.ServiceBody {
 	border-bottom-right-radius: 10px;
 }
 div.ServiceFeature {
+	display: inline;
+	width: 12em;
+	float: left;
+	clear: none;
 }
 
 div.ServicePanel.MenuItem {
@@ -116,7 +138,98 @@ div.ServicePanel.MenuItemIcon a img {
 	width: 60%;
 	margin: 1ex 20% 1ex 20%;
 }
-div.TokenInfo {
-	clear: both;
+
+div.ServiceInfo {
+	width: 25em;
+	border: none;
+/*	margin-left: 15em;
+*/}
+
+div.UserSigninInfo {
+	display: inline;
+	float: left;
+	clear: none;
+	width: 12em;
+	border: none;
+}
+
+ul.SigninTokenInfo {
+	float: left;
+	clear: none;
+	width: 10em;
+	border: none;
+	font-size: 3ex;
+}
+ul.SigninTokenInfo li{
+	clear: none;
+}
+ul.SigninTokenInfo li h2{
+	width: 8em;
+	clear: left;
+	text-align: center;
+}
+ul.SigninTokenInfo li img {
+	display: inline;
+	width: 2em;
+	margin: 0 4em 0 4em;
+	padding: 0 0 0 0;
+}
+
+ul.AccessTokenInfo {
+	float: left;
+	clear: none;
+	width: 10em;
+	border: none;
+	font-size: 3ex;
+}
+ul.AccessTokenInfo li{
+	clear: none;
+}
+ul.AccessTokenInfo li h2{
+	width: 8em;
+	clear: left;
+	text-align: center;
+}
+ul.AccessTokenInfo img {
+	display: inline;
+	width: 2em;
+	margin: 0 4em 0 4em;
+	padding: 0 0 0 0;
+	border: none;
+}
+
+ul.RequestTokenInfo {
+	float: left;
+	clear: none;
+	width: 10em;
+	border: none;
+	font-size: 3ex;
+}
+ul.RequestTokenInfo li{
+	clear: none;
+}
+ul.RequestTokenInfo li h2{
+	width: 8em;
+	clear: left;
+	text-align: center;
+}
+ul.RequestTokenInfo li img {
+	display: inline;
+	width: 2em;
+	margin: 0 4em 0 4em;
+	padding: 0 0 0 0;
+}
+
+#signinCode {
+	width: 32em;
+}
+#signinToken {
+	width: 32em;
+}
+#accessCode {
+	width: 32em;
+}
+#accessToken {
+	width: 32em;
 }
 
