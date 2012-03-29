@@ -1,18 +1,31 @@
 <div class="Service">
-	<div class="ServiceHeader LinkedIn">
-		<h2>LinkedIn User Information</h2>
-		<div class="UserInfo LinkedIn">
-			<div>LinkedIn User Id - <%= @linkedInId %></div>
-			<div>LinkedIn User Name - <%= @linkedInName %></div>
-			<br/>
+	<div class="ServiceHeader">
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("linked-in-icon.png"), :controller => 'linkedin'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>LinkedIn User Information</h1>
+			</div>
+			<div class="ServiceUserInfo">
+				<div class="UserInfo LinkedIn">
+					<ul class="UserInfo">
+						<li><h2>LinkedIn Id</h2><p class="Id">  <%= session[:linkedInUserId] %></p></li>
+						<li><h2>LinkedIn User Name</h2><p class="Id">  <%= session[:linkedInUserName] %></p></li>
+					</ul>
+				</div>
+			</div>
+			<h2>LinkedIn Connections List</h2>
 		</div>
-		<h2>LinkedIn Connections List</h2>
 	</div>
-	<div class="ServiceBody LinkedIn">  
-		<div class="UserConections LinkedIn">
-		<% for connection in @linkedInConnections %>
-			<div class="UserConnection LinkedIn <%= cycle('odd', 'even')%>"><%= connection[0] %><br /><%= connection[1] %><br /><%= connection[2] %><br /><%= connection[3] %></div>
-		<% end %>
+	
+	<div class="ServiceBody">  
+		<div class="ServiceBodyGroup">
+			<div class="UserConections LinkedIn">
+			<% for connection in @linkedInConnections %>
+				<div class="UserConnection LinkedIn <%= cycle('odd', 'even')%>"><%= connection[0] %><br /><%= connection[1] %><br /><%= connection[2] %><br /><%= connection[3] %></div>
+			<% end %>
+			</div>
 		</div>
 	</div>
 </div>
