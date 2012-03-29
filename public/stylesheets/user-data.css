@@ -1,38 +1,107 @@
 .UserInfo {
+	width: 12em;
 	border-bottom: solid;
+}
+
+.UserInfo.Facebook {
+	background-color: white;
+}
+.UserInfo.Facebook ul li h2{
+	text-align: justify;
 }
 .UserContacts {
 	overflow: scroll;
-	height: 55ex;
-	padding: .5ex 0 .5ex 0;
+	width: 36em;
+	height: 48ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+.UserContact {
+	width: 35em;
+	margin: 0 1em 0 1em;
+	padding: 0 0 0 0;
+}
+.UserContact.Facebook {
+	height: 3ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+.UserInfo.WindowsLive {
+	background-color: white;
+}
+.UserInfo.WindowsLive ul li h2{
+	text-align: justify;
+}
+.UserContact.WindowsLive {
+	height: 6ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+
+
+.UserInfo.Twitter {
+	background-color: white;
+}
+.UserInfo.Twitter ul li h2{
+	text-align: justify;
 }
 .UserFriends {
 	overflow: scroll;
-	height: 55ex;
-	padding: .5ex 0 .5ex 0;
-}
-.UserConections {
-	overflow: scroll;
-	height: 55ex;
-	padding: .5ex 0 .5ex 0;
-}
-
-.UserContact {
-	width: 37em;
-	margin: 0 .5em 0 .5em;
-	padding: .5ex .5em .5ex .5em;
+	width: 36em;
+	height: 48ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
 }
 .UserFriend {
-	width: 37em;
-	margin: 0 .5em 0 .5em;
-	padding: .5ex .5em .5ex .5em;
+	width: 35em;
+	margin: 0 1em 0 1em;
+	padding: 0 0 0 0;
 }
-.UserConnection {
-	width: 37em;
-	margin: 0 .5em 0 .5em;
-	padding: .5ex .5em .5ex .5em;
+.UserFriend.Twitter {
+	height: 3ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
 }
 
+.UserInfo.Yahoo {
+	background-color: white;
+}
+.UserInfo.Yahoo ul li h2 {
+	text-align: justify;
+}
+.UserContact.Yahoo {
+	height: 8ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+
+.UserInfo.Google {
+	background-color: white;
+}
+.UserInfo.Google ul li h2 {
+	text-align: justify;
+}
+.UserContacts {
+	overflow: scroll;
+	width: 36em;
+	height: 48ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	background-color: #B4D5E5;
+}
+.UserContact {
+	width: 35em;
+	margin: 0 1em 0 1em;
+	padding: 0 0 0 0;
+}
+.UserContact.Google {
+	height: 8ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
 
 .odd {
 	color: #0DB14B;
@@ -43,6 +112,43 @@
 	background-color: #0DB14B;	
 }
 
+
+
+
+
+.UserInfo.LinkedIn {
+	background-color: white;
+}
+.UserInfo.LinkedIn ul li h2 {
+	text-align: justify;
+}
+.UserConnections {
+	overflow: scroll;
+	width: 36em;
+	height: 48ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+.UserConnection.LinkedIn {
+	height: 10ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+.UserConections {
+	overflow: scroll;
+	width: 36em;
+	height: 48ex;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+.UserConnection {
+	width: 35em;
+	margin: 0 1em 0 1em;
+	padding: 0 0 0 0;
+}
+
+
+
 .UserInfo.Sample {
 }
 .UserContacts.Sample {
@@ -52,40 +158,12 @@
 }
 
 
-.UserInfo.AOL {
-}
-.UserContacts.AOL {
-}
 .UserContact.AOL {
 	height: 3ex;
 }
 
 
-.UserInfo.Facebook {
-}
-.UserContacts.Facebook {
-}
-.UserContact.Facebook {
-	height: 3ex;
-}
 
-
-.UserInfo.Google {
-}
-.UserContacts.Google {
-}
-.UserContact.Google {
-	height: 8ex;
-}
-
-
-.UserInfo.LinkedIn {
-}
-.UserConnections.LinkedIn {
-}
-.UserConnection.LinkedIn {
-	height: 10ex;
-}
 
 
 .UserInfo.MySpace {
@@ -97,28 +175,6 @@
 }
 
 
-.UserInfo.Twitter {
-}
-.UserFriends.Twitter {
-}
-.UserFriend.Twitter {
-	height: 3ex;
-}
 
 
-.UserInfo.WindowsLive {
-}
-.UserContacts.WindowsLive {
-}
-.UserContact.WindowsLive {
-	height: 6ex;
-}
 
-
-.UserInfo.Yahoo {
-}
-.UserContacts.Yahoo {
-}
-.UserContact.Yahoo {
-	height: 8ex;
-}
