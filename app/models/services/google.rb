@@ -140,7 +140,7 @@ class GoogleSocialService < SocialService
   
   
   def self.googleContacts accessToken
-    response = token.get("https://www.google.com/m8/feeds/contacts/default/full", :params => { 'v' => '3.0', 'alt' => 'json'} )
+    response = accessToken.get("https://www.google.com/m8/feeds/contacts/default/full", :params => { 'v' => '3.0', 'alt' => 'json'} )
     #PP::pp response.body, $stderr, 50
     result = response.body
     data = JSON.parse(result)
