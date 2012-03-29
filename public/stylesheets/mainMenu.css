@@ -1,4 +1,10 @@
 div.MainMenu.Menu {
+	border: outset;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	background-color: #B4D5E5;
 }
 div.MainMenu.MenuTitle {
 }
@@ -8,9 +14,9 @@ div.MainMenu.MenuButton  {
 	clear: left;
 	width: 8em;
 	background-color: #B4D5E5;
-	min-height: 4ex;
+	height: 4ex;
 	margin: 1ex auto 1ex auto;
-	padding: 1ex 0em 0ex 1em;
+	/*padding: 1ex 0em 0ex 1em;*/
 	border: outset;
 	border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -24,6 +30,8 @@ div.MainMenu.MenuButton.Fails  {
 	background-color: #DE8992;
 }
 div.MainMenu.MenuItem {
+	text-align: center;
+	margin-top: 1ex;
 }
 div.MainMenu.MenuItemTitle {
 }
