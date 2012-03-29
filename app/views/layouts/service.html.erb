@@ -5,14 +5,16 @@
 		<title>OAuth Sample Service API Page</title>
 		<%= stylesheet_link_tag 'reset' %>  		
   		<%= stylesheet_link_tag 'default' %>
-  		<%= stylesheet_link_tag 'controlPanel' %>
   		<%= stylesheet_link_tag 'mainMenu' %>
   		<%= stylesheet_link_tag 'servicePanel' %>
   		<%= stylesheet_link_tag 'user-data' %>
+		
+		<link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/dojo/1.7.2/dijit/themes/claro/claro.css" media="screen"/>
 
+		<script src="//ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug: true"></script>
 		<%= javascript_include_tag 'google-analytics' %>
 	</head>
-	<body>
+	<body class="claro">
 		<div class="Page_Header">
 		  <div class="Page_Header Page_Header_App_Name">
 		  	<h1>OAuth-Sample Application</h1>
@@ -24,38 +26,62 @@
 		<div class="Page_Body">
 		  <!-- Page_Body_Left -->
 		  <div class="Page_Body Page_Body_Left">
+		  	<div class="MainMenu Menu">
 			<div class="MainMenu MenuButton Passes">
-			   	<%= link_to "Facebook API", :controller => 'facebook' %>
+				<div class="MainMenu MenuItem">
+			   		<%= link_to "Facebook API", :controller => 'facebook' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Passes">
-			   	<%= link_to "Twitter API", :controller => 'twitter' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "Twitter API", :controller => 'twitter' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Passes">
-			   	<%= link_to "Google API", :controller => 'google' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "Google API", :controller => 'google' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Passes">
-			   	<%= link_to "Yahoo API", :controller => 'yahoo' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "Yahoo API", :controller => 'yahoo' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Passes">
-			   	<%= link_to "Linked In API", :controller => 'linkedin' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "Linked In API", :controller => 'linkedin' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Passes">
-			   	<%= link_to "Windows Live API", :controller => 'windowslive' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "Windows Live API", :controller => 'windowslive' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Fails">
-			   	<%= link_to "MySpace API", :controller => 'myspace' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "MySpace API", :controller => 'myspace' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Fails">
-			   	<%= link_to "AOL API", :controller => 'aol' %>
+				<div class="MainMenu MenuItem">
+				   	<%= link_to "AOL API", :controller => 'aol' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton Passes">
-			    <%= link_to "Sample", :controller => 'sample' %>
+				<div class="MainMenu MenuItem">
+				    <%= link_to "Sample", :controller => 'sample' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton">
-			    <%= link_to "About", :controller => 'about' %>
+				<div class="MainMenu MenuItem">
+				    <%= link_to "About", :controller => 'about' %>
+			   	</div>
 			</div>
 			<div class="MainMenu MenuButton">
-			    <%= link_to "Home", :controller => 'welcome' %>
+				<div class="MainMenu MenuItem">
+				    <%= link_to "Home", :controller => 'welcome' %>
+			   	</div>
+			</div>
 			</div>
 		  </div>
 		  <!-- Page_Body_Left -->
