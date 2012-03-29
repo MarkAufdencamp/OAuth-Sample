@@ -1,18 +1,32 @@
 <div class="Service">
-	<div class="ServiceHeader Facebook">
-		<h1>Facebook User Information</h1>
-		<div class="UserInfo Facebook">
-			<div>Facebook UserId - <%= @facebookId %></div>
-			<div>Facebook Name - <%= @facebookName %></div>
-			<br/>
+	<div class="ServiceHeader">
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>Facebook User Information</h1>
+			</div>
+			<div class="ServiceUserInfo">
+					<div class="UserInfo Facebook">
+						<ul class="UserInfo">
+								<li><h2>Facebook Id</h2><p class="Id"> <%= session[:facebookId] %></p></li>
+								<li><h2>Facebook User Name</h2><p class="Name"> <%= session[:facebookUserName] %></p></li>
+								<li><h2>Facebook EMail</h2><p class="EMail"> <%= session[:facebookEMail] %></p></li>
+						</ul>
+					</div>
+			</div>
+			<h2>Facebook Contacts List</h2>
 		</div>
-		<h2>Facebook Friends List</h2>
 	</div>
-	<div class="ServiceBody Facebook">  
-		<div class="UserContacts Facebook">
-		<% for contact in @facebookFriends %>
-			<div class="UserContact Facebook <%= cycle('odd', 'even')%>"><%= contact[0] %> - <%= contact[1] %></div>
-		<% end %>
+	
+	<div class="ServiceBody">
+		<div class="ServiceBodyGroup">
+			<div class="UserContacts Facebook">
+			<% for contact in @facebookFriends %>
+				<div class="UserContact Facebook <%= cycle('odd', 'even')%>"><%= contact[0] %> - <%= contact[1] %></div>
+			<% end %>
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,54 +1,64 @@
 <div class="Service">
 	<div class="ServiceHeader">
-		<div class="ServiceIcon">
-			<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
-		</div>
-		<div class="ServiceTitle">
-			<h1>Facebook</h1>
-		</div>
-		<div class="ServiceLinks">
-			<a href="http://developers.facebook.com/docs" target="_blank" ><h2>Documentation</h2></a>
-		</div>
-		<div class="ServiceLinks">
-			<a href="https://developers.facebook.com/apps" target="_blank" ><h2>API Keys</h2></a>
+		<div class="ServiceHeaderGroup">
+			<div class="ServiceIcon">
+				<%= link_to image_tag("facebook-logo.jpg"), :controller => 'facebook'  %>
+			</div>
+			<div class="ServiceTitle">
+				<h1>Facebook</h1>
+			</div>
+			<div class="ServiceLinks">
+				<p><a href="http://developers.facebook.com/docs" target="_blank" ><h2>Documentation</h2></a></p>
+				<p><a href="https://developers.facebook.com/apps" target="_blank" ><h2>API Keys</h2></a></p>
+			</div>
 		</div>
 	</div>
+	
 	<div class="ServiceBody">
-		<div class="ServiceFeature">
-			<% if session[:facebookAccessToken] %>
+		<div class="ServiceBodyGroup">
+		<% if session[:facebookAccessToken] %>
+			<div class="ServiceFeature">
 				<div class="ServicePanel MenuItem Red">	
 					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'revokeAccess' %>
+						<%= link_to image_tag("revokeAuthorization-256Px-034.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'revokeAccess' %>
 					</div>
 					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Revoke Facebook Access", :controller => 'facebook', :action=> 'revokeAccess' %>	
+						<%= link_to "Revoke Facebook Access", :controller => 'facebook', :action=> 'revokeAccess' %>	
 					</div>
-				</div>
-				<div class="ServicePanel MenuItem Green">
-					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'retrieveFacebookFriends' %>
-					</div>
-					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Retrieve Facebook Friends", :controller => 'facebook', :action=> 'retrieveFacebookFriends' %>	
-					</div>
-				</div>
-			<% else %>
-				<div class="ServicePanel MenuItem Green">	
-					<div class="ServicePanel MenuItemIcon">
-					<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'authorizeAccess' %>
-					</div>
-					<div class="ServicePanel MenuItemTitle">
-					<%= link_to "Authorize Facebook Access", :controller => 'facebook', :action=> 'authorizeAccess' %>	
-					</div>
-				</div>
-			<% end %>
-			<div class="ServicePanel MenuItem Green">	
-				<div class="ServicePanel MenuItemIcon">
-				<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'authorizationStatus' %>
-				</div>
-				<div class="ServicePanel MenuItemTitle">
-				<%= link_to "Facebook Authorization Status", :controller => 'facebook', :action=> 'authorizationStatus' %>	
 				</div>
 			</div>
+			<div class="ServiceFeature">
+				<div class="ServicePanel MenuItem Green">
+					<div class="ServicePanel MenuItemIcon">
+						<%= link_to image_tag("contacts-256Px-012.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'retrieveFacebookFriends' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+						<%= link_to "Retrieve Facebook Friends", :controller => 'facebook', :action=> 'retrieveFacebookFriends' %>	
+					</div>
+				</div>
+			</div>
+		<% else %>
+			<div class="ServiceFeature">
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+						<%= link_to image_tag("authorizeAccess-256Px-202.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'authorizeAccess' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+						<%= link_to "Authorize Facebook Access", :controller => 'facebook', :action=> 'authorizeAccess' %>	
+					</div>
+				</div>
+			</div>
+		<% end %>
+			<div class="ServiceFeature">
+				<div class="ServicePanel MenuItem Green">	
+					<div class="ServicePanel MenuItemIcon">
+						<%= link_to image_tag("authorizationStatus-256Px-221.png", :class => "ServicePanel MenuItemIcon"), :controller=> 'facebook', :action=> 'authorizationStatus' %>
+					</div>
+					<div class="ServicePanel MenuItemTitle">
+						<%= link_to "Facebook Authorization Status", :controller => 'facebook', :action=> 'authorizationStatus' %>	
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
