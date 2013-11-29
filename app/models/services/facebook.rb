@@ -31,6 +31,12 @@ class FacebookSocialService < SocialService
     client.auth_code.authorize_url(:redirect_uri => credentials['Signin Callback URL'], :scope => 'user_about_me, email')
   end
   
+  def self.mobileAuthURL 
+    credentials = getOAuthConfig
+    client = getAuthConsumer credentials
+    client.auth_code.authorize_url(:redirect_uri => credentials['Mobile Auth Callback URL'], :scope => 'user_about_me, email')
+  end
+  
   def self.newSigninToken authCode   
     credentials = getOAuthConfig
     client = getTokenConsumer credentials
