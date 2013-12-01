@@ -29,6 +29,8 @@ class OAuthConfig
         # Facebook, Twitter, LinkedIn, Google, Yahoo
         credentials['Access Callback URL'] = authKeys[key]['Access Callback URL']
         # Facebook, Twitter, LinkedIn, Google, Yahoo
+        credentials['Mobile Callback URL'] = authKeys[key]['Mobile Callback URL']
+        # Facebook, Twitter, LinkedIn, Google, Yahoo
         credentials['Signin Callback URL'] = authKeys[key]['Signin Callback URL']
         # Facebook, Twitter, LinkedIn, Google, Yahoo
         credentials['Application URL'] = authKeys[key]['Application URL']
