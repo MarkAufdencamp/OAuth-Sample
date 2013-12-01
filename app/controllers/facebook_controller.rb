@@ -107,15 +107,16 @@ class FacebookController < ApplicationController
     end   
   end
   
-  def mobileAuth
+  def mobileSignin
     # Retrieve Request Token from Facebook and Re-Direct to Facebook for Authentication
     begin
       # Generate and Store nonce
-      url = FacebookSocialService.signinURL
+      url = FacebookSocialService.mobileSigninURL
       redirect_to url
     rescue
-      errorMsg = "Unable to retrieve Mobile Auth URL"
+      errorMsg = "Unable to retrieve Mobile Signin URL"
       flash[:error_description] = errorMsg
+      #TODO: Mobile Main Menu Page Redirect
       redirect_to :action => :index
     end   
   end
@@ -173,7 +174,7 @@ class FacebookController < ApplicationController
     
   end
 
-  def mobileAuthentication
+  def mobileUserAuthenticated
       # Store User Authoization Code
       session[:facebookSigninCode] = params[:code]
       session[:facebookSigninToken] = nil
@@ -194,7 +195,7 @@ class FacebookController < ApplicationController
         redirect_to :action => :mobileAuthFailed
         return
       end 
-    end
+    
     if !session[:facebookSigninCode]
       flash[:error] = params[:error]
     end
