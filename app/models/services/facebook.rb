@@ -60,6 +60,29 @@ class FacebookSocialService < SocialService
       )
   end
 
+  def self.newMobileSigninToken authCode   
+    credentials = getOAuthConfig
+    client = getTokenConsumer credentials
+
+    #tokenURL = client.token_url(
+    #  :client_id => credentials['App ID'],
+    #  :redirect_uri => credentials['Callback URL'],
+    #  :client_secret => credentials['App Secret'],
+    #  :code => authCode)
+    #PP::pp tokenURL, $stderr, 50
+    
+    token = client.get_token( 
+      :client_id => credentials['App ID'],
+      :redirect_uri => credentials['Mobile Callback URL'],
+      :client_secret => credentials['App Secret'],
+      :code => authCode,
+      :parse => :query,
+      :token_method => :get,
+      :mode => :query,
+      :param_name => 'access_token'
+      )
+  end
+
   def self.signinToken token
     credentials = getOAuthConfig
     client = getTokenConsumer credentials

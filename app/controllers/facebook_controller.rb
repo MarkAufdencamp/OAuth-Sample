@@ -175,13 +175,16 @@ class FacebookController < ApplicationController
   end
 
   def mobileUserAuthenticated
-      # Store User Authoization Code
+   #PP::pp params, $stderr, 50
+   #PP::pp session, $stderr, 50
+     if(params[:code] and params[:code] != '')
+     # Store User Authoization Code
       session[:facebookSigninCode] = params[:code]
       session[:facebookSigninToken] = nil
       if(session[:facebookSigninCode] and !session[:facebookSigninToken])
         signinCode = session[:facebookSigninCode]
         #PP::pp authCode, $stderr, 50
-        signinToken = FacebookSocialService.newSigninToken signinCode
+        signinToken = FacebookSocialService.newMobileSigninToken signinCode
         #PP::pp signinToken, $stderr, 50
 
         session[:facebookSigninToken] = signinToken.token
@@ -195,7 +198,7 @@ class FacebookController < ApplicationController
         redirect_to :action => :mobileAuthFailed
         return
       end 
-    
+    end
     if !session[:facebookSigninCode]
       flash[:error] = params[:error]
     end
