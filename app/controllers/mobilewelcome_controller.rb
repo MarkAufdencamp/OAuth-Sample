@@ -1,4 +1,4 @@
-class MobileWelcomeController < ApplicationController
+class MobilewelcomeController < ApplicationController
 
   layout "mobileWelcome"
   
